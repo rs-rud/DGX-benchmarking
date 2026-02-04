@@ -18,7 +18,7 @@
 
 ---
 
-## 🛠 Setup Instructions
+## Setup Instructions
 
 ### 1️⃣ Clone the repository
 
@@ -135,7 +135,6 @@ Plots are saved to the `plots/` directory.
 - Values represent total GPU power across all GPUs
 - Energy is computed via trapezoidal integration
 - CPU power is not measured (yet)
-
 
 ---
 
