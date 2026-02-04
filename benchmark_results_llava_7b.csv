@@ -1,2 +1,0 @@
-question_id,latency_sec,correct,model_response,ground_truth,question_text,avg_gpu_w,max_gpu_w,avg_power_integrated_w
-501,2.938,0,no,yes,Is there a residential building?,9.72,13.92,9.77

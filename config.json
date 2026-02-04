@@ -1,8 +1,9 @@
 {
-  "base_path": "/nethome/rrudhro3/DGX-benchmarking",
-  "output_dir": "/nethome/rrudhro3/DGX-benchmarking",
+  "results_dir": "results",
+  "plots_dir": "plots",
+
 
   "models": {
-    "LLaVA-7B": "benchmark_results_YESNOllava_7b.csv"
+    "LLaVA-7B": "results/benchmark_results_YESNOllava_7b.csv"
   }
 }

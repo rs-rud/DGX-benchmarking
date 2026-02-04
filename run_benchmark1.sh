@@ -1,6 +1,6 @@
 #!/bin/bash
-QUESTIONS="yesno_questions.json"
-ANSWERS="yesno_answers.json"
+QUESTIONS="data/yesno_questions.json"
+ANSWERS="data/yesno_answers.json"
 IMAGES="Images_LR"
 
 # List of models
@@ -9,7 +9,7 @@ MODELS=("llava:7b")
 for MODEL in "${MODELS[@]}"; do
     # replace ":" and "/" with "_" for safe filenames
     SAFE_MODEL=$(echo $MODEL | tr ':/' '_')
-    OUTPUT="benchmark_results_YESNO${SAFE_MODEL}.csv"
+    OUTPUT="results/benchmark_results_YESNO${SAFE_MODEL}.csv"
 
     # clear old results
     rm -f $OUTPUT

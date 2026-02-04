@@ -13,8 +13,8 @@ def load_config(path):
     with open(path) as f:
         return json.load(f)
 
-def load_csv(base, filename):
-    path = os.path.join(base, filename)
+def load_csv(results_dir, filename):
+    path = os.path.join(results_dir, filename)
     if not os.path.exists(path):
         raise FileNotFoundError(path)
     return pd.read_csv(path)
@@ -31,7 +31,7 @@ def plot_accuracy(cfg):
     rows = []
 
     for model, file in cfg["models"].items():
-        df = load_csv(cfg["base_path"], file)
+        df = load_csv(cfg["results_dir"], file)
         acc = df["correct"].mean() * 100
         rows.append((model, acc))
 
@@ -52,7 +52,7 @@ def plot_accuracy(cfg):
     table.scale(1.2, 1.2)
 
     ax.set_title("Overall Accuracy", fontsize=14, weight="bold")
-    save(fig, cfg["output_dir"], "accuracy_table.png")
+    save(fig, cfg["plots_dir"], "accuracy_table.png")
 
 # ---------------- Plot: Accuracy by question type ---------------- #
 
@@ -76,7 +76,7 @@ def plot_accuracy_by_type(cfg):
     frames = []
 
     for model, file in cfg["models"].items():
-        df = load_csv(cfg["base_path"], file)
+        df = load_csv(cfg["results_dir"], file)
         df["qtype"] = df["question_text"].apply(categorize_question)
         g = df.groupby("qtype")["correct"].mean().reset_index()
         g["Accuracy"] = g["correct"] * 100
@@ -94,7 +94,7 @@ def plot_accuracy_by_type(cfg):
     ax.set_ylabel("Accuracy (%)")
     ax.set_title("Accuracy by Question Type", weight="bold")
     ax.legend()
-    save(fig, cfg["output_dir"], "accuracy_by_type.png")
+    save(fig, cfg["plots_dir"], "accuracy_by_type.png")
 
 # ---------------- Plot: Latency ---------------- #
 
@@ -102,14 +102,14 @@ def plot_latency(cfg):
     fig, ax = plt.subplots(figsize=(10, 6))
 
     for model, file in cfg["models"].items():
-        df = load_csv(cfg["base_path"], file)
+        df = load_csv(cfg["results_dir"], file)
         ax.plot(df["latency_sec"], label=model, linewidth=2)
 
     ax.set_xlabel("Iteration")
     ax.set_ylabel("Latency (s)")
     ax.set_title("Latency per Prompt", weight="bold")
     ax.legend()
-    save(fig, cfg["output_dir"], "latency.png")
+    save(fig, cfg["plots_dir"], "latency.png")
 
 # ---------------- Plot: Power ---------------- #
 
@@ -117,7 +117,7 @@ def plot_power(cfg):
     fig, ax = plt.subplots(figsize=(10, 6))
 
     for model, file in cfg["models"].items():
-        df = load_csv(cfg["base_path"], file)
+        df = load_csv(cfg["results_dir"], file)
         smoothed = df["avg_gpu_w"].rolling(10, min_periods=1).mean()
         ax.plot(smoothed, label=model, linewidth=2)
 
@@ -125,7 +125,7 @@ def plot_power(cfg):
     ax.set_xlabel("Iteration")
     ax.set_title("Average GPU Power (Smoothed)", weight="bold")
     ax.legend()
-    save(fig, cfg["output_dir"], "power_gpu.png")
+    save(fig, cfg["plots_dir"], "power_gpu.png")
 
 # ---------------- Main ---------------- #
 
