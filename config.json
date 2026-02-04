@@ -4,6 +4,6 @@
 
 
   "models": {
-    "LLaVA-7B": "results/benchmark_results_YESNOllava_7b.csv"
+    "LLaVA-7B": "benchmark_results_YESNOllava_7b.csv"
   }
 }
