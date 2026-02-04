@@ -64,10 +64,10 @@ Benchmarks are run one question per process invocation.
 
 ### Example: Running a full benchmark loop
 
-The provided script `run_benchmark1.sh` loops over all questions:
+The provided script `run_benchmark.sh` loops over all questions:
 
 ```bash
-bash run_benchmark1.sh
+bash run_benchmark.sh
 ```
 
 Internally this calls:
