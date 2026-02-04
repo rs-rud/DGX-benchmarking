@@ -19,9 +19,9 @@ for MODEL in "${MODELS[@]}"; do
 
     echo "=== Benchmarking $MODEL on $TOTAL yesno questions ==="
 
-    for ((i=0; i<100; i++)); do
-        echo ">>> Running question $i / 100"
-        python3 test_script.py \
+    for ((i=0; i<$TOTAL; i++)); do
+        echo ">>> Running question $i / $TOTAL"
+        python3 benchmarking.py \
             --questions $QUESTIONS \
             --answers $ANSWERS \
             --image-dir $IMAGES \

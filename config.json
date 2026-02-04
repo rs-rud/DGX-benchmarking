@@ -1,0 +1,8 @@
+{
+  "base_path": "/nethome/rrudhro3/DGX-benchmarking",
+  "output_dir": "/nethome/rrudhro3/DGX-benchmarking",
+
+  "models": {
+    "LLaVA-7B": "benchmark_results_YESNOllava_7b.csv"
+  }
+}
