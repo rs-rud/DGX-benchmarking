@@ -7,13 +7,15 @@ import argparse
 import subprocess
 import threading
 import pynvml
+from vllm import LLM
+from PIL import Image
 
 # ---------------- Utilities ---------------- #
 
 def normalize(text):
     return text.strip().lower().translate(str.maketrans("", "", string.punctuation))
 
-
+# ---------------- Ollama ------------------ #
 def run_ollama_cli(model, prompt, image_path):
     """Run Ollama CLI for one multimodal query and return output + latency."""
     start = time.time()
@@ -32,6 +34,23 @@ def run_ollama_cli(model, prompt, image_path):
         print(f"Error running ollama: {e.stderr}", flush=True)
         return "", 0.0
 
+# ---------------- VLLM ------------------ #
+def run_vllm_cli(model, prompt, image_path):
+    start = time.time()
+    try:
+        llm = LLM(model=model)
+        image = Image.open(image_path)
+        result = llm.generate({
+            "prompt": prompt,
+            "multi_modal_data": {"image": image},
+        })
+        latency = time.time() - start
+        output = result[0].result[0].text.strip() if result else ""
+        enforced = output.split()[0].lower() if result else ""
+        return enforced, latency
+    except Exception as e:
+        print(f"Error running vLLM: {e}", flush=True)
+        return "", 0.0
 
 # ---------------- NVML Power Sampling ---------------- #
 
