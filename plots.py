@@ -3,6 +3,7 @@ import json
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # ---------------- Style (matplotlib-only, stable) ---------------- #
 plt.style.use("ggplot")
@@ -29,20 +30,19 @@ def save(fig, outdir, name):
 
 def plot_accuracy(cfg):
     rows = []
-
     for model, file in cfg["models"].items():
         df = load_csv(cfg["results_dir"], file)
         acc = df["correct"].mean() * 100
         rows.append((model, acc))
 
-    df = pd.DataFrame(rows, columns=["Model", "Accuracy"])
-    df = df.sort_values("Accuracy", ascending=False)
+    df_table = pd.DataFrame(rows, columns=["Model", "Accuracy"])
+    df_table = df_table.sort_values("Accuracy", ascending=False)
 
     fig, ax = plt.subplots(figsize=(6, 3))
     ax.axis("off")
 
     table = ax.table(
-        cellText=[[m, f"{a:.2f}%"] for m, a in rows],
+        cellText=[[m, f"{a:.2f}%"] for m, a in df_table.values],
         colLabels=["Model", "Accuracy"],
         cellLoc="center",
         loc="center"
@@ -57,54 +57,72 @@ def plot_accuracy(cfg):
 # ---------------- Plot: Accuracy by question type ---------------- #
 
 def categorize_question(text):
-    t = text.lower()
+    t = str(text).lower()
     if "equal to" in t:
         return "Equality"
-    if "more" in t or "less" in t:
+    elif "more" in t or "less" in t:
         return "Comparison"
-    if any(w in t for w in ["many", "number", "amount"]):
+    elif any(w in t for w in ["many", "number", "amount"]):
         return "Counting"
-    if any(w in t for w in ["small", "large", "square", "circle"]):
+    elif any(w in t for w in ["small", "large", "square", "circle"]):
         return "Attribute"
-    if " at the " in t:
+    elif " at the " in t:
         return "Location"
-    if t.startswith(("is", "are", "does", "do")):
+    elif t.startswith(("is", "are", "does", "do")):
         return "Yes/No"
     return "Other"
 
 def plot_accuracy_by_type(cfg):
-    frames = []
+    all_data = []
 
-    for model, file in cfg["models"].items():
-        df = load_csv(cfg["results_dir"], file)
+    for model, filename in cfg["models"].items():
+        file_path = os.path.join(cfg["results_dir"], filename)
+        df = pd.read_csv(file_path)
+        
         df["qtype"] = df["question_text"].apply(categorize_question)
-        g = df.groupby("qtype")["correct"].mean().reset_index()
-        g["Accuracy"] = g["correct"] * 100
-        g["Model"] = model
-        frames.append(g[["Model", "qtype", "Accuracy"]])
+        grouped = df.groupby("qtype")["correct"].mean() * 100
+        grouped.name = model
+        all_data.append(grouped)
 
-    df = pd.concat(frames)
+    combined_df = pd.concat(all_data, axis=1).fillna(0)
+    categories = combined_df.index
+    models = combined_df.columns
+    
+    x = np.arange(len(categories))
+    width = 0.8 / len(models)
 
-    fig, ax = plt.subplots(figsize=(12, 6))
-    for model in df["Model"].unique():
-        sub = df[df["Model"] == model]
-        ax.plot(sub["qtype"], sub["Accuracy"], marker="o", label=model)
+    fig, ax = plt.subplots(figsize=(12, 7))
+    for i, model in enumerate(models):
+        offset = (i - (len(models) - 1) / 2) * width
+        rects = ax.bar(x + offset, combined_df[model], width, label=model)
+        
+        for rect in rects:
+            height = rect.get_height()
+            if height > 0:
+                ax.annotate(f'{height:.1f}%',
+                            xy=(rect.get_x() + rect.get_width() / 2, height),
+                            xytext=(0, 3),
+                            textcoords="offset points",
+                            ha='center', va='bottom', fontsize=8, weight='bold')
 
-    ax.set_ylim(0, 100)
-    ax.set_ylabel("Accuracy (%)")
-    ax.set_title("Accuracy by Question Type", weight="bold")
+    ax.set_ylabel('Accuracy (%)', fontsize=12)
+    ax.set_xlabel('Question Type', fontsize=12)
+    ax.set_title('Model Accuracy by Question Type', fontsize=14, weight='bold')
+    ax.set_xticks(x)
+    ax.set_xticklabels(categories, rotation=15)
+    ax.set_ylim(0, 115)
     ax.legend()
+
+    plt.tight_layout()
     save(fig, cfg["plots_dir"], "accuracy_by_type.png")
 
 # ---------------- Plot: Latency ---------------- #
 
 def plot_latency(cfg):
     fig, ax = plt.subplots(figsize=(10, 6))
-
     for model, file in cfg["models"].items():
         df = load_csv(cfg["results_dir"], file)
         ax.plot(df["latency_sec"], label=model, linewidth=2)
-
     ax.set_xlabel("Iteration")
     ax.set_ylabel("Latency (s)")
     ax.set_title("Latency per Prompt", weight="bold")
@@ -115,12 +133,11 @@ def plot_latency(cfg):
 
 def plot_power(cfg):
     fig, ax = plt.subplots(figsize=(10, 6))
-
     for model, file in cfg["models"].items():
         df = load_csv(cfg["results_dir"], file)
-        smoothed = df["avg_gpu_w"].rolling(10, min_periods=1).mean()
-        ax.plot(smoothed, label=model, linewidth=2)
-
+        if "avg_gpu_w" in df.columns:
+            smoothed = df["avg_gpu_w"].rolling(10, min_periods=1).mean()
+            ax.plot(smoothed, label=model, linewidth=2)
     ax.set_ylabel("GPU Power (W)")
     ax.set_xlabel("Iteration")
     ax.set_title("Average GPU Power (Smoothed)", weight="bold")
