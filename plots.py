@@ -35,14 +35,14 @@ def plot_accuracy(cfg):
         acc = df["correct"].mean() * 100
         rows.append((model, acc))
 
-    df_table = pd.DataFrame(rows, columns=["Model", "Accuracy"])
-    df_table = df_table.sort_values("Accuracy", ascending=False)
+    df = pd.DataFrame(rows, columns=["Model", "Accuracy"])
+    df = df.sort_values("Accuracy", ascending=False)
 
     fig, ax = plt.subplots(figsize=(6, 3))
     ax.axis("off")
 
     table = ax.table(
-        cellText=[[m, f"{a:.2f}%"] for m, a in df_table.values],
+        cellText=[[m, f"{a:.2f}%"] for m, a in df.values],
         colLabels=["Model", "Accuracy"],
         cellLoc="center",
         loc="center"
