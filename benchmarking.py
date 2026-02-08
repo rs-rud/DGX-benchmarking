@@ -45,8 +45,8 @@ def run_vllm_cli(model, prompt, image_path):
             "multi_modal_data": {"image": image},
         })
         latency = time.time() - start
-        output = result[0].result[0].text.strip() if result else ""
-        enforced = output.split()[0].lower() if result else ""
+        output = result[0].outputs[0].text.strip() if result else ""
+        enforced = output.split()[0].lower() if output else ""
         return enforced, latency
     except Exception as e:
         print(f"Error running vLLM: {e}", flush=True)
@@ -116,6 +116,7 @@ def main():
     parser.add_argument("--output", default=None)
     parser.add_argument("--model", required=True)
     parser.add_argument("--index", type=int, required=True)
+    parser.add_argument("--engine", required=True)
     args = parser.parse_args()
 
     if args.output is None:
@@ -166,7 +167,11 @@ def main():
 
     sampler_thread.start()
     start_time = time.time()
-    response, latency = run_ollama_cli(args.model, question_text, image_path)
+    if args.engine == "vllm":
+        response, latency = run_vllm_cli(args.model, question_text, image_path)
+    else:
+        response, latency = run_ollama_cli(args.model, question_text, image_path)
+    
     end_time = time.time()
     stop_event.set()
     sampler_thread.join(timeout=2)
@@ -208,7 +213,7 @@ def main():
 
     # -------- Console -------- #
 
-    print(f"[Q{qid}] {q['question']}", flush=True)
+    print(f"[Q{qid}] Engine: {args.engine}", flush=True)
     print(f"Model: {response}", flush=True)
     print(f"GT: {gt_answers}", flush=True)
     print(f"Correct: {is_correct}, Time: {latency:.2f}s", flush=True)
