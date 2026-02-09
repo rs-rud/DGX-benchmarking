@@ -168,8 +168,10 @@ def main():
     sampler_thread.start()
     start_time = time.time()
     if args.engine == "vllm":
+        question_text = "USER: <image>\n" + q["question"] + "\nAnswer with exactly one word or number only. Do not explain.\nASSISTANT:"
         response, latency = run_vllm_cli(args.model, question_text, image_path)
     else:
+        question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
         response, latency = run_ollama_cli(args.model, question_text, image_path)
     
     end_time = time.time()
