@@ -1,4 +1,3 @@
 .venv
-results/*.csv
 plots/*.png
 __pycache__/
