@@ -144,6 +144,19 @@ def plot_power(cfg):
     ax.legend()
     save(fig, cfg["plots_dir"], "power_gpu.png")
 
+# ------------ Plot: Temperature -------------- #
+
+def plot_temperature(cfg):
+    fig, ax = plt.subplots(figsize=(10, 6))
+    for model, file in cfg["models"].items():
+        df = load_csv(cfg["results_dir"], file)
+        ax.plot(df["max_gpu_temp_c"], label=model, linewidth=2)
+    ax.set_xlabel("Iteration")
+    ax.set_ylabel("Temperature (°C)")
+    ax.set_title("Max Temperature per Prompt", weight="bold")
+    ax.legend()
+    save(fig, cfg["plots_dir"], "temperature.png")
+
 # ---------------- Main ---------------- #
 
 def main():
@@ -153,6 +166,7 @@ def main():
     p.add_argument("--accuracy-by-type", action="store_true")
     p.add_argument("--latency", action="store_true")
     p.add_argument("--power", action="store_true")
+    p.add_argument("--temp", action="store_true")
     args = p.parse_args()
 
     cfg = load_config(args.config)
@@ -165,6 +179,8 @@ def main():
         plot_latency(cfg)
     if args.power:
         plot_power(cfg)
+    if args.temp:
+        plot_temperature(cfg)
 
 if __name__ == "__main__":
     main()

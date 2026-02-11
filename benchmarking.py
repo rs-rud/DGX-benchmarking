@@ -95,6 +95,18 @@ class NVMLPowerSampler:
                 pass
         return total_w
 
+    def read_temperature(self):
+        """
+        Returns the temperature across all GPUs in Celsius
+        """
+        temps = []
+        for h in self.handles:
+            try:
+                temps.append(pynvml.nvmlDeviceGetTemperature(h, 0))
+            except pynvml.NVMLError:
+                pass
+        return max(temps) if temps else 0.0
+
     def shutdown(self):
         pynvml.nvmlShutdown()
 
@@ -103,10 +115,12 @@ def sample_power_nvml(sampler, samples, stop_event, interval=0.1):
     """Background sampler using NVML."""
     while not stop_event.is_set():
         p = sampler.read_power_watts()
+        t = sampler.read_temperature()
         samples.append({
             "t": time.time(),
             "tot": p,
-            "cpu_gpu": p  # NVML exposes GPU only
+            "cpu_gpu": p,  # NVML exposes GPU only
+            "temp": t
         })
         time.sleep(interval)
 
@@ -206,6 +220,7 @@ def main():
         max_tot = max(s["tot"] for s in samples_in_window)
         avg_cpu_gpu = avg_tot
         max_cpu_gpu = max_tot
+        max_temp = max(s["temp"] for s in samples_in_window)
         avg_power_integrated_w = integrate_energy(samples_in_window)
     else:
         avg_tot = max_tot = avg_cpu_gpu = max_cpu_gpu = avg_power_integrated_w = 0.0
@@ -222,13 +237,14 @@ def main():
                 "question_id", "latency_sec", "correct",
                 "model_response", "ground_truth", "question_text",
                 "avg_gpu_w", "max_gpu_w",
-                "avg_power_integrated_w"
+                "avg_power_integrated_w", "max_gpu_temp_c",
             ])
         writer.writerow([
             qid, f"{latency:.3f}", int(is_correct),
             response, "|".join(gt_answers), q["question"],
             f"{avg_tot:.2f}", f"{max_tot:.2f}",
-            f"{avg_power_integrated_w:.2f}"
+            f"{avg_power_integrated_w:.2f}",
+            f"{max_temp:.1f}",
         ])
 
     # -------- Console -------- #
@@ -239,6 +255,7 @@ def main():
     print(f"Correct: {is_correct}, Time: {latency:.2f}s", flush=True)
     print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
     print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
+    print(f"Temperature (max): {max_temp:.1f} C", flush=True)
 
 
 if __name__ == "__main__":
