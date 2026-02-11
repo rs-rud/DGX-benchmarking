@@ -7,8 +7,8 @@ import argparse
 import subprocess
 import threading
 import pynvml
-from vllm import LLM
-from PIL import Image
+import base64
+from openai import OpenAI
 
 # ---------------- Utilities ---------------- #
 
@@ -35,19 +35,38 @@ def run_ollama_cli(model, prompt, image_path):
         return "", 0.0
 
 # ---------------- VLLM ------------------ #
-def run_vllm_cli(model, prompt, image_path):
+def run_vllm_serve(model, prompt, image_path):
     start = time.time()
+    client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
+    
     try:
-        llm = LLM(model=model)
-        image = Image.open(image_path)
-        result = llm.generate({
-            "prompt": prompt,
-            "multi_modal_data": {"image": image},
-        })
+        with open(image_path, "rb") as f:
+            image_b64 = base64.b64encode(f.read()).decode("utf-8")
+        
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url", 
+                            "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}
+                        },
+                    ],
+                }
+            ],
+            max_completion_tokens=128,
+            temperature=0.0
+        )
+        
         latency = time.time() - start
-        output = result[0].outputs[0].text.strip() if result else ""
-        enforced = output.split()[0].lower() if output else ""
-        return enforced, latency
+        
+        if response.choices and response.choices[0].message.content:
+            return response.choices[0].message.content.strip(), latency
+        return "No response from model", latency
+
     except Exception as e:
         print(f"Error running vLLM: {e}", flush=True)
         return "", 0.0
@@ -167,11 +186,10 @@ def main():
 
     sampler_thread.start()
     start_time = time.time()
+    question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
     if args.engine == "vllm":
-        question_text = "USER: <image>\n" + q["question"] + "\nAnswer with exactly one word or number only. Do not explain.\nASSISTANT:"
-        response, latency = run_vllm_cli(args.model, question_text, image_path)
+        response, latency = run_vllm_serve(args.model, question_text, image_path)
     else:
-        question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
         response, latency = run_ollama_cli(args.model, question_text, image_path)
     
     end_time = time.time()
