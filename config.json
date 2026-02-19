@@ -4,7 +4,12 @@
 
 
   "models": {
-    "LLaVA-7B": "benchmark_results_ollama_llava_7b.csv",
-    "LlaVa-Llama3:Latest": "benchmark_results_ollama_llava-llama3_latest.csv"
+    "Ollama": {
+      "LLaVA-7B": "benchmark_results_ollama_llava_7b.csv",
+      "LlaVa-Llama3:Latest": "benchmark_results_ollama_llava-llama3_latest.csv"
+    },
+    "vllm": {
+      "LLaVa-1.5-7B": "benchmark_results_vllm_llava-hf_llava-1.5-7b-hf.csv"
+    }
   }
 }
