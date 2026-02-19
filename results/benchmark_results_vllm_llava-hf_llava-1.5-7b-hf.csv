@@ -1,0 +1,1001 @@
+question_id,latency_sec,correct,model_response,ground_truth,question_text,avg_gpu_w,max_gpu_w,avg_power_integrated_w,max_gpu_temp_c
+0,2.839,0,Rural,urban,Is it a rural or an urban area,12.62,19.35,12.52,47.0
+1,0.390,1,Yes,yes,Is there a water area?,31.19,31.19,31.19,47.0
+2,0.475,0,100,5524,What is the amount of buildings?,16.93,16.93,16.93,47.0
+3,0.397,0,10,82,What is the number of commercial buildings in the image?,21.81,21.81,21.81,47.0
+4,0.265,1,Yes,yes,Is there a small water area?,20.35,20.35,20.35,48.0
+5,0.456,0,100,5380,What is the amount of residential buildings?,17.10,17.10,17.10,48.0
+6,0.259,1,Yes,yes,Is a building present?,21.95,21.95,21.95,48.0
+7,0.264,1,Yes,yes,Is there a residential building?,17.11,17.11,17.11,48.0
+8,0.389,0,1,1064,What is the amount of roads in the image?,17.11,17.11,17.11,48.0
+9,0.264,0,Yes,no,Are there more water areas than commercial buildings?,18.67,18.67,18.67,48.0
+10,0.271,1,Yes,yes,Is there a road?,17.21,17.21,17.21,48.0
+11,0.264,1,Yes,yes,Are there less roads than buildings?,17.13,17.13,17.13,48.0
+12,0.266,1,Yes,yes,Is there a commercial building in the image?,17.13,17.13,17.13,48.0
+13,0.457,0,100,258,What is the amount of grass areas?,17.13,17.13,17.13,48.0
+14,0.263,1,Yes,yes,Are there more buildings than roads?,21.98,21.98,21.98,48.0
+15,0.337,0,1,44,How many village greens are there?,17.13,17.13,17.13,48.0
+16,0.269,1,Yes,yes,Are there less grass areas than buildings?,18.70,18.70,18.70,49.0
+17,0.392,0,10,19,How many medium residential buildings are there?,17.27,17.27,17.27,49.0
+18,0.265,1,Yes,yes,Is a circular grass area present in the image?,20.43,20.43,20.43,49.0
+19,0.452,0,100,27,What is the amount of pitchs?,17.29,17.29,17.29,49.0
+20,0.263,1,Yes,yes,Is there a village green?,21.82,21.82,21.82,49.0
+21,0.262,0,No,yes,Is a large commercial building present in the image?,17.23,17.23,17.23,49.0
+22,0.394,0,1,42,What is the number of water areas?,17.27,17.27,17.27,49.0
+23,0.283,1,No,no,Is the number of buildings equal to the number of water areas?,18.94,18.94,18.94,49.0
+24,0.265,1,Yes,yes,Is there a small road?,17.38,17.38,17.38,49.0
+25,0.265,1,No,no,Is there a rectangular road?,17.16,17.16,17.16,49.0
+26,0.327,0,1,1064,How many small roads are there?,17.28,17.28,17.28,49.0
+27,0.263,0,Yes,no,Is the number of residential buildings equal to the number of medium roads?,18.84,18.84,18.84,49.0
+28,0.264,1,Yes,yes,Are there more roads than rectangular water areas?,17.25,17.25,17.25,49.0
+29,0.332,0,0,2,How many circular residential buildings are there?,17.22,17.22,17.22,49.0
+30,0.269,1,Yes,yes,Is there a grass area?,18.82,18.82,18.82,49.0
+31,0.333,0,0,117,What is the amount of forests?,17.30,17.30,17.30,49.0
+32,0.329,0,1,19,How many rectangular commercial buildings are there?,18.99,18.99,18.99,49.0
+33,0.273,0,No,yes,Is a forest present?,18.89,18.89,18.89,49.0
+34,0.324,0,1,498,How many farmlands are there?,17.28,17.28,17.28,49.0
+35,0.270,0,Yes,no,Are there less buildings than grass areas in the image?,18.94,18.94,18.94,49.0
+36,0.263,0,No,yes,Is a rectangular water area present?,17.30,17.30,17.29,49.0
+37,0.331,0,1,104,What is the number of small grass areas?,17.32,17.32,17.32,49.0
+38,0.279,0,No,yes,Is there a circular parking?,19.00,19.00,19.00,49.0
+39,0.272,1,Yes,yes,Are there less roads than residential buildings?,17.23,17.23,17.23,49.0
+40,0.454,0,100,3,What is the amount of square grass areas?,17.37,17.37,17.37,49.0
+41,0.274,1,No,no,Are there more commercial buildings than roads?,21.94,21.94,21.94,50.0
+42,0.263,1,Yes,yes,Is a small building present?,17.41,17.41,17.41,50.0
+43,0.267,0,No,yes,Is there a parking?,17.33,17.33,17.33,50.0
+44,0.325,0,0,2,How many large commercial buildings are there?,17.34,17.34,17.34,50.0
+45,0.263,1,Yes,yes,Are there more commercial buildings than residential areas?,18.86,18.86,18.86,50.0
+46,0.276,0,Yes,no,Are there more commercial buildings than forests in the image?,17.41,17.41,17.41,50.0
+47,0.336,0,1,0,What is the amount of circular roads?,17.33,17.33,17.33,50.0
+48,0.266,1,No,no,Is the number of residential buildings equal to the number of roads?,18.87,18.87,18.87,50.0
+49,0.274,1,No,no,Is there a square road?,17.18,17.18,17.18,50.0
+50,0.256,1,Yes,yes,Are there less commercial buildings than farmlands?,17.38,17.38,17.38,50.0
+51,0.344,1,Yes,yes,Is there a small residential building in the image?,17.43,17.43,17.43,50.0
+52,0.268,1,Yes,yes,Are there less grass areas than roads?,17.45,17.45,17.45,50.0
+53,0.268,0,Yes,no,Is a large road present?,17.47,17.47,17.47,50.0
+54,0.268,1,No,no,Is the number of buildings equal to the number of roads?,17.35,17.35,17.35,50.0
+55,0.332,0,1,72,What is the number of small commercial buildings?,17.28,17.28,17.28,50.0
+56,0.456,0,100,2,What is the amount of square residential buildings?,19.03,19.03,19.03,50.0
+57,0.268,1,Yes,yes,Are there less parkings than residential buildings?,22.06,22.06,22.06,50.0
+58,0.264,1,Yes,yes,Is there a farmland in the image?,17.43,17.43,17.43,50.0
+59,0.271,0,No,yes,Is there a orchard?,17.44,17.44,17.44,50.0
+60,0.273,0,No,yes,Is there a rectangular residential building?,17.41,17.41,17.41,50.0
+61,0.265,1,Yes,yes,Are there less commercial buildings than grass areas?,17.49,17.49,17.49,50.0
+62,0.268,0,Yes,no,Are there less commercial buildings than water areas?,17.48,17.48,17.48,50.0
+63,0.265,1,Yes,yes,Is there a residential area in the image?,17.50,17.50,17.50,50.0
+64,0.259,1,No,no,Is the number of commercial buildings equal to the number of water areas?,17.50,17.50,17.50,50.0
+65,0.462,0,100,0,What is the amount of square commercial buildings?,17.55,17.55,17.55,50.0
+66,0.336,0,1,0,How many medium roads are there?,22.11,22.11,22.11,50.0
+67,0.266,1,Yes,yes,Are there more buildings than water areas?,19.00,19.00,19.00,50.0
+68,0.265,1,Yes,yes,Are there less medium grass areas than roads?,17.53,17.53,17.53,50.0
+69,0.324,0,0,11,How many orchards are there?,17.51,17.51,17.51,50.0
+70,0.265,1,Yes,yes,Is there a medium residential building in the image?,19.01,19.01,19.01,50.0
+71,0.264,1,No,no,Is the number of roads equal to the number of water areas?,17.50,17.50,17.50,50.0
+72,0.268,0,Yes,no,Are there more medium water areas than commercial buildings?,17.50,17.50,17.50,50.0
+73,0.263,1,Yes,yes,Are there less grass areas than residential buildings?,17.56,17.56,17.56,50.0
+74,0.327,0,0,1,What is the amount of square water areas?,17.61,17.61,17.61,50.0
+75,0.327,0,1,3,What is the amount of circular grass areas?,19.16,19.16,19.16,51.0
+76,0.267,0,No,yes,Is there a large building?,19.13,19.13,19.13,51.0
+77,0.263,1,Yes,yes,Is a circular water area present?,17.44,17.44,17.44,51.0
+78,0.336,0,0,3,What is the amount of large buildings in the image?,17.35,17.35,17.35,51.0
+79,0.264,1,No,no,Is there a square farmland in the image?,19.00,19.00,19.00,51.0
+80,0.265,0,Yes,no,Are there less residential buildings than water areas?,17.42,17.42,17.42,51.0
+81,0.265,1,Yes,yes,Are there less circular residential buildings than roads?,17.53,17.53,17.53,51.0
+82,0.262,1,No,no,Is the number of commercial buildings equal to the number of pitchs?,17.54,17.54,17.54,51.0
+83,0.271,1,Yes,yes,Are there less commercial buildings than roads in the image?,17.26,17.26,17.26,51.0
+84,0.269,0,No,yes,Is there a commercial building at the bottom of the  circular forest?,17.57,17.57,17.57,51.0
+85,0.271,1,Yes,yes,Are there less small grass areas than buildings?,17.45,17.45,17.45,51.0
+86,0.270,1,No,no,Are there more water areas than small grass areas?,17.60,17.60,17.60,51.0
+87,0.268,1,Yes,yes,Is there a small commercial building?,17.70,17.70,17.70,51.0
+88,0.270,1,No,no,Is the number of water areas equal to the number of rectangular buildings?,17.53,17.53,17.53,51.0
+89,0.272,0,No,yes,Is there a square water area?,17.57,17.57,17.57,51.0
+90,0.268,1,No,no,Is there a square village green?,17.49,17.49,17.49,51.0
+91,0.264,1,Yes,yes,Are there less circular buildings than water areas?,17.41,17.41,17.41,51.0
+92,0.266,0,No,yes,Is there a rectangular commercial building?,17.45,17.45,17.45,51.0
+93,0.269,1,No,no,Is the number of forests equal to the number of water areas?,17.54,17.54,17.54,51.0
+94,0.268,0,No,yes,Is a circular building present?,17.45,17.45,17.45,51.0
+95,0.266,1,No,no,Is the number of roads equal to the number of commercial buildings?,17.54,17.54,17.54,51.0
+96,0.263,1,No,no,Is the number of roads equal to the number of forests?,17.46,17.46,17.46,51.0
+97,0.267,0,Yes,no,Are there less forests than commercial buildings?,17.43,17.43,17.43,51.0
+98,0.272,1,Yes,yes,Are there more grass areas than square buildings?,17.61,17.61,17.61,51.0
+99,0.263,0,No,yes,Is there a square building?,17.56,17.56,17.56,51.0
+100,0.443,1,Rural,rural,Is it a rural or an urban area,17.51,17.51,17.51,51.0
+101,0.328,0,0,5,What is the number of commercial buildings in the image?,32.47,32.47,32.47,51.0
+102,0.270,1,Yes,yes,Is there a residential building?,19.09,19.09,19.09,51.0
+103,0.264,1,Yes,yes,Is a road present?,17.48,17.48,17.48,51.0
+104,0.266,1,Yes,yes,Is a building present?,17.44,17.44,17.44,51.0
+105,0.328,0,1,202,How many small roads are there?,17.51,17.51,17.51,51.0
+106,0.282,1,Yes,yes,Is a farmland present?,19.01,19.01,19.01,51.0
+107,0.263,1,Yes,yes,Is a grass area present?,17.59,17.59,17.59,51.0
+108,0.263,1,Yes,yes,Are there less commercial buildings than farmlands?,17.50,17.50,17.50,51.0
+109,0.325,0,1,202,How many roads are there?,17.69,17.69,17.69,51.0
+110,0.365,1,No,no,Is the number of residential buildings equal to the number of water areas?,18.99,18.99,18.99,51.0
+111,0.263,0,No,yes,Is there a rectangular building?,17.53,17.53,17.53,51.0
+112,0.275,1,Yes,yes,Are there more water areas than commercial buildings?,17.44,17.44,17.44,51.0
+113,0.265,1,Yes,yes,Is a forest present?,17.64,17.64,17.64,51.0
+114,0.329,0,1,230,What is the amount of buildings in the image?,17.54,17.54,17.54,51.0
+115,0.325,0,1,224,What is the number of residential buildings?,19.11,19.11,19.11,51.0
+116,0.271,0,No,yes,Are there more buildings than farmlands?,19.24,19.24,19.24,51.0
+117,0.260,0,Yes,no,Are there more grass areas than buildings?,17.57,17.57,17.57,51.0
+118,0.265,0,No,yes,Is a water area present?,17.58,17.58,17.58,51.0
+119,0.264,1,No,no,Is the number of water areas equal to the number of commercial buildings in the image?,17.52,17.52,17.52,51.0
+120,0.273,0,No,yes,Is there a commercial building?,17.78,17.78,17.78,51.0
+121,0.455,0,100,90,What is the amount of forests?,17.60,17.60,17.60,51.0
+122,0.264,0,Yes,no,Are there less residential buildings than water areas?,22.32,22.32,22.32,51.0
+123,0.332,0,1,14,What is the number of water areas?,17.72,17.72,17.72,51.0
+124,0.273,1,No,no,Is the number of buildings equal to the number of roads?,19.14,19.14,19.14,51.0
+125,0.270,1,No,no,Is the number of grass areas equal to the number of water areas?,17.63,17.63,17.63,51.0
+126,0.262,1,No,no,Are there more water areas than roads?,17.73,17.73,17.73,51.0
+127,0.325,0,0,5,What is the amount of orchards?,17.71,17.71,17.71,52.0
+128,0.266,1,Yes,yes,Are there more roads than water areas?,19.26,19.26,19.26,52.0
+129,0.261,0,Yes,no,Are there more small commercial buildings than forests?,17.72,17.72,17.72,52.0
+130,0.262,1,No,no,Is the number of water areas equal to the number of circular roads?,17.74,17.74,17.74,52.0
+131,0.334,1,0,0,What is the amount of square residential buildings?,17.58,17.58,17.58,52.0
+132,0.268,1,No,no,Is the number of grass areas equal to the number of buildings?,19.31,19.31,19.31,52.0
+133,0.264,0,No,yes,Is a rectangular farmland present?,17.53,17.53,17.53,52.0
+134,0.332,0,1,126,How many grass areas are there?,17.71,17.71,17.71,52.0
+135,0.333,0,0,63,How many large forests are there?,19.23,19.23,19.23,52.0
+136,0.451,0,100,77,What is the amount of large farmlands?,19.30,19.30,19.30,52.0
+137,0.329,0,1,76,How many large grass areas are there?,22.29,22.29,22.29,52.0
+138,0.271,1,Yes,yes,Are there less water areas than forests?,19.16,19.16,19.16,52.0
+139,0.266,0,Yes,no,Are there less roads than forests?,17.60,17.60,17.60,52.0
+140,0.267,0,No,yes,Is there a medium commercial building?,17.75,17.75,17.75,52.0
+141,0.454,0,100,78,What is the number of farmlands?,17.63,17.63,17.63,52.0
+142,0.333,0,1,217,What is the number of small residential buildings in the image?,22.30,22.30,22.30,52.0
+143,0.269,1,No,no,Is the number of residential buildings equal to the number of roads?,19.20,19.20,19.20,52.0
+144,0.327,1,0,0,What is the amount of square commercial buildings?,17.58,17.58,17.58,52.0
+145,0.336,1,0,0,What is the number of medium roads?,19.35,19.35,19.35,52.0
+146,0.265,1,No,no,Is a square residential building present?,19.36,19.36,19.36,52.0
+147,0.269,1,No,no,Is the number of circular commercial buildings equal to the number of farmlands?,17.75,17.75,17.75,52.0
+148,0.331,0,0,1,What is the amount of medium farmlands on the left of a  building?,17.86,17.86,17.86,52.0
+149,0.269,1,No,no,Is the number of roads equal to the number of square residential buildings?,19.28,19.28,19.28,52.0
+150,0.331,0,0,1,How many commercials are there?,17.77,17.77,17.77,52.0
+151,0.267,1,Yes,yes,Are there more residential buildings than roads?,19.35,19.35,19.35,52.0
+152,0.334,1,0,0,How many large residential buildings are there?,17.73,17.73,17.73,52.0
+153,0.264,1,No,no,Are there more commercial buildings than forests?,19.33,19.33,19.33,52.0
+154,0.326,0,0,7,How many medium residential buildings are there?,17.66,17.66,17.66,52.0
+155,0.268,1,Yes,yes,Are there more residential buildings than water areas?,19.36,19.36,19.36,52.0
+156,0.264,0,Yes,no,Is a circular building present?,17.65,17.65,17.65,52.0
+157,0.270,0,Yes,no,Are there less buildings than roads?,17.68,17.68,17.68,52.0
+158,0.329,0,0,9,What is the number of rectangular water areas?,17.67,17.67,17.67,52.0
+159,0.329,0,0,1,How many large buildings are there?,19.35,19.35,19.35,52.0
+160,0.268,1,Yes,yes,Is a rectangular residential building present in the image?,19.33,19.33,19.33,52.0
+161,0.268,0,Yes,no,Are there more circular grass areas than commercial buildings?,17.80,17.80,17.80,52.0
+162,0.263,0,Yes,no,Are there less residential buildings than roads?,17.75,17.75,17.75,52.0
+163,0.331,0,1,2,How many small commercial buildings are there?,17.82,17.82,17.82,52.0
+164,0.265,1,Yes,yes,Are there less square residential buildings than residential buildings?,19.37,19.37,19.37,52.0
+165,0.330,0,1,2,How many circular grass areas are there?,17.80,17.80,17.80,52.0
+166,0.268,1,No,no,Is the number of commercial buildings equal to the number of water areas?,19.40,19.40,19.40,52.0
+167,0.326,0,1,14,What is the number of water areas on the right of a  residential building?,17.81,17.81,17.81,52.0
+168,0.263,1,No,no,Is the number of buildings equal to the number of forests?,19.33,19.33,19.33,52.0
+169,0.271,1,No,no,Is the number of residential buildings equal to the number of water areas on the right of a  residential building?,17.52,17.52,17.52,52.0
+170,0.275,1,Yes,yes,Are there less medium buildings than roads?,17.78,17.78,17.78,52.0
+171,0.270,1,No,no,Is the number of water areas equal to the number of residential buildings?,17.79,17.79,17.79,52.0
+172,0.265,0,Yes,no,Is there a circular road?,17.60,17.60,17.60,52.0
+173,0.337,0,0,130,How many rectangular buildings are there?,17.71,17.71,17.71,52.0
+174,0.264,1,No,no,Is the number of commercial buildings equal to the number of farmlands?,19.38,19.38,19.38,52.0
+175,0.266,1,Yes,yes,Are there more buildings than roads?,17.52,17.52,17.52,52.0
+176,0.269,1,No,no,Are there more commercial buildings than farmlands?,17.70,17.70,17.70,52.0
+177,0.332,0,0,5,What is the number of commercial buildings at the top of a  water area?,17.82,17.82,17.82,52.0
+178,0.357,0,0,2,How many large water areas are there?,19.45,19.45,19.45,52.0
+179,0.272,0,Yes,no,Are there more commercial buildings than water areas?,19.23,19.23,19.23,52.0
+180,0.272,1,No,no,Is the number of buildings equal to the number of large roads?,17.79,17.79,17.79,52.0
+181,0.269,1,No,no,Is the number of farmlands equal to the number of residential buildings in the image?,17.63,17.63,17.63,52.0
+182,0.336,1,No,no,Is there a circular commercial building?,17.78,17.78,17.78,52.0
+183,0.335,0,1,0,How many circular roads are there?,17.73,17.73,17.73,52.0
+184,0.330,0,0,3,What is the amount of medium commercial buildings?,19.27,19.27,19.27,52.0
+185,0.334,1,0,0,How many circular buildings are there?,19.26,19.26,19.26,52.0
+186,0.268,1,No,no,Are there more water areas on the left of a  farmland than water areas?,19.27,19.27,19.27,52.0
+187,0.330,1,0,0,How many square buildings are there?,17.91,17.91,17.91,52.0
+188,0.267,1,No,no,Is a square commercial building present?,19.30,19.30,19.30,52.0
+189,0.268,1,No,no,Is the number of roads equal to the number of water areas?,17.72,17.72,17.72,52.0
+190,0.265,1,Yes,yes,Is there a medium grass area?,17.58,17.58,17.58,52.0
+191,0.332,0,1,0,How many circular residential buildings are there?,17.60,17.60,17.60,52.0
+192,0.272,0,Yes,no,Is a medium road present?,19.46,19.46,19.46,52.0
+193,0.265,0,Yes,no,Are there less grass areas than circular roads?,17.79,17.79,17.79,52.0
+194,0.341,0,0,10,What is the amount of water areas at the top of a  commercial building?,17.83,17.83,17.83,52.0
+195,0.268,0,No,yes,Are there more water areas than commercial buildings at the bottom of a  forest?,19.50,19.50,19.50,52.0
+196,0.267,1,No,no,Is there a forest at the bottom of a  large road?,17.82,17.82,17.82,52.0
+197,0.262,0,Yes,no,Are there less rectangular grass areas than water areas?,17.85,17.85,17.85,52.0
+198,0.334,1,0,0,What is the amount of circular commercial buildings?,17.76,17.76,17.76,52.0
+199,0.263,0,No,yes,Are there more buildings than grass areas?,19.49,19.49,19.49,52.0
+200,0.459,1,Rural,rural,Is it a rural or an urban area,17.86,17.86,17.86,52.0
+201,0.272,1,Yes,yes,Is there a forest in the image?,32.77,32.77,32.77,53.0
+202,0.331,0,1,13,What is the number of forests?,17.80,17.80,17.80,53.0
+203,0.269,0,No,yes,Is a water area present?,19.34,19.34,19.34,53.0
+204,0.332,0,1,30,What is the amount of roads?,17.80,17.80,17.80,53.0
+205,0.270,1,No,no,Is there a circular nature reserve?,19.37,19.37,19.37,53.0
+206,0.330,0,0,1,How many water areas are there?,17.80,17.80,17.80,53.0
+207,0.327,1,0,0,What is the amount of medium water areas in the image?,19.36,19.36,19.36,53.0
+208,0.279,0,Yes,no,Are there less roads than water areas?,19.36,19.36,19.36,53.0
+209,0.272,1,Yes,yes,Is there a road?,17.77,17.77,17.77,53.0
+210,0.334,0,1,3,How many grass areas are there in the image?,17.76,17.76,17.76,53.0
+211,0.267,1,Yes,yes,Are there more nature reserves than water areas?,19.48,19.48,19.48,53.0
+212,0.261,0,No,yes,Is a road at the top of a  forest present?,17.86,17.86,17.86,53.0
+213,0.266,1,Yes,yes,Is a small forest present in the image?,17.95,17.95,17.95,53.0
+214,0.269,1,No,no,Are there more water areas than roads?,17.84,17.84,17.84,53.0
+215,0.269,1,No,no,Is there a circular road?,17.81,17.81,17.81,53.0
+216,0.327,1,0,0,How many large water areas are there?,17.78,17.78,17.78,53.0
+217,0.269,0,No,yes,Is a water area at the top of a  forest present?,19.48,19.48,19.48,53.0
+218,0.328,0,0,3,How many nature reserves are there?,17.90,17.90,17.90,53.0
+219,0.268,1,No,no,Is the number of water areas equal to the number of forests in the image?,19.38,19.38,19.38,53.0
+220,0.329,0,0,1,What is the amount of water areas on the left of a  road?,18.04,18.04,18.04,53.0
+221,0.266,1,Yes,yes,Are there more forests than water areas?,19.41,19.41,19.41,53.0
+222,0.265,0,No,yes,Is a rectangular water area present?,17.95,17.95,17.95,53.0
+223,0.267,1,Yes,yes,Is there a grass area?,17.84,17.84,17.84,53.0
+224,0.332,0,0,3,What is the amount of large nature reserves?,17.84,17.84,17.84,53.0
+225,0.334,0,1,0,How many medium roads are there?,19.53,19.53,19.53,53.0
+226,0.267,0,Yes,no,Are there more square roads than water areas?,19.41,19.41,19.41,53.0
+227,0.337,0,0,1,What is the number of circular forests?,17.76,17.76,17.76,53.0
+228,0.273,1,No,no,Is the number of roads equal to the number of forests?,19.54,19.54,19.54,53.0
+229,0.334,0,0,1,What is the number of circular water areas?,17.96,17.96,17.96,53.0
+230,0.269,1,Yes,yes,Are there more roads than water areas?,19.38,19.38,19.38,53.0
+231,0.272,0,No,yes,Is a nature reserve present in the image?,17.96,17.96,17.96,53.0
+232,0.327,0,1,5,What is the number of roads at the bottom of the  water area?,17.90,17.90,17.90,53.0
+233,0.260,1,Yes,yes,Are there more roads than forests?,19.56,19.56,19.56,53.0
+234,0.269,1,No,no,Is the number of water areas equal to the number of grass areas?,17.94,17.94,17.94,53.0
+235,0.270,1,No,no,Is the number of forests equal to the number of water areas?,17.73,17.73,17.73,53.0
+236,0.273,0,Yes,no,Are there more grass areas than roads?,17.90,17.90,17.90,53.0
+237,0.272,1,Yes,yes,Are there less water areas than roads?,18.01,18.01,18.01,53.0
+238,0.332,0,1,3,What is the amount of rectangular forests?,17.94,17.94,17.94,53.0
+239,0.338,1,1,1,How many small forests are there?,19.38,19.38,19.38,53.0
+240,0.266,1,No,no,Is the number of grass areas equal to the number of roads?,19.55,19.55,19.55,53.0
+241,0.331,0,0,1,What is the number of square water areas?,17.99,17.99,17.99,53.0
+242,0.272,0,Yes,no,Are there less roads than forests?,19.41,19.41,19.41,53.0
+243,0.265,1,Yes,yes,Are there more forests than medium water areas?,17.80,17.80,17.80,53.0
+244,0.267,0,No,yes,Is there a circular forest?,17.95,17.95,17.95,53.0
+245,0.271,1,Yes,yes,Are there less forests than roads?,17.82,17.82,17.82,53.0
+246,0.271,1,No,no,Are there more water areas than square forests?,17.89,17.89,17.89,53.0
+247,0.264,0,No,yes,Is a circular water area present?,17.90,17.90,17.90,53.0
+248,0.269,0,Yes,no,Are there less grass areas than water areas?,17.86,17.86,17.86,53.0
+249,0.265,1,No,no,Are there more water areas than nature reserves?,17.99,17.99,17.99,53.0
+250,0.272,1,No,no,Is a medium water area present?,17.85,17.85,17.85,53.0
+251,0.289,0,No,yes,Is there a water area on the left of a  road?,17.87,17.87,17.87,53.0
+252,0.326,0,1,0,What is the number of square roads?,17.91,17.91,17.91,53.0
+253,0.269,1,Yes,yes,Is a medium forest present?,19.56,19.56,19.56,53.0
+254,0.264,1,No,no,Is the number of forests equal to the number of roads?,17.80,17.80,17.80,53.0
+255,0.501,0,0,10,What is the amount of forests at the bottom of a  road?,17.81,17.81,17.81,53.0
+256,0.327,1,0,0,What is the number of large roads?,19.64,19.64,19.64,53.0
+257,0.266,1,No,no,Is the number of water areas equal to the number of small roads?,19.48,19.48,19.48,53.0
+258,0.264,1,No,no,Is the number of water areas equal to the number of roads?,17.85,17.85,17.85,53.0
+259,0.271,1,No,no,Is there a large water area?,17.71,17.71,17.71,53.0
+260,0.266,0,Yes,no,Are there less water areas than water areas on the right of a  forest?,17.93,17.93,17.93,53.0
+261,0.331,0,1,0,How many circular roads are there?,18.09,18.09,18.09,53.0
+262,0.328,0,1,0,What is the number of rectangular roads?,19.48,19.48,19.48,53.0
+263,0.271,1,No,no,Is the number of roads equal to the number of forests on the left of a  medium water area in the image?,19.61,19.61,19.61,53.0
+264,0.274,0,No,yes,Are there less water areas than grass areas?,18.08,18.08,18.08,53.0
+265,0.271,0,Yes,no,Are there less forests than water areas?,18.05,18.05,18.05,53.0
+266,0.264,1,No,no,Are there more water areas than forests?,17.95,17.95,17.95,53.0
+267,0.270,1,No,no,Is there a medium nature reserve?,18.06,18.06,18.06,53.0
+268,0.266,1,No,no,Is the number of roads equal to the number of water areas?,17.89,17.89,17.89,53.0
+269,0.458,0,100,1,What is the number of square forests?,17.84,17.84,17.84,53.0
+270,0.271,0,Yes,no,Are there less roads than circular water areas?,22.57,22.57,22.57,53.0
+271,0.265,0,No,yes,Is the number of circular forests equal to the number of water areas?,18.06,18.06,18.06,53.0
+272,0.333,0,1,30,How many small roads are there?,17.94,17.94,17.94,53.0
+273,0.276,1,Yes,yes,Is a small road present?,19.38,19.38,19.38,53.0
+274,0.266,1,No,no,Is there a square road?,17.88,17.88,17.88,53.0
+275,0.272,1,No,no,Is the number of roads equal to the number of rectangular water areas?,17.99,17.99,17.99,53.0
+276,0.332,0,0,3,How many nature reserves next to a  road are there?,17.92,17.92,17.92,53.0
+277,0.270,0,Yes,no,Are there less roads than grass areas?,19.48,19.48,19.48,53.0
+278,0.398,0,10,0,What is the number of rectangular grass areas?,17.96,17.96,17.96,53.0
+279,0.271,0,Yes,no,Are there more forests than roads?,21.06,21.06,21.06,53.0
+280,0.327,0,0,1,What is the number of water areas next to a  forest?,18.02,18.02,18.02,53.0
+281,0.330,0,1,3,How many grass areas next to the  water area are there?,19.65,19.65,19.65,53.0
+282,0.268,1,No,no,Are there more large water areas than medium forests?,19.65,19.65,19.65,53.0
+283,0.269,1,No,no,Is there a rectangular road?,18.06,18.06,18.06,53.0
+284,0.329,1,0,0,What is the amount of circular nature reserves?,17.98,17.98,17.98,53.0
+285,0.333,0,0,1,What is the number of rectangular water areas?,19.68,19.68,19.68,53.0
+286,0.268,1,No,no,Is the number of forests equal to the number of water areas on the right of a  road?,19.54,19.54,19.54,53.0
+287,0.337,0,0,13,How many forests at the top of a  road are there?,18.05,18.05,18.05,53.0
+288,0.269,1,Yes,yes,Is there a nature reserve next to a  road?,19.63,19.63,19.63,53.0
+289,0.268,0,Yes,no,Is a circular grass area present?,18.09,18.09,18.09,53.0
+290,0.268,1,Yes,yes,Are there less water areas than forests?,17.98,17.98,17.98,53.0
+291,0.269,0,No,yes,Are there more water areas than rectangular roads?,18.05,18.05,18.05,53.0
+292,0.333,0,0,1,What is the number of square water areas at the bottom of a  road?,18.07,18.07,18.07,53.0
+293,0.267,0,Yes,no,Are there more medium forests than water areas?,19.71,19.71,19.71,54.0
+294,0.265,0,No,yes,Are there more roads than large forests in the image?,17.93,17.93,17.93,53.0
+295,0.328,1,1,1,How many medium forests are there?,18.08,18.08,18.08,53.0
+296,0.266,1,Yes,yes,Is a forest on the right of the  circular water area present?,19.51,19.51,19.51,53.0
+297,0.269,1,No,no,Is the number of water areas equal to the number of circular roads?,18.04,18.04,18.04,53.0
+298,0.270,1,Yes,yes,Are there less rectangular nature reserves than roads?,17.79,17.79,17.79,54.0
+299,0.265,1,Yes,yes,Is a square forest present?,18.08,18.08,18.08,54.0
+300,0.446,1,Rural,rural,Is it a rural or an urban area,17.98,17.98,17.98,54.0
+301,0.270,0,Yes,no,Is a rectangular road present?,32.95,32.95,32.95,54.0
+302,0.324,0,0,7,How many commercial buildings are there?,18.02,18.02,18.02,54.0
+303,0.329,0,0,164,What is the amount of residential buildings in the image?,19.54,19.54,19.54,54.0
+304,0.457,0,100,152,What is the amount of forests?,19.67,19.67,19.67,54.0
+305,0.269,1,Yes,yes,Is a building present?,22.64,22.64,22.64,54.0
+306,0.326,0,1,187,How many roads are there in the image?,17.90,17.90,17.90,54.0
+307,0.333,0,0,10,What is the number of orchards in the image?,19.57,19.57,19.57,54.0
+308,0.268,0,No,yes,Is a residential building present?,19.59,19.59,19.59,54.0
+309,0.263,1,Yes,yes,Is a road present in the image?,17.93,17.93,17.93,54.0
+310,0.264,0,No,yes,Is there a commercial building?,18.13,18.13,18.13,54.0
+311,0.266,0,No,yes,Is a water area present?,18.04,18.04,18.04,54.0
+312,0.268,1,Yes,yes,Is a grass area present?,17.92,17.92,17.92,54.0
+313,0.331,0,0,25,What is the amount of water areas?,17.93,17.93,17.93,54.0
+314,0.268,0,No,yes,Is there a circular orchard?,19.53,19.53,19.53,54.0
+315,0.469,0,100,79,What is the number of farmlands?,18.00,18.00,18.00,54.0
+316,0.277,0,Yes,no,Is there a medium road?,22.80,22.80,22.80,54.0
+317,0.266,0,No,yes,Is there a circular water area?,17.98,17.98,17.98,54.0
+318,0.335,1,0,0,How many large residential buildings are there?,17.97,17.97,17.97,54.0
+319,0.330,0,1,191,How many buildings are there?,19.55,19.55,19.55,54.0
+320,0.269,0,Yes,no,Are there less roads than commercial buildings in the image?,19.61,19.61,19.61,54.0
+321,0.262,1,No,no,Is the number of roads equal to the number of commercial buildings?,17.99,17.99,17.99,54.0
+322,0.264,0,No,yes,Is a large water area present?,18.10,18.10,18.10,54.0
+323,0.357,1,0,0,What is the number of square commercial buildings?,17.93,17.93,17.93,54.0
+324,0.271,1,No,no,Is the number of water areas equal to the number of buildings?,19.69,19.69,19.69,54.0
+325,0.269,0,Yes,no,Are there less buildings than grass areas?,18.09,18.09,18.09,54.0
+326,0.267,1,Yes,yes,Is there a forest?,18.06,18.06,18.06,54.0
+327,0.355,1,No,no,Is the number of residential buildings equal to the number of roads?,18.01,18.01,18.01,54.0
+328,0.266,1,Yes,yes,Is a small road present?,17.97,17.97,17.97,54.0
+329,0.328,0,0,164,How many residential buildings at the top of a  road are there?,18.03,18.03,18.03,54.0
+330,0.266,0,Yes,no,Are there more roads than buildings?,19.70,19.70,19.70,54.0
+331,0.328,1,0,0,How many circular commercial buildings are there?,18.01,18.01,18.01,54.0
+332,0.456,0,100,114,What is the amount of grass areas?,19.66,19.66,19.66,54.0
+333,0.331,0,0,101,What is the amount of rectangular residential buildings?,22.86,22.86,22.86,54.0
+334,0.265,0,Yes,no,Is there a circular road?,19.65,19.65,19.65,54.0
+335,0.337,0,0,3,What is the number of residential areas?,17.91,17.91,17.91,54.0
+336,0.264,1,Yes,yes,Is a farmland present?,19.71,19.71,19.71,54.0
+337,0.330,0,0,8,What is the amount of medium water areas?,17.98,17.98,17.98,54.0
+338,0.263,0,No,yes,Is there a residential building at the top of a  road?,19.69,19.69,19.69,54.0
+339,0.267,1,No,no,Is a large residential building present in the image?,18.12,18.12,18.12,54.0
+340,0.332,0,0,23,What is the amount of rectangular forests?,18.11,18.11,18.11,54.0
+341,0.336,0,1,0,How many large roads are there?,19.54,19.54,19.54,54.0
+342,0.274,1,Yes,yes,Are there less commercial buildings than water areas?,19.59,19.59,19.59,54.0
+343,0.266,0,No,yes,Is a medium building present in the image?,18.10,18.10,18.10,54.0
+344,0.333,0,1,14,What is the number of small grass areas in the image?,18.11,18.11,18.11,54.0
+345,0.327,0,0,3,What is the number of square residential buildings?,19.59,19.59,19.59,54.0
+346,0.268,0,Yes,no,Are there less buildings than water areas?,19.72,19.72,19.72,54.0
+347,0.265,1,Yes,yes,Are there more grass areas than water areas?,18.03,18.03,18.03,54.0
+348,0.267,1,Yes,yes,Are there less water areas than farmlands?,18.09,18.09,18.09,54.0
+349,0.270,0,No,yes,Is a orchard present?,18.11,18.11,18.11,54.0
+350,0.267,1,Yes,yes,Are there less residential buildings than roads?,17.90,17.90,17.90,54.0
+351,0.268,0,Yes,no,Is a small farmland present?,18.10,18.10,18.10,54.0
+352,0.263,1,Yes,yes,Is a small commercial building present?,18.12,18.12,18.12,54.0
+353,0.269,1,No,no,Are there more commercial buildings than farmlands in the image?,17.91,17.91,17.91,54.0
+354,0.329,0,0,2,How many medium commercial buildings are there?,18.17,18.17,18.17,54.0
+355,0.269,0,No,yes,Are there more commercial buildings than rectangular roads in the image?,19.56,19.56,19.56,54.0
+356,0.268,0,Yes,no,Are there more circular water areas than buildings in the image?,18.11,18.11,18.11,54.0
+357,0.271,1,No,no,Is the number of residential buildings equal to the number of water areas?,18.01,18.01,18.01,54.0
+358,0.267,1,Yes,yes,Are there less forests than buildings?,17.98,17.98,17.98,54.0
+359,0.267,1,No,no,Are there more water areas than roads?,18.03,18.03,18.03,54.0
+360,0.267,0,No,yes,Is a circular building present?,18.15,18.15,18.15,54.0
+361,0.268,1,No,no,Is there a large commercial building?,17.93,17.93,17.93,54.0
+362,0.269,1,Yes,yes,Are there more buildings than water areas?,18.06,18.06,18.06,54.0
+363,0.270,0,No,yes,Are there more roads than grass areas?,18.15,18.15,18.15,54.0
+364,0.267,0,No,yes,Is there a building on the right of a  water area?,18.12,18.12,18.12,54.0
+365,0.332,0,0,9,What is the amount of rectangular water areas?,18.05,18.05,18.05,54.0
+366,0.271,1,No,no,Is there a square road?,19.73,19.73,19.73,54.0
+367,0.333,0,0,163,How many small residential buildings are there?,18.07,18.07,18.07,54.0
+368,0.268,0,No,yes,Are there more residential buildings than water areas?,19.63,19.63,19.63,54.0
+369,0.329,1,0,0,What is the number of large commercial buildings?,18.03,18.03,18.03,54.0
+370,0.274,1,No,no,Is the number of buildings equal to the number of grass areas?,19.59,19.59,19.59,54.0
+371,0.272,0,No,yes,Is there a small water area?,17.99,17.99,17.99,54.0
+372,0.341,0,0,3,What is the amount of large water areas?,17.91,17.91,17.91,54.0
+373,0.333,0,0,1,What is the amount of medium orchards?,19.55,19.55,19.55,54.0
+374,0.272,1,No,no,Is the number of commercial buildings equal to the number of square grass areas?,19.58,19.58,19.58,54.0
+375,0.272,0,Yes,no,Are there less residential buildings than water areas in the image?,18.12,18.12,18.12,54.0
+376,0.273,0,Yes,no,Are there less residential buildings than square water areas?,18.13,18.13,18.13,54.0
+377,0.270,1,No,no,Is a circular commercial building present?,18.12,18.12,18.12,54.0
+378,0.332,0,0,2,What is the amount of rectangular commercial buildings?,18.03,18.03,18.03,54.0
+379,0.272,1,No,no,Is a square commercial building present?,19.71,19.71,19.71,54.0
+380,0.332,0,1,14,What is the amount of small water areas?,18.05,18.05,18.05,54.0
+381,0.269,0,No,yes,Are there more buildings than forests?,19.74,19.74,19.74,54.0
+382,0.266,1,No,no,Is the number of small water areas equal to the number of commercial buildings?,18.04,18.04,18.04,54.0
+383,0.335,0,1,26,How many small forests are there?,18.13,18.13,18.13,54.0
+384,0.271,0,Yes,no,Are there less grass areas than water areas in the image?,19.72,19.72,19.72,54.0
+385,0.270,0,Yes,no,Are there less commercial buildings than circular water areas?,18.11,18.11,18.11,54.0
+386,0.267,0,Yes,no,Are there less residential buildings than forests?,18.12,18.12,18.12,54.0
+387,0.330,0,0,164,What is the amount of residential buildings on the left of a  road?,18.03,18.03,18.03,54.0
+388,0.270,1,Yes,yes,Is a medium water area next to a  farmland present?,19.82,19.82,19.82,54.0
+389,0.265,0,No,yes,Are there more residential buildings than grass areas?,18.15,18.15,18.15,54.0
+390,0.263,1,No,no,Are there more residential buildings than roads?,18.12,18.12,18.12,54.0
+391,0.266,1,Yes,yes,Are there less square commercial buildings than grass areas?,18.11,18.11,18.11,54.0
+392,0.268,1,No,no,Is the number of water areas equal to the number of circular commercial buildings?,18.13,18.13,18.13,54.0
+393,0.266,1,No,no,Are there more commercial buildings than roads?,17.97,17.97,17.97,54.0
+394,0.270,1,No,no,Is the number of commercial buildings equal to the number of grass areas?,18.15,18.15,18.15,54.0
+395,0.346,0,0,118,What is the number of rectangular buildings?,17.98,17.98,17.98,54.0
+396,0.268,0,No,yes,Are there more residential buildings than circular water areas?,19.73,19.73,19.73,54.0
+397,0.267,1,No,no,Is the number of forests equal to the number of water areas?,18.05,18.05,18.05,54.0
+398,0.333,0,1,3,How many medium buildings are there?,18.03,18.03,18.03,54.0
+399,0.372,1,No,no,Is the number of square roads equal to the number of rectangular water areas?,19.68,19.68,19.68,54.0
+400,0.455,1,Rural,rural,Is it a rural or an urban area,18.23,18.23,18.23,54.0
+401,0.328,0,1,14,How many roads are there?,33.07,33.07,33.07,54.0
+402,0.271,0,No,yes,Is there a forest?,19.66,19.66,19.66,54.0
+403,0.269,1,No,no,Is there a medium water area?,17.99,17.99,17.99,54.0
+404,0.331,1,1,1,What is the number of water areas?,18.09,18.09,18.09,54.0
+405,0.270,1,Yes,yes,Is a road present?,19.64,19.64,19.64,54.0
+406,0.330,0,0,1,How many orchards are there?,18.08,18.08,18.08,54.0
+407,0.266,0,No,yes,Is a water area present in the image?,19.69,19.69,19.69,54.0
+408,0.456,0,100,7,What is the number of farmlands in the image?,18.19,18.19,18.19,54.0
+409,0.273,1,Yes,yes,Is there a farmland?,22.95,22.95,22.95,54.0
+410,0.328,0,0,5,What is the number of forests?,18.09,18.09,18.09,54.0
+411,0.331,0,1,4,How many grass areas are there?,19.75,19.75,19.75,54.0
+412,0.267,1,Yes,yes,Is there a grass area?,19.64,19.64,19.64,54.0
+413,0.271,0,No,yes,Is there a nature reserve?,18.08,18.08,18.08,54.0
+414,0.271,1,No,no,Is there a water area on the left of a  road?,18.09,18.09,18.09,54.0
+415,0.267,1,Yes,yes,Are there less forests than roads?,18.10,18.10,18.10,54.0
+416,0.271,0,Yes,no,Is a square road present?,18.08,18.08,18.08,54.0
+417,0.274,0,Yes,no,Is a medium road present?,18.07,18.07,18.07,54.0
+418,0.275,0,No,yes,Is a rectangular farmland present in the image?,18.09,18.09,18.09,54.0
+419,0.329,0,0,2,How many medium forests are there?,18.08,18.08,18.08,54.0
+420,0.269,0,Yes,no,Are there more farmlands than roads?,19.75,19.75,19.75,54.0
+421,0.330,0,1,0,What is the amount of circular farmlands?,18.08,18.08,18.08,54.0
+422,0.275,1,No,no,Is the number of farmlands equal to the number of water areas in the image?,19.63,19.63,19.63,54.0
+423,0.332,0,1,0,What is the amount of large roads?,18.19,18.19,18.19,54.0
+424,0.269,0,No,yes,Is a large forest present?,19.76,19.76,19.76,54.0
+425,0.269,1,No,no,Are there more water areas than forests?,18.07,18.07,18.07,54.0
+426,0.334,0,1,0,What is the number of medium water areas?,18.18,18.18,18.18,54.0
+427,0.268,0,No,yes,Is there a orchard?,19.78,19.78,19.78,54.0
+428,0.271,0,Yes,no,Are there less roads than rectangular grass areas?,18.09,18.09,18.09,54.0
+429,0.339,0,0,2,What is the number of nature reserves?,18.20,18.20,18.20,54.0
+430,0.271,0,Yes,no,Is a square farmland present?,19.76,19.76,19.76,54.0
+431,0.333,0,1,0,What is the amount of rectangular roads?,18.16,18.16,18.16,54.0
+432,0.267,0,Yes,no,Are there more grass areas than roads?,19.63,19.63,19.63,54.0
+433,0.274,0,Yes,no,Are there less roads at the bottom of the  water area than farmlands?,18.20,18.20,18.20,54.0
+434,0.269,1,Yes,yes,Are there more roads than nature reserves?,18.20,18.20,18.20,54.0
+435,0.269,0,Yes,no,Is a small water area present?,18.19,18.19,18.19,54.0
+436,0.274,1,No,no,Are there more water areas than roads?,17.99,17.99,17.99,54.0
+437,0.270,0,Yes,no,Are there less roads than farmlands?,18.21,18.21,18.21,54.0
+438,0.268,0,Yes,no,Are there less medium grass areas than small water areas?,18.09,18.09,18.09,54.0
+439,0.266,0,Yes,no,Are there more small farmlands than water areas?,18.12,18.12,18.12,54.0
+440,0.275,1,No,no,Is a rectangular road present?,18.23,18.23,18.23,54.0
+441,0.268,1,No,no,Is there a circular road?,18.04,18.04,18.04,54.0
+442,0.269,0,No,yes,Is a large water area present?,18.11,18.11,18.11,54.0
+443,0.330,0,1,0,How many small water areas are there?,18.08,18.08,18.08,54.0
+444,0.272,1,No,no,Is a rectangular water area present?,19.66,19.66,19.66,54.0
+445,0.266,0,No,yes,Are there more nature reserves than water areas?,18.19,18.19,18.19,54.0
+446,0.277,1,Yes,yes,Are there more roads than small forests?,18.07,18.07,18.07,54.0
+447,0.271,0,No,yes,Are there more roads than farmlands?,18.11,18.11,18.11,54.0
+448,0.329,0,0,1,What is the number of rectangular forests?,18.10,18.10,18.10,54.0
+449,0.276,1,No,no,Is the number of water areas equal to the number of roads?,19.80,19.80,19.80,54.0
+450,0.272,1,No,no,Is a circular water area present?,18.22,18.22,18.22,54.0
+451,0.265,1,Yes,yes,Are there less water areas than roads?,18.09,18.09,18.09,54.0
+452,0.334,0,1,0,How many medium farmlands are there in the image?,18.07,18.07,18.07,54.0
+453,0.269,0,No,yes,Are there less farmlands than roads?,19.78,19.78,19.78,54.0
+454,0.273,1,No,no,Are there more water areas than farmlands?,18.18,18.18,18.18,54.0
+455,0.331,1,0,0,How many rectangular water areas are there?,18.09,18.09,18.09,54.0
+456,0.272,1,No,no,Is the number of water areas equal to the number of medium nature reserves?,19.77,19.77,19.77,54.0
+457,0.262,0,Yes,no,Is there a road on the right of the  water area?,18.06,18.06,18.06,54.0
+458,0.269,0,Yes,no,Are there less roads than water areas?,18.09,18.09,18.09,54.0
+459,0.274,1,No,no,Is there a small nature reserve?,18.07,18.07,18.07,54.0
+460,0.332,0,1,4,What is the amount of large grass areas?,18.08,18.08,18.08,54.0
+461,0.269,1,Yes,yes,Are there less water areas than forests?,19.80,19.80,19.80,54.0
+462,0.270,1,Yes,yes,Are there more roads than forests?,18.20,18.20,18.20,54.0
+463,0.272,1,Yes,yes,Are there more water areas than medium roads?,18.20,18.20,18.20,54.0
+464,0.331,0,1,0,How many square roads are there?,18.11,18.11,18.11,54.0
+465,0.270,1,No,no,Is the number of water areas equal to the number of farmlands?,19.67,19.67,19.67,54.0
+466,0.267,1,No,no,Is the number of roads equal to the number of water areas in the image?,18.03,18.03,18.03,55.0
+467,0.283,0,Yes,no,Are there less roads than circular farmlands?,18.21,18.21,18.21,54.0
+468,0.274,1,Yes,yes,Is a water area next to a  road present?,18.11,18.11,18.11,54.0
+469,0.270,1,No,no,Is there a circular grass area in the image?,18.19,18.19,18.19,54.0
+470,0.263,0,No,yes,Are there more forests than water areas in the image?,18.18,18.18,18.18,54.0
+471,0.369,1,Yes,yes,Is a road next to a  farmland present?,18.17,18.17,18.17,54.0
+472,0.341,1,0,0,How many square water areas are there?,18.21,18.21,18.21,54.0
+473,0.265,1,Yes,yes,Is a large grass area present?,19.67,19.67,19.67,54.0
+474,0.269,1,No,no,Are there less farmlands than water areas?,18.07,18.07,18.07,54.0
+475,0.270,1,No,no,Is a square orchard present?,18.08,18.08,18.08,54.0
+476,0.264,0,Yes,no,Are there more circular roads than water areas?,18.06,18.06,18.06,54.0
+477,0.272,1,No,no,Is the number of farmlands equal to the number of roads?,18.16,18.16,18.16,54.0
+478,0.272,1,No,no,Are there more rectangular nature reserves than forests?,18.00,18.00,18.00,54.0
+479,0.271,1,No,no,Is there a square grass area?,18.06,18.06,18.06,54.0
+480,0.335,1,0,0,What is the amount of small forests?,18.08,18.08,18.08,54.0
+481,0.264,1,No,no,Is the number of rectangular orchards equal to the number of roads?,19.83,19.83,19.83,55.0
+482,0.260,1,Yes,yes,Are there less water areas than farmlands?,18.10,18.10,18.10,55.0
+483,0.267,1,No,no,Is the number of grass areas equal to the number of roads?,18.21,18.21,18.21,55.0
+484,0.327,0,1,0,What is the amount of roads next to a  small nature reserve?,18.21,18.21,18.21,55.0
+485,0.271,1,No,no,Is a water area at the top of a  road present?,19.80,19.80,19.80,55.0
+486,0.267,1,No,no,Is the number of nature reserves equal to the number of water areas?,18.21,18.21,18.21,55.0
+487,0.332,1,0,0,What is the number of square forests?,18.12,18.12,18.12,55.0
+488,0.459,0,100,0,How many square grass areas are there?,19.67,19.67,19.67,55.0
+489,0.266,1,Yes,yes,Are there more roads than circular water areas?,22.80,22.80,22.81,55.0
+490,0.271,1,No,no,Is the number of water areas equal to the number of forests?,18.23,18.23,18.23,55.0
+491,0.264,0,Yes,no,Is the number of grass areas equal to the number of rectangular roads?,17.97,17.97,17.97,55.0
+492,0.263,1,Yes,yes,Are there more farmlands than water areas in the image?,17.97,17.97,17.97,55.0
+493,0.266,0,Yes,no,Is the number of square grass areas equal to the number of farmlands?,18.22,18.22,18.22,55.0
+494,0.268,1,No,no,Is a water area at the bottom of a  forest present?,18.33,18.33,18.33,55.0
+495,0.329,1,0,0,What is the number of water areas on the left of a  farmland?,18.12,18.12,18.12,55.0
+496,0.333,0,1,0,What is the amount of roads at the bottom of a  medium water area?,19.93,19.93,19.93,55.0
+497,0.265,1,No,no,Is the number of roads equal to the number of forests?,19.77,19.77,19.77,55.0
+498,0.335,0,1,0,How many large water areas on the right of a  circular forest are there in the image?,18.02,18.02,18.02,55.0
+499,0.330,0,1,0,What is the number of roads on the right of the  water area?,19.80,19.80,19.80,55.0
+500,0.461,0,Rural,urban,Is it a rural or an urban area,19.70,19.70,19.70,55.0
+501,0.271,1,Yes,yes,Is there a residential building?,33.17,33.17,33.17,55.0
+502,0.462,0,100,6891,What is the number of residential buildings?,18.21,18.21,18.21,55.0
+503,0.333,0,1,984,What is the amount of roads in the image?,22.89,22.89,22.89,55.0
+504,0.267,1,Yes,yes,Is a medium water area present?,19.86,19.86,19.86,55.0
+505,0.335,0,1,44,How many commercial buildings are there in the image?,18.16,18.16,18.16,55.0
+506,0.334,0,1,295,What is the number of grass areas?,19.91,19.91,19.90,55.0
+507,0.271,0,No,yes,Is there a rectangular commercial building?,19.87,19.87,19.87,55.0
+508,0.269,0,No,yes,Is a commercial building present?,18.27,18.27,18.27,55.0
+509,0.333,0,0,48,How many medium forests are there?,18.16,18.16,18.16,55.0
+510,0.268,1,Yes,yes,Is a building present?,19.87,19.87,19.87,55.0
+511,0.337,0,1,40,What is the number of water areas?,18.17,18.17,18.17,55.0
+512,0.274,0,Yes,no,Are there more water areas than commercial buildings?,19.85,19.85,19.85,55.0
+513,0.332,0,0,178,How many forests are there?,18.18,18.18,18.18,55.0
+514,0.334,0,0,4,What is the amount of scrubs?,19.76,19.76,19.76,55.0
+515,0.333,0,1,38,How many farmlands are there?,19.86,19.86,19.86,55.0
+516,0.394,0,10,50,What is the number of rectangular grass areas?,19.75,19.75,19.75,55.0
+517,0.461,0,100,91,What is the amount of medium grass areas?,21.50,21.50,21.50,55.0
+518,0.332,0,1,8,What is the number of large water areas?,23.05,23.05,23.05,55.0
+519,0.272,1,Yes,yes,Is a small road present?,19.85,19.85,19.85,55.0
+520,0.269,1,Yes,yes,Is there a road?,18.17,18.17,18.17,55.0
+521,0.271,1,Yes,yes,Is there a water area?,18.20,18.20,18.20,55.0
+522,0.273,1,No,no,Is the number of farmlands equal to the number of water areas?,18.10,18.10,18.10,55.0
+523,0.267,1,Yes,yes,Are there more buildings than parkings?,18.28,18.28,18.28,55.0
+524,0.463,0,100,6998,How many buildings are there?,18.30,18.30,18.30,55.0
+525,0.270,1,No,no,Is there a large road on the left of a  road?,22.95,22.95,22.95,55.0
+526,0.268,0,Yes,no,Are there more water areas than buildings?,18.15,18.15,18.15,55.0
+527,0.270,0,No,yes,Is a large commercial building present?,18.28,18.28,18.28,55.0
+528,0.269,1,No,no,Is the number of residential buildings equal to the number of village greens?,18.22,18.22,18.22,55.0
+529,0.267,1,Yes,yes,Are there less water areas than buildings?,18.36,18.36,18.36,55.0
+530,0.266,1,No,no,Are there less buildings than grass areas?,18.29,18.29,18.29,55.0
+531,0.267,0,Yes,no,Are there more square water areas than roads?,18.17,18.17,18.17,55.0
+532,0.270,1,Yes,yes,Is a square grass area present?,18.29,18.29,18.29,55.0
+533,0.275,1,No,no,Is the number of large buildings equal to the number of cemeterys?,18.08,18.08,18.08,55.0
+534,0.334,0,0,5,How many large commercial buildings are there?,18.20,18.20,18.20,55.0
+535,0.271,1,Yes,yes,Are there more roads than forests?,19.71,19.71,19.71,55.0
+536,0.270,0,No,yes,Is there a forest?,18.17,18.17,18.17,55.0
+537,0.277,1,No,no,Are there less residential buildings than grass areas in the image?,18.10,18.10,18.10,55.0
+538,0.276,0,No,yes,Is there a medium commercial building?,18.27,18.27,18.27,55.0
+539,0.266,0,No,yes,Are there less roads than residential buildings?,18.16,18.16,18.16,55.0
+540,0.395,0,10,23,What is the number of medium residential buildings?,18.25,18.25,18.25,55.0
+541,0.270,0,No,yes,Is there a parking?,21.27,21.27,21.27,55.0
+542,0.390,1,Yes,yes,Is a small commercial building present?,18.10,18.10,18.10,55.0
+543,0.269,1,Yes,yes,Is a farmland present?,18.18,18.18,18.18,55.0
+544,0.271,0,No,yes,Is a rectangular building present in the image?,18.17,18.17,18.17,55.0
+545,0.271,1,Yes,yes,Is there a grass area?,18.28,18.28,18.28,55.0
+546,0.271,0,Yes,no,Are there more water areas than roads?,18.06,18.06,18.06,55.0
+547,0.266,1,Yes,yes,Are there more buildings than forests?,18.23,18.23,18.23,55.0
+548,0.269,1,Yes,yes,Are there more commercial buildings than water areas?,18.24,18.24,18.24,55.0
+549,0.269,0,No,yes,Is a large forest present?,18.27,18.27,18.27,55.0
+550,0.268,1,No,no,Is the number of grass areas equal to the number of commercial buildings?,18.09,18.09,18.09,55.0
+551,0.337,0,1,0,How many large roads are there?,18.27,18.27,18.27,55.0
+552,0.274,1,No,no,Is the number of roads equal to the number of square grass areas?,19.75,19.75,19.75,55.0
+553,0.263,0,No,yes,Is a square building present?,18.24,18.24,18.24,55.0
+554,0.271,1,Yes,yes,Is a small grass area present?,18.06,18.06,18.06,55.0
+555,0.264,0,Yes,no,Are there more water areas than residential buildings?,18.05,18.05,18.05,55.0
+556,0.274,0,Yes,no,Is a rectangular road present?,18.23,18.23,18.23,55.0
+557,0.273,0,Yes,no,Are there less roads than square grass areas?,18.15,18.15,18.15,55.0
+558,0.335,0,1,0,What is the number of square roads?,18.22,18.22,18.22,55.0
+559,0.336,1,0,0,What is the number of square commercial buildings?,19.72,19.72,19.72,55.0
+560,0.271,1,No,no,Is the number of buildings equal to the number of grass areas in the image?,19.86,19.86,19.86,55.0
+561,0.335,0,0,4,What is the number of sports centres?,18.34,18.34,18.34,55.0
+562,0.269,0,No,yes,Is a rectangular forest present?,19.82,19.82,19.82,55.0
+563,0.271,1,Yes,yes,Are there more buildings than water areas in the image?,18.15,18.15,18.15,55.0
+564,0.265,1,Yes,yes,Are there more water areas than medium buildings?,18.27,18.27,18.27,55.0
+565,0.265,1,No,no,Is a circular commercial building present?,18.26,18.26,18.26,55.0
+566,0.264,0,No,yes,Is there a rectangular residential building?,18.17,18.17,18.17,55.0
+567,0.271,1,Yes,yes,Are there more forests than commercial buildings?,18.12,18.12,18.12,55.0
+568,0.265,1,No,no,Is the number of medium cemeterys equal to the number of water areas?,18.11,18.11,18.11,55.0
+569,0.271,1,Yes,yes,Is there a large grass area in the image?,18.30,18.30,18.30,55.0
+570,0.264,1,Yes,yes,Is a pitch present?,18.25,18.25,18.25,55.0
+571,0.266,1,No,no,Is the number of grass areas equal to the number of buildings?,18.13,18.13,18.13,55.0
+572,0.332,0,1,29,How many small water areas are there?,18.06,18.06,18.06,55.0
+573,0.272,1,No,no,Is the number of water areas equal to the number of roads?,19.81,19.81,19.81,55.0
+574,0.268,0,Yes,no,Are there less commercial buildings than water areas?,18.27,18.27,18.27,55.0
+575,0.273,0,Yes,no,Is a large road present?,18.24,18.24,18.24,55.0
+576,0.272,1,No,no,Is the number of square commercial buildings equal to the number of residential buildings?,18.16,18.16,18.16,55.0
+577,0.272,1,No,no,Is the number of medium forests equal to the number of residential buildings?,18.34,18.34,18.34,55.0
+578,0.274,0,Yes,no,Are there less residential buildings than water areas?,18.36,18.36,18.36,55.0
+579,0.332,0,0,27,What is the number of parkings?,18.27,18.27,18.27,55.0
+580,0.272,1,No,no,Are there more commercial buildings than roads?,19.85,19.85,19.85,55.0
+581,0.341,0,0,1,What is the amount of large residential buildings?,18.27,18.27,18.27,55.0
+582,0.276,0,Yes,no,Are there more square water areas than medium residential buildings?,19.89,19.89,19.89,55.0
+583,0.274,1,No,no,Is the number of commercial buildings at the bottom of a  parking equal to the number of forests?,18.27,18.27,18.27,55.0
+584,0.272,1,No,no,Is the number of commercial buildings equal to the number of water areas in the image?,18.25,18.25,18.25,55.0
+585,0.335,1,0,0,What is the amount of circular forests?,18.24,18.24,18.24,55.0
+586,0.270,0,No,yes,Is there a playground?,19.75,19.75,19.75,55.0
+587,0.268,0,No,yes,Is a circular building present?,18.21,18.21,18.21,55.0
+588,0.276,0,Yes,no,Are there more grass areas than residential buildings?,18.22,18.22,18.22,55.0
+589,0.269,0,Yes,no,Are there more square roads than buildings?,18.33,18.33,18.33,55.0
+590,0.272,0,Yes,no,Is a medium road present?,18.27,18.27,18.27,55.0
+591,0.271,1,No,no,Is the number of buildings equal to the number of roads?,18.10,18.10,18.10,55.0
+592,0.270,0,Yes,no,Are there more commercial buildings than rectangular grass areas?,18.08,18.08,18.08,55.0
+593,0.342,0,1,0,What is the amount of medium roads?,18.14,18.14,18.14,55.0
+594,0.272,1,No,no,Is the number of water areas equal to the number of commercial buildings?,19.84,19.84,19.84,55.0
+595,0.270,0,Yes,no,Is there a circular road in the image?,18.00,18.00,18.00,55.0
+596,0.276,1,Yes,yes,Are there more residential buildings than roads?,18.29,18.29,18.29,55.0
+597,0.342,0,1,0,How many circular roads are there?,18.16,18.16,18.16,55.0
+598,0.270,1,Yes,yes,Are there less medium water areas than commercial buildings?,19.78,19.78,19.78,55.0
+599,0.281,0,No,yes,Is there a square water area?,18.27,18.27,18.27,55.0
+600,0.471,1,Rural,rural,Is it a rural or an urban area,18.21,18.21,18.21,55.0
+601,0.271,1,Yes,yes,Is there a forest?,33.21,33.21,33.21,55.0
+602,0.340,0,1,21,How many buildings are there?,18.16,18.16,18.16,55.0
+603,0.340,0,1,170,What is the number of forests?,19.81,19.81,19.81,55.0
+604,0.332,0,1,0,What is the amount of large roads?,19.88,19.88,19.88,55.0
+605,0.275,1,Yes,yes,Is a grass area present?,19.87,19.87,19.87,55.0
+606,0.336,0,0,15,What is the number of residential buildings?,18.19,18.19,18.19,55.0
+607,0.271,0,No,yes,Is a water area present?,19.82,19.82,19.82,55.0
+608,0.332,0,1,23,What is the number of water areas?,18.23,18.23,18.23,55.0
+609,0.269,1,Yes,yes,Is there a road?,19.90,19.90,19.90,55.0
+610,0.282,1,Yes,yes,Are there less commercial buildings than water areas?,18.10,18.10,18.10,55.0
+611,0.332,0,1,182,What is the number of roads?,18.30,18.30,18.30,55.0
+612,0.272,0,No,yes,Is a rectangular commercial building present?,19.79,19.79,19.79,55.0
+613,0.268,1,No,no,Are there more buildings than forests?,18.30,18.30,18.30,55.0
+614,0.374,1,No,no,Is the number of roads equal to the number of commercial buildings?,18.30,18.30,18.30,55.0
+615,0.339,0,1,6,What is the number of commercial buildings?,18.34,18.34,18.34,55.0
+616,0.272,1,Yes,yes,Are there less buildings than roads?,19.78,19.78,19.78,55.0
+617,0.268,1,Yes,yes,Is there a residential building?,18.09,18.09,18.09,55.0
+618,0.335,0,1,17,What is the amount of small water areas?,18.21,18.21,18.21,55.0
+619,0.334,1,0,0,What is the amount of square commercial buildings?,19.90,19.90,19.90,55.0
+620,0.268,0,No,yes,Is a commercial building present?,19.92,19.92,19.92,55.0
+621,0.271,0,Yes,no,Is there a circular commercial building?,18.11,18.11,18.11,55.0
+622,0.264,1,No,no,Is there a square residential building?,18.12,18.12,18.12,55.0
+623,0.333,0,1,25,How many medium forests are there in the image?,18.30,18.30,18.30,55.0
+624,0.269,1,No,no,Is the number of square water areas equal to the number of commercial buildings?,19.78,19.78,19.78,55.0
+625,0.267,1,Yes,yes,Is there a building?,18.30,18.30,18.30,55.0
+626,0.336,0,0,1,What is the amount of medium residential buildings?,18.18,18.18,18.18,55.0
+627,0.273,0,No,yes,Is there a nature reserve?,19.91,19.91,19.91,55.0
+628,0.268,1,No,no,Are there more buildings than roads?,18.24,18.24,18.24,55.0
+629,0.272,1,No,no,Is the number of large roads equal to the number of forests?,18.11,18.11,18.11,55.0
+630,0.264,0,Yes,no,Are there less water areas than residential buildings?,18.29,18.29,18.29,55.0
+631,0.473,0,100,41,What is the amount of grass areas?,18.30,18.30,18.30,55.0
+632,0.339,0,0,7,What is the amount of square water areas?,22.92,22.92,22.92,55.0
+633,0.266,1,No,no,Are there more residential buildings than roads?,19.90,19.90,19.90,55.0
+634,0.270,1,No,no,Is the number of residential buildings equal to the number of roads in the image?,18.33,18.33,18.33,55.0
+635,0.272,0,No,yes,Is a rectangular water area present?,18.30,18.30,18.30,55.0
+636,0.268,1,No,no,Is the number of buildings equal to the number of water areas?,18.22,18.22,18.22,55.0
+637,0.337,1,1,1,What is the number of circular forests in the image?,18.21,18.21,18.21,55.0
+638,0.274,1,No,no,Is the number of commercial buildings equal to the number of water areas in the image?,19.90,19.90,19.90,55.0
+639,0.330,0,1,13,What is the amount of small residential buildings?,18.28,18.28,18.28,55.0
+640,0.271,1,Yes,yes,Are there less residential buildings than roads?,19.89,19.89,19.89,55.0
+641,0.263,1,Yes,yes,Is a medium building present?,18.32,18.32,18.32,55.0
+642,0.335,0,1,175,How many roads at the bottom of a  residential building are there?,18.12,18.12,18.12,55.0
+643,0.266,0,Yes,no,Are there less residential buildings than heaths?,19.76,19.76,19.76,55.0
+644,0.264,1,No,no,Are there more buildings next to a  road than buildings?,18.37,18.37,18.37,55.0
+645,0.269,1,Yes,yes,Are there more roads than buildings?,18.31,18.31,18.31,55.0
+646,0.268,0,No,yes,Is a medium commercial building present?,18.13,18.13,18.13,55.0
+647,0.329,0,1,15,What is the number of residential buildings at the bottom of a  road?,18.11,18.11,18.11,55.0
+648,0.275,0,Yes,no,Are there less forests than residential buildings?,19.89,19.89,19.89,55.0
+649,0.268,1,No,no,Is the number of forests equal to the number of commercial buildings?,18.32,18.32,18.32,55.0
+650,0.465,0,100,93,What is the amount of large forests?,18.30,18.30,18.30,55.0
+651,0.270,1,Yes,yes,Are there more forests than commercial buildings?,22.93,22.93,22.93,55.0
+652,0.329,1,1,1,How many square forests are there in the image?,18.37,18.37,18.37,55.0
+653,0.269,1,Yes,yes,Is there a building on the right of a  road?,19.81,19.81,19.81,56.0
+654,0.274,1,No,no,Is the number of commercial buildings equal to the number of roads?,18.34,18.34,18.34,55.0
+655,0.335,0,0,15,What is the amount of residential buildings at the top of a  water area?,18.05,18.05,18.05,55.0
+656,0.266,1,No,no,Is the number of water areas equal to the number of buildings?,19.98,19.98,19.98,55.0
+657,0.267,0,Yes,no,Is a circular road present in the image?,18.19,18.19,18.19,55.0
+658,0.464,0,100,14,What is the amount of heaths?,18.32,18.32,18.32,55.0
+659,0.268,1,No,no,Is the number of grass areas equal to the number of residential buildings?,22.92,22.92,22.92,55.0
+660,0.267,1,No,no,Is the number of commercial buildings equal to the number of forests?,18.31,18.31,18.31,55.0
+661,0.339,0,1,13,What is the number of farmlands?,18.12,18.12,18.12,55.0
+662,0.270,0,Yes,no,Are there more commercial buildings than water areas?,19.91,19.91,19.91,55.0
+663,0.275,1,Yes,yes,Are there less grass areas than roads in the image?,18.31,18.31,18.31,55.0
+664,0.272,1,Yes,yes,Are there less commercial buildings than forests in the image?,18.34,18.34,18.34,55.0
+665,0.332,1,0,0,How many rectangular nature reserves are there?,18.34,18.34,18.34,55.0
+666,0.274,0,Yes,no,Are there less roads than water areas?,19.89,19.89,19.89,55.0
+667,0.336,1,1,1,How many industrials are there?,18.31,18.31,18.31,55.0
+668,0.267,1,Yes,yes,Is there a small forest?,19.66,19.66,19.66,55.0
+669,0.330,0,0,14,What is the number of buildings next to a  water area?,18.21,18.21,18.21,55.0
+670,0.335,0,0,3,What is the number of parkings?,19.78,19.78,19.78,55.0
+671,0.336,0,1,0,What is the amount of rectangular roads?,19.80,19.80,19.80,56.0
+672,0.274,0,Yes,no,Is a medium road present?,19.93,19.93,19.93,56.0
+673,0.274,1,Yes,yes,Is a farmland present?,18.26,18.26,18.26,55.0
+674,0.276,1,Yes,yes,Is a heath next to a  commercial building present?,18.10,18.10,18.10,55.0
+675,0.269,1,Yes,yes,Are there more water areas than commercial buildings?,18.31,18.31,18.31,55.0
+676,0.274,1,No,no,Are there more residential buildings than forests?,18.24,18.24,18.24,55.0
+677,0.268,1,Yes,yes,Is there a small water area?,18.32,18.32,18.32,55.0
+678,0.266,1,Yes,yes,Are there less commercial buildings than grass areas?,18.23,18.23,18.23,55.0
+679,0.269,1,No,no,Is the number of roads equal to the number of small residential buildings?,18.33,18.33,18.33,55.0
+680,0.269,1,Yes,yes,Are there less buildings than water areas?,18.18,18.18,18.18,55.0
+681,0.271,0,Yes,no,Is there a circular residential building in the image?,18.37,18.37,18.37,55.0
+682,0.267,1,Yes,yes,Are there more roads than water areas?,18.35,18.35,18.35,55.0
+683,0.345,0,1,2,What is the number of medium commercial buildings?,18.25,18.25,18.25,55.0
+684,0.271,1,Yes,yes,Is a road on the right of a  water area present?,19.91,19.91,19.91,55.0
+685,0.267,0,No,yes,Is a rectangular building present?,18.25,18.25,18.25,55.0
+686,0.270,1,Yes,yes,Are there more forests than residential buildings?,18.14,18.14,18.14,55.0
+687,0.356,0,Yes,no,Are there less roads than residential buildings?,18.24,18.24,18.24,55.0
+688,0.271,1,No,no,Is the number of residential buildings equal to the number of parkings?,18.31,18.31,18.31,55.0
+689,0.272,0,No,yes,Is there a water area at the top of a  residential building?,18.06,18.06,18.06,55.0
+690,0.268,1,Yes,yes,Are there less residential buildings than grass areas?,18.24,18.24,18.24,55.0
+691,0.271,1,Yes,yes,Are there less water areas than forests?,18.33,18.33,18.33,55.0
+692,0.266,1,No,no,Is the number of commercial buildings equal to the number of rectangular roads?,18.34,18.34,18.34,55.0
+693,0.268,0,Yes,no,Are there less rectangular forests than water areas?,18.19,18.19,18.19,55.0
+694,0.280,0,No,yes,Is there a large water area?,18.35,18.35,18.35,55.0
+695,0.269,0,No,yes,Are there more water areas than large roads?,18.16,18.16,18.16,55.0
+696,0.268,1,No,no,Are there more circular commercial buildings than commercial buildings?,18.34,18.34,18.34,55.0
+697,0.270,0,Yes,no,Is there a rectangular road?,18.33,18.33,18.33,55.0
+698,0.272,1,No,no,Is the number of water areas equal to the number of roads?,18.23,18.23,18.23,56.0
+699,0.279,0,Yes,no,Are there less forests than commercial buildings?,18.15,18.15,18.15,55.0
+700,0.464,1,Rural,rural,Is it a rural or an urban area,18.32,18.32,18.32,55.0
+701,0.270,1,No,no,Are there more large residential buildings than commercial buildings?,33.27,33.27,33.27,56.0
+702,0.269,0,No,yes,Is a commercial building present?,18.36,18.36,18.36,56.0
+703,0.338,0,1,193,What is the amount of roads?,18.28,18.28,18.28,56.0
+704,0.270,1,Yes,yes,Is a building present in the image?,19.73,19.73,19.73,56.0
+705,0.336,0,0,19,How many orchards are there in the image?,18.41,18.41,18.41,56.0
+706,0.464,0,100,80,What is the amount of grass areas?,19.83,19.83,19.83,56.0
+707,0.335,0,0,14,What is the number of water areas?,23.16,23.16,23.16,56.0
+708,0.270,1,Yes,yes,Is a grass area present?,19.97,19.97,19.97,56.0
+709,0.265,0,No,yes,Is a water area present?,18.16,18.16,18.16,56.0
+710,0.274,1,Yes,yes,Is a road present?,18.12,18.12,18.12,56.0
+711,0.270,0,No,yes,Is there a medium building?,18.16,18.16,18.16,56.0
+712,0.339,0,1,0,How many square roads are there?,18.26,18.26,18.26,56.0
+713,0.270,1,Yes,yes,Is there a residential building?,19.85,19.85,19.85,56.0
+714,0.332,0,0,88,What is the number of forests?,18.24,18.24,18.24,56.0
+715,0.334,1,1,1,How many commercial buildings are there?,19.92,19.92,19.92,56.0
+716,0.272,0,No,yes,Is there a large water area?,19.74,19.74,19.74,56.0
+717,0.264,1,No,no,Is a circular building present in the image?,18.26,18.26,18.26,56.0
+718,0.329,0,0,331,What is the number of residential buildings?,18.23,18.23,18.23,56.0
+719,0.269,1,No,no,Is the number of residential buildings equal to the number of roads?,19.91,19.91,19.91,56.0
+720,0.270,1,No,no,Is there a circular commercial building?,18.32,18.32,18.32,56.0
+721,0.463,0,100,36,What is the amount of farmlands?,18.13,18.13,18.13,56.0
+722,0.334,0,0,12,What is the amount of small water areas?,22.97,22.97,22.97,56.0
+723,0.330,0,1,334,What is the number of buildings in the image?,19.96,19.96,19.96,56.0
+724,0.339,0,0,1,What is the number of medium water areas?,19.98,19.98,19.98,56.0
+725,0.331,0,1,31,What is the number of small forests?,19.82,19.82,19.82,56.0
+726,0.268,0,No,yes,Is a forest present?,19.82,19.82,19.82,56.0
+727,0.261,0,No,yes,Is there a rectangular building?,18.27,18.27,18.27,56.0
+728,0.273,1,Yes,yes,Are there more water areas than commercial buildings?,18.25,18.25,18.25,56.0
+729,0.338,0,0,1,What is the amount of large water areas?,18.28,18.28,18.28,56.0
+730,0.273,0,No,yes,Are there more residential buildings than roads in the image?,19.81,19.81,19.81,56.0
+731,0.273,0,Yes,no,Are there more grass areas than buildings in the image?,18.24,18.24,18.24,56.0
+732,0.276,0,Yes,no,Are there more large roads than forests?,18.35,18.35,18.35,56.0
+733,0.274,1,No,no,Is the number of residential buildings equal to the number of water areas?,18.28,18.28,18.28,56.0
+734,0.276,0,Yes,no,Are there less residential buildings than water areas?,18.18,18.18,18.18,56.0
+735,0.270,1,No,no,Is the number of commercial buildings equal to the number of roads?,18.36,18.36,18.36,56.0
+736,0.274,0,No,yes,Is a orchard present?,18.22,18.22,18.22,56.0
+737,0.266,1,Yes,yes,Is there a small residential building?,18.23,18.23,18.23,56.0
+738,0.329,1,0,0,What is the number of circular buildings?,18.28,18.28,18.28,56.0
+739,0.329,0,0,4,What is the number of rectangular water areas?,19.96,19.96,19.96,56.0
+740,0.330,0,0,1,What is the amount of medium residential buildings?,19.82,19.82,19.82,56.0
+741,0.271,1,No,no,Is the number of forests equal to the number of residential buildings in the image?,19.96,19.96,19.96,56.0
+742,0.266,1,Yes,yes,Is a farmland present?,18.45,18.45,18.45,56.0
+743,0.277,1,No,no,Is the number of residential buildings equal to the number of circular grass areas?,18.25,18.25,18.25,56.0
+744,0.332,0,1,330,How many small residential buildings are there in the image?,18.17,18.17,18.17,56.0
+745,0.268,1,No,no,Is the number of residential buildings equal to the number of orchards?,19.90,19.90,19.90,56.0
+746,0.272,0,No,yes,Is there a water area next to a  forest?,18.15,18.15,18.15,55.0
+747,0.334,0,1,193,What is the number of small roads?,18.24,18.24,18.24,56.0
+748,0.334,1,0,0,What is the amount of medium roads?,19.92,19.93,19.92,56.0
+749,0.275,1,Yes,yes,Are there less water areas than residential buildings?,19.97,19.97,19.97,56.0
+750,0.330,0,0,3,How many circular water areas are there in the image?,18.38,18.38,18.38,56.0
+751,0.334,0,1,9,What is the amount of residential areas?,19.80,19.80,19.80,56.0
+752,0.268,0,No,yes,Is there a medium water area?,19.83,19.83,19.83,56.0
+753,0.275,1,Yes,yes,Are there less water areas than rectangular buildings?,18.16,18.16,18.16,56.0
+754,0.282,1,No,no,Is there a large building?,18.29,18.29,18.29,56.0
+755,0.274,0,Yes,no,Are there more large forests than buildings?,18.27,18.27,18.27,56.0
+756,0.273,1,Yes,yes,Are there less forests than roads?,18.38,18.38,18.38,56.0
+757,0.267,1,Yes,yes,Are there more rectangular buildings than forests?,18.26,18.26,18.26,56.0
+758,0.375,1,No,no,Is the number of water areas equal to the number of residential buildings?,18.33,18.33,18.33,56.0
+759,0.274,1,Yes,yes,Are there less roads than residential buildings?,18.23,18.23,18.23,56.0
+760,0.332,0,0,14,What is the amount of rectangular forests?,18.35,18.35,18.35,56.0
+761,0.275,0,No,yes,Is a commercial building next to a  water area present?,19.97,19.97,19.97,56.0
+762,0.335,1,0,0,What is the amount of large buildings?,18.43,18.43,18.43,56.0
+763,0.270,0,No,yes,Is there a medium residential building in the image?,19.84,19.84,19.84,56.0
+764,0.269,0,Yes,no,Is there a circular grass area?,18.38,18.38,18.38,56.0
+765,0.268,1,No,no,Is the number of roads equal to the number of water areas?,18.17,18.17,18.17,56.0
+766,0.331,0,0,1,What is the number of commercial buildings at the bottom of a  water area?,18.27,18.27,18.27,56.0
+767,0.265,1,Yes,yes,Is a small forest present?,19.94,19.94,19.94,56.0
+768,0.341,0,1,0,How many medium commercial buildings are there?,18.30,18.30,18.30,56.0
+769,0.336,1,1,1,How many medium buildings are there?,20.00,20.00,20.00,56.0
+770,0.268,1,No,no,Is the number of residential buildings equal to the number of forests?,19.78,19.78,19.78,56.0
+771,0.335,1,0,0,How many circular commercial buildings are there?,18.25,18.25,18.25,56.0
+772,0.267,1,Yes,yes,Are there less medium residential buildings than water areas?,20.02,20.02,20.02,56.0
+773,0.269,1,Yes,yes,Are there less water areas than grass areas?,18.42,18.42,18.42,56.0
+774,0.335,1,0,0,What is the number of circular roads?,18.39,18.39,18.39,56.0
+775,0.279,1,No,no,Is there a large road in the image?,20.00,20.00,20.00,56.0
+776,0.271,0,No,yes,Is a square water area present?,18.27,18.27,18.27,56.0
+777,0.267,1,No,no,Are there more water areas than forests in the image?,18.21,18.21,18.21,56.0
+778,0.270,1,No,no,Is the number of farmlands equal to the number of commercial buildings in the image?,18.28,18.28,18.28,56.0
+779,0.330,1,1,1,What is the number of small commercial buildings?,18.36,18.36,18.36,56.0
+780,0.276,1,Yes,yes,Are there less commercial buildings than farmlands?,19.94,19.94,19.94,56.0
+781,0.267,0,Yes,no,Are there less orchards than commercial buildings?,18.38,18.38,18.38,56.0
+782,0.268,1,No,no,Is the number of water areas equal to the number of buildings?,18.35,18.35,18.35,56.0
+783,0.266,1,Yes,yes,Are there less grass areas than residential buildings?,18.16,18.16,18.16,56.0
+784,0.459,0,100,0,What is the amount of square grass areas?,18.27,18.27,18.27,56.0
+785,0.267,1,No,no,Is there a square commercial building?,22.97,22.97,22.97,56.0
+786,0.265,1,No,no,Is the number of commercial buildings at the bottom of a  farmland equal to the number of water areas?,18.28,18.28,18.28,56.0
+787,0.275,0,No,yes,Is a water area on the right of a  building present?,18.46,18.46,18.46,56.0
+788,0.269,1,No,no,Is there a forest on the left of the  small commercial building?,18.41,18.41,18.41,56.0
+789,0.268,0,Yes,no,Are there more farmlands than roads?,18.38,18.38,18.38,56.0
+790,0.271,1,Yes,yes,Are there more forests than square buildings?,18.27,18.27,18.27,56.0
+791,0.269,1,No,no,Is a square forest present?,18.41,18.41,18.41,56.0
+792,0.268,0,Yes,no,Are there less roads than medium residential buildings?,18.22,18.22,18.22,56.0
+793,0.266,1,Yes,yes,Is there a small road?,18.30,18.30,18.30,56.0
+794,0.272,0,Yes,no,Are there more circular water areas than residential buildings?,18.20,18.20,18.20,56.0
+795,0.266,0,No,yes,Is there a parking?,18.31,18.31,18.31,56.0
+796,0.332,0,0,14,What is the amount of water areas at the bottom of a  road?,18.35,18.35,18.35,56.0
+797,0.331,1,0,0,What is the number of square commercial buildings?,20.00,20.00,20.00,56.0
+798,0.332,1,0,0,What is the number of large commercial buildings?,19.85,19.85,19.85,56.0
+799,0.277,0,Yes,no,Are there less residential buildings than forests?,19.99,19.99,19.99,56.0
+800,0.460,0,Rural,urban,Is it a rural or an urban area,18.41,18.41,18.41,56.0
+801,0.265,1,Yes,yes,Is a commercial building present?,33.69,33.69,33.69,56.0
+802,0.332,0,1,24,What is the amount of water areas?,18.23,18.23,18.23,56.0
+803,0.267,1,Yes,yes,Is there a grass area?,19.93,19.93,19.93,56.0
+804,0.459,0,100,3329,What is the number of buildings?,18.32,18.32,18.32,56.0
+805,0.330,0,1,156,What is the amount of commercial buildings in the image?,22.96,22.96,22.96,56.0
+806,0.267,0,No,yes,Is there a water area?,20.06,20.06,20.06,56.0
+807,0.271,1,Yes,yes,Are there more buildings than water areas?,18.23,18.23,18.23,56.0
+808,0.268,1,Yes,yes,Is there a road?,18.32,18.32,18.32,56.0
+809,0.332,0,1,661,How many roads are there in the image?,18.35,18.35,18.35,56.0
+810,0.271,1,Yes,yes,Are there more farmlands than water areas?,19.87,19.87,19.87,56.0
+811,0.272,1,Yes,yes,Is a circular road present?,18.39,18.39,18.39,56.0
+812,0.266,1,Yes,yes,Are there more residential buildings than forests?,18.31,18.31,18.31,56.0
+813,0.273,1,Yes,yes,Is a residential building present?,18.30,18.30,18.30,56.0
+814,0.333,0,1,237,How many grass areas are there?,18.34,18.34,18.34,56.0
+815,0.266,1,Yes,yes,Is there a building?,19.80,19.80,19.80,56.0
+816,0.327,0,1,37,What is the amount of medium commercial buildings?,18.32,18.32,18.32,56.0
+817,0.267,0,No,yes,Is there a medium orchard?,19.84,19.84,19.84,56.0
+818,0.329,0,1,3088,How many residential buildings are there?,18.30,18.30,18.30,56.0
+819,0.268,1,Yes,yes,Is a farmland present?,19.97,19.97,19.97,56.0
+820,0.330,0,1,16,What is the amount of small water areas?,18.26,18.26,18.26,56.0
+821,0.266,0,No,yes,Is a forest present?,19.86,19.86,19.86,56.0
+822,0.267,1,Yes,yes,Is there a rectangular commercial building?,18.18,18.18,18.18,56.0
+823,0.270,1,No,no,Is the number of roads equal to the number of buildings?,18.40,18.40,18.40,56.0
+824,0.334,0,1,661,What is the amount of small roads?,18.26,18.26,18.26,56.0
+825,0.280,0,Yes,no,Are there less residential buildings than water areas?,19.95,19.95,19.95,56.0
+826,0.337,0,1,0,How many rectangular roads are there?,18.41,18.41,18.41,56.0
+827,0.459,0,100,72,What is the number of farmlands?,20.01,20.01,20.01,56.0
+828,0.270,1,Yes,yes,Are there more forests than water areas?,23.00,23.00,23.00,56.0
+829,0.359,1,Yes,yes,Is there a small commercial building in the image?,18.39,18.39,18.39,56.0
+830,0.338,0,0,149,What is the number of forests?,18.40,18.40,18.40,56.0
+831,0.267,0,No,yes,Are there less medium roads than roads?,19.89,19.89,19.89,56.0
+832,0.327,0,1,0,What is the amount of circular roads?,18.44,18.44,18.44,56.0
+833,0.270,0,Yes,no,Are there less buildings than square water areas?,20.02,20.02,20.02,56.0
+834,0.272,1,Yes,yes,Is a square residential building present?,18.42,18.42,18.42,56.0
+835,0.266,0,Yes,no,Are there less residential buildings than forests in the image?,18.41,18.41,18.41,56.0
+836,0.271,1,No,no,Is the number of commercial buildings equal to the number of water areas?,18.41,18.41,18.41,56.0
+837,0.335,0,1,80,What is the number of rectangular grass areas?,18.44,18.44,18.44,56.0
+838,0.331,0,1,6,How many medium water areas are there?,20.06,20.06,20.06,56.0
+839,0.267,1,Yes,yes,Are there more buildings than roads?,20.05,20.05,20.05,56.0
+840,0.274,0,No,yes,Is a parking present?,18.28,18.28,18.28,56.0
+841,0.267,1,Yes,yes,Are there more residential buildings than roads?,18.33,18.33,18.33,56.0
+842,0.340,0,0,25,What is the number of parkings?,18.41,18.41,18.41,56.0
+843,0.270,0,Yes,no,Are there more farmlands than commercial buildings in the image?,19.92,19.92,19.92,56.0
+844,0.273,0,Yes,no,Are there less residential buildings than roads?,18.45,18.45,18.45,56.0
+845,0.272,1,Yes,yes,Is a circular grass area present?,18.47,18.47,18.47,56.0
+846,0.274,1,No,no,Are there more water areas than residential buildings?,18.30,18.30,18.30,56.0
+847,0.268,1,Yes,yes,Is a small residential building present?,18.45,18.45,18.45,56.0
+848,0.270,1,Yes,yes,Are there less wetlands than water areas?,18.46,18.46,18.46,56.0
+849,0.273,0,No,yes,Are there more water areas than square residential buildings?,18.47,18.47,18.47,56.0
+850,0.267,0,Yes,no,Are there more square roads than residential buildings?,18.48,18.48,18.48,56.0
+851,0.269,0,Yes,no,Are there less roads than grass areas?,18.35,18.35,18.35,56.0
+852,0.266,1,No,no,Is the number of circular residential buildings equal to the number of roads?,18.45,18.45,18.45,56.0
+853,0.276,0,No,yes,Is there a rectangular water area?,18.46,18.46,18.46,56.0
+854,0.335,1,1,1,How many small place of worships on the left of a  commercial building are there?,18.45,18.45,18.45,56.0
+855,0.269,1,Yes,yes,Are there more buildings than parkings?,19.96,19.96,19.96,56.0
+856,0.268,1,Yes,yes,Are there more commercial buildings than parkings?,18.45,18.45,18.45,56.0
+857,0.326,0,0,6,What is the number of orchards?,18.45,18.45,18.45,56.0
+858,0.330,0,1,0,How many large roads are there?,20.03,20.03,20.03,56.0
+859,0.264,1,Yes,yes,Are there more roads than water areas?,19.83,19.83,19.83,56.0
+860,0.269,1,No,no,Is the number of buildings equal to the number of square roads?,18.48,18.48,18.48,56.0
+861,0.266,1,Yes,yes,Is there a circular residential building in the image?,18.35,18.35,18.35,56.0
+862,0.339,0,0,12,What is the amount of medium parkings?,18.34,18.34,18.34,56.0
+863,0.271,1,No,no,Is the number of roads equal to the number of residential buildings?,20.04,20.04,20.04,56.0
+864,0.336,0,0,39,How many large forests are there?,18.28,18.28,18.28,56.0
+865,0.266,1,No,no,Is the number of commercial buildings equal to the number of forests?,20.01,20.01,20.01,56.0
+866,0.272,1,No,no,Is the number of buildings equal to the number of grass areas?,18.21,18.21,18.21,56.0
+867,0.269,0,No,yes,Is a large residential building present?,18.27,18.27,18.27,56.0
+868,0.267,1,No,no,Are there more forests than roads?,18.32,18.32,18.32,56.0
+869,0.330,0,1,104,What is the amount of small commercial buildings?,18.42,18.42,18.42,56.0
+870,0.267,0,Yes,no,Are there less roads than water areas?,20.02,20.02,20.02,56.0
+871,0.264,1,No,no,Is the number of forests equal to the number of buildings?,18.40,18.40,18.40,56.0
+872,0.272,1,No,no,Are there more commercial buildings than roads?,18.30,18.30,18.30,56.0
+873,0.273,1,No,no,Is the number of roads equal to the number of large water areas?,18.37,18.37,18.37,56.0
+874,0.263,1,No,no,Are there more water areas than buildings?,18.20,18.20,18.20,56.0
+875,0.268,0,Yes,no,Are there less residential buildings than grass areas?,18.40,18.40,18.40,56.0
+876,0.268,0,No,yes,Is a large commercial building present?,18.38,18.38,18.38,56.0
+877,0.332,1,0,0,What is the number of circular forests?,18.21,18.21,18.21,56.0
+878,0.272,0,No,yes,Is there a water area at the top of a  residential building?,20.04,20.04,20.04,56.0
+879,0.326,0,1,77,What is the amount of medium buildings?,18.41,18.41,18.41,56.0
+880,0.264,0,Yes,no,Is a rectangular road present?,20.01,20.01,20.01,56.0
+881,0.262,1,Yes,yes,Are there less forests than commercial buildings in the image?,18.34,18.34,18.34,56.0
+882,0.270,0,No,yes,Is a place of worship present?,18.39,18.39,18.39,56.0
+883,0.261,1,No,no,Is the number of grass areas equal to the number of residential buildings in the image?,18.32,18.32,18.32,56.0
+884,0.265,1,No,no,Is the number of water areas equal to the number of buildings?,18.38,18.38,18.38,56.0
+885,0.332,0,1,52,What is the amount of small grass areas?,18.41,18.41,18.41,56.0
+886,0.266,1,Yes,yes,Are there less water areas than buildings?,19.88,19.88,19.88,56.0
+887,0.263,1,Yes,yes,Is a large residential area present?,18.29,18.29,18.29,56.0
+888,0.271,0,No,yes,Is a rectangular farmland present in the image?,18.29,18.29,18.29,56.0
+889,0.396,0,10,3043,What is the amount of small residential buildings?,18.41,18.41,18.41,56.0
+890,0.335,0,0,48,How many rectangular forests are there?,21.62,21.62,21.62,56.0
+891,0.269,1,No,no,Is the number of circular water areas equal to the number of commercial buildings?,20.02,20.02,20.02,56.0
+892,0.271,1,Yes,yes,Is there a large grass area?,18.45,18.45,18.45,56.0
+893,0.271,0,Yes,no,Are there less small buildings than water areas?,18.29,18.29,18.29,56.0
+894,0.271,0,No,yes,Is a large water area present?,18.30,18.30,18.30,56.0
+895,0.267,1,No,no,Are there more large forests than commercial buildings?,18.33,18.33,18.33,56.0
+896,0.332,0,1,0,What is the amount of circular commercial buildings in the image?,18.33,18.33,18.33,56.0
+897,0.339,0,1,7,What is the amount of residential areas?,19.90,19.90,19.90,56.0
+898,0.275,1,No,no,Is the number of commercial buildings equal to the number of roads in the image?,19.99,19.99,19.99,56.0
+899,0.273,1,Yes,yes,Is a medium residential building present?,18.28,18.28,18.28,56.0
+900,0.452,1,Rural,rural,Is it a rural or an urban area,18.31,18.31,18.31,56.0
+901,0.366,0,No,yes,Is a residential building present?,33.35,33.35,33.35,56.0
+902,0.463,0,100,172,What is the amount of grass areas?,18.21,18.21,18.21,56.0
+903,0.267,1,Yes,yes,Is a building at the bottom of a  grass area present?,23.07,23.07,23.07,56.0
+904,0.272,0,No,yes,Is a water area present?,18.46,18.46,18.46,56.0
+905,0.333,0,1,147,How many roads are there?,18.25,18.25,18.25,56.0
+906,0.268,0,No,yes,Is there a commercial building?,19.79,19.79,19.79,56.0
+907,0.339,1,0,0,How many circular residential buildings are there?,18.33,18.33,18.33,56.0
+908,0.335,0,0,1,What is the amount of circular forests?,20.03,20.03,20.03,56.0
+909,0.271,1,Yes,yes,Is a road present in the image?,20.02,20.02,20.02,56.0
+910,0.268,1,Yes,yes,Is there a small commercial building?,18.32,18.32,18.32,56.0
+911,0.330,0,1,263,What is the amount of buildings?,18.31,18.31,18.31,56.0
+912,0.271,1,No,no,Is there a circular commercial building?,19.77,19.77,19.77,56.0
+913,0.332,0,0,5,What is the amount of commercial buildings?,18.29,18.29,18.29,56.0
+914,0.273,0,No,yes,Is a building present?,20.00,20.00,20.00,56.0
+915,0.268,1,No,no,Are there more residential areas than residential buildings?,18.30,18.30,18.30,56.0
+916,0.263,1,Yes,yes,Is a grass area present?,18.39,18.39,18.39,56.0
+917,0.458,0,100,71,What is the amount of farmlands?,18.32,18.32,18.32,56.0
+918,0.269,1,No,no,Is a square road present?,23.22,23.22,23.22,56.0
+919,0.274,1,No,no,Is a square building present?,18.25,18.25,18.25,56.0
+920,0.270,0,No,yes,Is there a residential building at the bottom of a  circular water area?,18.37,18.37,18.37,56.0
+921,0.268,0,Yes,no,Are there less buildings than grass areas?,18.50,18.50,18.50,56.0
+922,0.334,0,1,174,What is the number of forests?,18.44,18.44,18.44,56.0
+923,0.332,0,0,251,How many residential buildings are there?,19.91,19.91,19.91,56.0
+924,0.330,1,0,0,What is the number of rectangular roads?,20.05,20.05,20.05,56.0
+925,0.272,1,Yes,yes,Is a forest present?,20.08,20.08,20.08,56.0
+926,0.266,0,Yes,no,Are there more grass areas than residential buildings?,18.29,18.29,18.29,56.0
+927,0.273,1,Yes,yes,Are there less water areas at the bottom of a  large building than grass areas?,18.36,18.36,18.36,56.0
+928,0.332,0,0,26,How many water areas are there?,18.56,18.56,18.56,56.0
+929,0.268,1,No,no,Is the number of roads equal to the number of buildings?,20.04,20.04,20.04,56.0
+930,0.273,1,Yes,yes,Are there less roads than grass areas?,18.50,18.50,18.50,56.0
+931,0.267,1,No,no,Is the number of roads equal to the number of forests?,18.51,18.51,18.51,56.0
+932,0.269,1,Yes,yes,Are there less small commercial buildings than forests?,18.20,18.20,18.20,56.0
+933,0.327,0,1,147,How many small roads are there?,18.46,18.46,18.46,56.0
+934,0.273,0,No,yes,Are there more residential buildings than roads?,19.98,19.98,19.98,56.0
+935,0.268,1,Yes,yes,Are there less commercial buildings than small roads?,18.48,18.48,18.48,56.0
+936,0.268,1,Yes,yes,Is there a farmland?,18.50,18.50,18.50,56.0
+937,0.270,1,No,no,Is there a circular road?,18.35,18.35,18.35,56.0
+938,0.265,0,Yes,no,Are there less residential buildings than roads?,18.29,18.29,18.29,56.0
+939,0.272,1,No,no,Are there more water areas than roads?,18.40,18.40,18.40,56.0
+940,0.271,1,Yes,yes,Are there less commercial buildings than grass areas?,18.47,18.47,18.47,56.0
+941,0.268,0,No,yes,Is a commercial building at the top of a  road present?,18.35,18.35,18.35,56.0
+942,0.330,0,1,14,What is the amount of small water areas?,18.47,18.47,18.47,56.0
+943,0.270,0,No,yes,Is there a large water area?,19.88,19.88,19.88,56.0
+944,0.266,0,Yes,no,Are there more circular buildings than roads?,18.34,18.34,18.34,56.0
+945,0.271,1,No,no,Is the number of water areas equal to the number of grass areas?,18.43,18.43,18.43,56.0
+946,0.328,1,0,0,What is the number of large commercial buildings?,18.45,18.45,18.45,56.0
+947,0.265,1,Yes,yes,Are there less commercial buildings than water areas?,20.04,20.04,20.04,56.0
+948,0.268,0,No,yes,Is there a small water area?,18.45,18.45,18.45,56.0
+949,0.266,1,Yes,yes,Are there less commercial buildings than roads?,18.28,18.28,18.28,56.0
+950,0.273,0,Yes,no,Are there less roads than water areas in the image?,18.44,18.44,18.44,56.0
+951,0.266,1,Yes,yes,Is a rectangular grass area present?,18.34,18.34,18.34,56.0
+952,0.330,0,0,4,What is the amount of nature reserves at the top of a  building?,18.30,18.30,18.30,56.0
+953,0.269,1,No,no,Are there more commercial buildings than forests?,20.09,20.09,20.09,56.0
+954,0.336,0,0,150,What is the number of rectangular residential buildings?,18.33,18.33,18.33,56.0
+955,0.262,1,No,no,Is the number of commercial buildings equal to the number of circular roads?,19.90,19.90,19.90,56.0
+956,0.273,0,Yes,no,Are there less residential buildings than farmlands?,18.43,18.43,18.43,56.0
+957,0.330,0,0,3,How many medium commercial buildings are there?,18.31,18.31,18.31,56.0
+958,0.334,0,1,242,What is the amount of small buildings?,20.01,20.01,20.01,56.0
+959,0.269,0,No,yes,Is there a heath?,19.89,19.89,19.89,56.0
+960,0.331,0,0,263,How many buildings on the left of a  road are there?,18.24,18.24,18.24,56.0
+961,0.265,1,Yes,yes,Are there less grass areas than buildings in the image?,20.03,20.03,20.03,56.0
+962,0.264,1,No,no,Is the number of forests equal to the number of roads?,18.43,18.43,18.43,56.0
+963,0.275,1,Yes,yes,Are there less roads than residential buildings?,18.43,18.43,18.43,56.0
+964,0.331,0,0,2,What is the number of large residential buildings in the image?,18.45,18.45,18.45,56.0
+965,0.336,0,0,16,What is the number of medium buildings?,19.92,19.92,19.92,56.0
+966,0.266,0,No,yes,Is a medium water area present?,19.88,19.88,19.88,56.0
+967,0.265,0,Yes,no,Are there less buildings than water areas?,18.26,18.26,18.26,56.0
+968,0.328,0,0,152,What is the number of forests at the top of a  large building?,18.45,18.45,18.45,56.0
+969,0.353,0,1,2,What is the number of small commercial buildings?,20.11,20.11,20.11,56.0
+970,0.269,0,No,yes,Are there more residential buildings than forests?,19.93,19.93,19.93,56.0
+971,0.270,1,No,no,Is there a large commercial building?,18.34,18.34,18.34,56.0
+972,0.268,1,No,no,Is the number of water areas at the top of a  forest equal to the number of roads?,18.36,18.36,18.36,56.0
+973,0.399,1,No,no,Is the number of water areas equal to the number of commercial buildings in the image?,18.53,18.53,18.53,56.0
+974,0.330,0,0,5,What is the amount of commercial buildings at the top of a  road?,18.23,18.23,18.23,56.0
+975,0.259,1,No,no,Is the number of buildings equal to the number of roads?,20.03,20.03,20.03,56.0
+976,0.273,1,No,no,Is the number of roads equal to the number of water areas?,18.32,18.32,18.32,56.0
+977,0.269,0,Yes,no,Are there less buildings than small water areas?,18.24,18.24,18.24,56.0
+978,0.269,1,Yes,yes,Are there more residential buildings than water areas?,18.44,18.44,18.44,56.0
+979,0.333,0,1,0,How many square roads are there?,18.34,18.34,18.34,56.0
+980,0.268,0,Yes,no,Are there less water areas than commercial buildings?,19.91,19.91,19.91,56.0
+981,0.271,1,No,no,Is there a circular building?,18.31,18.31,18.31,56.0
+982,0.268,0,Yes,no,Are there less buildings than rectangular roads in the image?,18.36,18.36,18.36,56.0
+983,0.269,1,Yes,yes,Is a pitch present?,18.45,18.45,18.45,56.0
+984,0.324,0,0,3,What is the amount of large residential areas in the image?,18.37,18.37,18.37,56.0
+985,0.263,0,Yes,no,Are there less roads than commercial buildings?,20.05,20.05,20.05,56.0
+986,0.263,0,No,yes,Are there more buildings than farmlands?,18.37,18.37,18.37,56.0
+987,0.267,0,No,yes,Is there a large building?,18.46,18.46,18.46,56.0
+988,0.269,0,No,yes,Is a water area next to a  residential building present?,18.37,18.37,18.37,56.0
+989,0.330,1,0,0,What is the number of medium nature reserves?,18.43,18.43,18.43,56.0
+990,0.263,1,No,no,Is a circular residential building present?,20.02,20.02,20.02,56.0
+991,0.258,1,No,no,Is the number of residential buildings equal to the number of water areas?,18.47,18.47,18.47,56.0
+992,0.339,0,1,56,What is the number of rectangular grass areas?,18.43,18.43,18.43,56.0
+993,0.265,0,Yes,no,Are there more roads than residential buildings?,20.07,20.07,20.07,56.0
+994,0.264,1,No,no,Is the number of forests equal to the number of buildings?,18.44,18.44,18.44,56.0
+995,0.262,1,No,no,Is the number of commercial buildings equal to the number of grass areas?,18.16,18.16,18.16,56.0
+996,0.263,1,Yes,yes,Are there less commercial buildings than farmlands?,18.15,18.15,18.15,56.0
+997,0.270,1,Yes,yes,Is a small forest present?,18.35,18.35,18.35,56.0
+998,0.265,0,Yes,no,Are there more commercial buildings than water areas?,18.24,18.24,18.24,56.0
+999,0.329,0,0,2,What is the amount of circular water areas?,18.46,18.46,18.46,56.0
