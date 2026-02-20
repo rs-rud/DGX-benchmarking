@@ -155,10 +155,12 @@ def plot_temperature(cfg):
         fig, ax = plt.subplots(figsize=(10, 6))
         for model, file in models.items():
             df = load_csv(cfg["results_dir"], file)
-            ax.plot(df["max_gpu_temp_c"], label=model, linewidth=2)
+            if "max_gpu_temp_c" in df.columns:
+                smoothed = df["max_gpu_temp_c"].rolling(10, min_periods=1).mean()
+                ax.plot(smoothed, label=model, linewidth=2)
         ax.set_xlabel("Iteration")
         ax.set_ylabel("Temperature (°C)")
-        ax.set_title(f"{engine} - Max Temperature per Prompt", weight="bold")
+        ax.set_title(f"{engine} - Max Temperature per Prompt (Smoothed)", weight="bold")
         ax.legend()
         save(fig, cfg["plots_dir"], f"temperature_{engine}.png")
 

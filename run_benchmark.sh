@@ -17,7 +17,7 @@ for MODEL in "${OLLAMA_MODELS[@]}"; do
     echo "=== Benchmarking $MODEL via OLLAMA ==="
 
     for ((i=0; i < 1000; i++)); do
-        echo ">>> Running question $i / 1000"
+        echo ">>> Running question $i / 999"
         python3 benchmarking.py \
             --engine ollama \
             --questions $QUESTIONS \
@@ -41,7 +41,7 @@ for MODEL in "${VLLM_MODELS[@]}"; do
 
     echo "=== Benchmarking $MODEL via VLLM ==="
     for ((i=0; i < 1000; i++)); do
-        echo ">>> Running question $i / 1000"
+        echo ">>> Running question $i / 999"
         python3 benchmarking.py \
             --engine vllm \
             --questions "$QUESTIONS" \
