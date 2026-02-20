@@ -1,0 +1,6 @@
+question_id,latency_sec,correct,model_response,ground_truth,question_text,avg_gpu_w,max_gpu_w,avg_power_integrated_w,max_gpu_temp_c
+0,13.488,0,Rural高速公路YesI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35NoI-35,urban,Is it a rural or an urban area,28.49,44.34,28.51,55.0
+1,9.027,0,YesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYesHighwayYes,yes,Is there a water area?,35.98,37.88,36.04,57.0
+2,9.038,0,LotRiverHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighwayHighway,5524,What is the amount of buildings?,36.43,38.18,36.48,59.0
+3,9.047,0,1 Walmart,82,What is the number of commercial buildings in the image?,36.63,38.41,36.68,60.0
+4,9.049,0,YesRoads and highways are visibleYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes,yes,Is there a small water area?,36.91,38.62,36.96,61.0
