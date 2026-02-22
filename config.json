@@ -8,7 +8,8 @@
       "LLaVA-7B": "benchmark_results_ollama_llava_7b.csv",
       "LlaVa-Llama3:Latest": "benchmark_results_ollama_llava-llama3_latest.csv",
       "Gemma3:4b": "benchmark_results_ollama_gemma3_4b.csv",
-      "Gemma3n:e2b": "benchmark_results_ollama_gemma3n_e2b.csv"
+      "Gemma3n:e2b": "benchmark_results_ollama_gemma3n_e2b.csv",
+      "Gemma3:27b": "benchmark_results_ollama_gemma3_27b.csv"
     },
     "vllm": {
       "LLaVa-1.5-7B": "benchmark_results_vllm_llava-hf_llava-1.5-7b-hf.csv"
