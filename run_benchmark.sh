@@ -9,7 +9,7 @@ OLLAMA_MODELS=("llava:7b" "llava-llama3:latest")
 for MODEL in "${OLLAMA_MODELS[@]}"; do
     # replace ":" and "/" with "_" for safe filenames
     SAFE_MODEL=$(echo $MODEL | tr ':/' '_')
-    OUTPUT="results/benchmark_results_ollama_${SAFE_MODEL}.csv"
+    OUTPUT="results/1000/benchmark_results_ollama_${SAFE_MODEL}.csv"
 
     # clear old results
     rm -f $OUTPUT
