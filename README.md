@@ -37,7 +37,7 @@ source .venv/bin/activate
 ### 3️⃣ Install Python dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt --extra-index-url https://wheels.vllm.ai/0.15.1/cu130 --extra-index-url https://download.pytorch.org/whl/cu130
 ```
 
 > ⚠️ `pynvml` requires NVIDIA drivers to already be installed on the system.
