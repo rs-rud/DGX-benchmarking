@@ -4,6 +4,9 @@
 | gemma3n:e2b | google/gemma-3n-e2b-it |
 | llava:7b | llava-hf/llava-1.5-7b-hf |
 | llava-llama3:latest | xtuner/llava-llama-3-8b-v1.1 |
+| ministral-3:latest |
+| ministral-3:3b |
+| ministral-3:14b |
 
 > [!NOTE]
 > Ollama uses 4-bit quantization, while vLLM uses 16-bit by default. 
