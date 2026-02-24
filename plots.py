@@ -125,7 +125,9 @@ def plot_latency(cfg):
         fig, ax = plt.subplots(figsize=(10, 6))
         for model, file in models.items():
             df = load_csv(cfg["results_dir"], file)
-            ax.plot(df["latency_sec"], label=model, linewidth=2)
+            df = df.iloc[1:]
+            smoothed = df["latency_sec"].rolling(window=10).mean()
+            ax.plot(smoothed, label=model, linewidth=2)
         ax.set_xlabel("Iteration")
         ax.set_ylabel("Latency (s)")
         ax.set_title(f"{engine} - Latency per Prompt", weight="bold")
