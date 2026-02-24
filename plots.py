@@ -164,6 +164,29 @@ def plot_temperature(cfg):
         ax.legend()
         save(fig, cfg["plots_dir"], f"temperature_{engine}.png")
 
+# ------------ Plot: Accuracy vs Temperature -------------- #
+
+def plot_accuracy_vs_temp(cfg):
+    for engine, models in cfg["models"].items():
+        fig, ax = plt.subplots(figsize=(10, 6))
+        
+        for model, file in models.items():
+            df = load_csv(cfg["results_dir"], file)
+            if "max_gpu_temp_c" in df.columns and "correct" in df.columns:
+                # Round temperature to nearest degree to group them
+                df["temp_bin"] = df["max_gpu_temp_c"].round()
+                # Group by temp bin and calculate mean accuracy
+                temp_acc = df.groupby("temp_bin")["correct"].mean() * 100
+                
+                ax.plot(temp_acc.index, temp_acc.values, marker='o', label=model, linewidth=2)
+
+        ax.set_xlabel("GPU Temperature (°C)")
+        ax.set_ylabel("Accuracy (%)")
+        ax.set_title(f"{engine} - Accuracy Trend as Temperature Rises", weight="bold")
+        ax.legend()
+        ax.grid(True, linestyle='--', alpha=0.7)
+        save(fig, cfg["plots_dir"], f"acc_vs_temp_{engine}.png")
+
 # ---------------- Main ---------------- #
 
 def main():
@@ -174,20 +197,24 @@ def main():
     p.add_argument("--latency", action="store_true")
     p.add_argument("--power", action="store_true")
     p.add_argument("--temp", action="store_true")
+    p.add_argument("--acc-vs-temp", action="store_true")
+    p.add_argument("--all", action="store_true", help="Run all plots")
     args = p.parse_args()
 
     cfg = load_config(args.config)
 
-    if args.accuracy:
+    if args.accuracy or args.all:
         plot_accuracy(cfg)
-    if args.accuracy_by_type:
+    if args.accuracy_by_type or args.all:
         plot_accuracy_by_type(cfg)
-    if args.latency:
+    if args.latency or args.all:
         plot_latency(cfg)
-    if args.power:
+    if args.power or args.all:
         plot_power(cfg)
-    if args.temp:
+    if args.temp or args.all:
         plot_temperature(cfg)
+    if args.acc_vs_temp or args.all:
+        plot_accuracy_vs_temp(cfg)
 
 if __name__ == "__main__":
     main()
