@@ -23,3 +23,6 @@ llava-hf/llava-1.5-7b-hf id ran at normal temp: ~40 C
 gemma3:4b is ran at normal temp: ~40 C
 gemma3n:e2b is ran at normal temp: ~40 C
 gemma3:27b is ran at normal temp: ~40 C
+
+ministral-3:latest is ran at normal temp: ~40 C
+ministral-3:3b is ran at normal temp: ~40 C 
