@@ -12,18 +12,4 @@
 > [!NOTE]
 > Ollama uses 4-bit quantization, while vLLM uses 16-bit by default. 
 > There should be vLLM models that run using the same memory usage as Ollama.
-
-
-## LOGS (1000 Testcases)
-
-llava:7b is ran at normal temp: ~40 C
-llava-llama3:latest is ran directly after llava:7b without cooling
-
-llava-hf/llava-1.5-7b-hf id ran at normal temp: ~40 C
-
-gemma3:4b is ran at normal temp: ~40 C
-gemma3n:e2b is ran at normal temp: ~40 C
-gemma3:27b is ran at normal temp: ~40 C
-
-ministral-3:latest is ran at normal temp: ~40 C
-ministral-3:3b is ran at normal temp: ~40 C 
+> Additionally, all models are ran at 40 degrees C which is roughly base temp for DGX
