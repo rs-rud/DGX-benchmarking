@@ -249,7 +249,8 @@ def main():
 
     # -------- Console -------- #
 
-    print(f"[Q{qid}] Engine: {args.engine}", flush=True)
+    print(f"[Q{qid}]]", flush=True)
+    print(f"Engine: {args.engine}", flush=True)
     print(f"Model: {response}", flush=True)
     print(f"GT: {gt_answers}", flush=True)
     print(f"Correct: {is_correct}, Time: {latency:.2f}s", flush=True)

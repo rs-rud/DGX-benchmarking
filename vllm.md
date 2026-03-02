@@ -28,4 +28,3 @@ python benchmark.py \
 
 > [!NOTE]
 > Models: https://docs.vllm.ai/en/latest/models/supported_models/?h=models#text-generation
-> There is going to be a list of models reflective of what is ran on the Jetson. So far only got llava:7b which is above
