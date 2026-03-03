@@ -25,7 +25,7 @@ wait_for_temp() {
 }
 
 # Ollama models
-OLLAMA_MODELS=("llava:7b" "llava-llama3:latest")
+OLLAMA_MODELS=("llava-llama3:latest")
 
 for RUN in {1..5}; do
     RUN_DIR="results/1000/Run${RUN}"
@@ -36,8 +36,21 @@ for RUN in {1..5}; do
         SAFE_MODEL=$(echo "$MODEL" | tr ':/' '_')
         OUTPUT="${RUN_DIR}/benchmark_results_ollama_${SAFE_MODEL}.csv"
 
+        # Check is test is ran
+        if [[ -f $OUTPUT ]]; then
+            LINES=$(wc -l < $OUTPUT)
+            # Check if test is completed 1001 lines including header. Restart if not
+            if [ $LINES -eq 1001 ]; then
+                echo "=== Run $RUN already completed for $MODEL (OLLAMA) ==="
+                continue
+            else
+                echo "=== Run $RUN not completed. Restarting Run $RUN for $MODEL from Index 0 (OLLAMA) ==="
+            fi
+        else
+            echo "=== Preparing Run $RUN for $MODEL (OLLAMA) ==="
+        fi
+
         # Wait for cool-down before starting this run
-        echo "=== Preparing Run $RUN for $MODEL (OLLAMA) ==="
         wait_for_temp 40
 
         # Clear old results for this run (if any)
