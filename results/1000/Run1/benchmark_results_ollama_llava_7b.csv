@@ -999,3 +999,4 @@ question_id,latency_sec,correct,model_response,ground_truth,question_text,avg_gp
 997,0.136,1,yes,yes,Is a small forest present?,14.66,14.66,14.66,49.0
 998,0.127,0,yes,no,Are there more commercial buildings than water areas?,14.66,14.66,14.66,49.0
 999,0.204,0,6430,2,What is the amount of circular water areas?,14.71,14.71,14.71,49.0
+
