@@ -1,0 +1,3 @@
+question_id,latency_sec,correct,model_response,ground_truth,question_text,avg_gpu_w,max_gpu_w,avg_power_integrated_w,max_gpu_temp_c
+0,99.834,0,rural,urban,Is it a rural or an urban area,41.97,47.83,41.98,63.0
+1,70.201,0,no,yes,Is there a water area?,47.63,49.04,47.65,68.0

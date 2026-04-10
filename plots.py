@@ -206,32 +206,42 @@ def plot_accuracy_vs_temp(cfg, results_dir, plots_dir):
 
 # ---------------- Aggregated plots (across runs) ---------------- #
 def plot_accuracy_aggregated(cfg, results_dir, plots_dir):
-    """Bar chart of overall accuracy per model with error bars (std across runs)."""
+    """
+    Aggregated accuracy table per model (mean ± std across runs).
+    """
     for engine, models in cfg["models"].items():
-        model_names = []
-        means = []
-        stds = []
-
+        rows = []
         for model, filename in models.items():
             dfs = load_all_runs(results_dir, filename)
             if not dfs:
                 continue
-            # Compute accuracy for each run, and mean + std
+            
             run_accs = [df["correct"].mean() * 100 for df in dfs]
-            means.append(np.mean(run_accs))
-            stds.append(np.std(run_accs))
-            model_names.append(model)
+            mean_acc = np.mean(run_accs)
+            std_acc = np.std(run_accs)
+            rows.append((model, mean_acc, std_acc))
 
-        if not means:
+        if not rows:
             continue
 
-        fig, ax = plt.subplots(figsize=(8, 5))
-        x = np.arange(len(model_names))
-        bars = ax.bar(x, means, yerr=stds, capsize=5, tick_label=model_names)
-        ax.set_ylabel("Accuracy (%)")
-        ax.set_title(f"{engine} - Overall Accuracy (mean ± std across 6 runs)")
-        ax.set_ylim(0, 100)
-        fig.tight_layout()
+        rows.sort(key=lambda x: x[1], reverse=True)
+
+        fig, ax = plt.subplots(figsize=(8, 4))
+        ax.axis("off")
+
+        cell_text = [[m, rf"{mu:.2f}% $\pm$ {sd:.2f}"] for m, mu, sd in rows]
+        
+        table = ax.table(
+            cellText=cell_text,
+            colLabels=["Model", r"Accuracy (Mean $\pm$ Std)"],
+            cellLoc="center",
+            loc="center"
+        )
+        table.auto_set_font_size(False)
+        table.set_fontsize(11)
+        table.scale(1.2, 1.8)  # Scaled to be more readable as a table
+
+        ax.set_title(f"{engine} - Overall Aggregated Accuracy", fontsize=14, weight="bold")
         save(fig, plots_dir, f"accuracy_overall_{engine}.png")
 
 def plot_accuracy_by_type_aggregated(cfg, results_dir, plots_dir):
@@ -478,3 +488,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
