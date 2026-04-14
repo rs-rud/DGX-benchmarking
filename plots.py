@@ -137,6 +137,7 @@ def plot_latency(cfg, results_dir, plots_dir, color_map):
         for model, file in models.items():
             df = load_csv(results_dir, file)
             if df is not None:
+                # Skip first
                 smoothed = df["latency_sec"].iloc[1:].rolling(window=10).mean()
                 ax.plot(smoothed, label=model, linewidth=2, color=color_map.get(model))
         ax.set_ylabel("Latency (s)")
@@ -184,6 +185,22 @@ def plot_accuracy_vs_temp(cfg, results_dir, plots_dir, color_map):
         ax.set_title(f"{engine} - Accuracy Trend as Temperature Rises", weight="bold")
         ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
         save(fig, plots_dir, f"acc_vs_temp_{engine}.png")
+
+def plot_energy(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, file in models.items():
+            df = load_csv(results_dir, file)
+            if df is not None and "avg_gpu_w" in df.columns and "latency_sec" in df.columns:
+                # Skip first
+                energy = (df["avg_gpu_w"] * df["latency_sec"]).iloc[1:]
+                smoothed = energy.rolling(window=10, min_periods=1).mean()
+                ax.plot(smoothed, label=model, linewidth=2, color=color_map.get(model))
+        ax.set_ylabel("Energy (Joules)")
+        ax.set_xlabel("Prompt Index")
+        ax.set_title(f"{engine} - Energy per Prompt (Moving Avg)", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        save(fig, plots_dir, f"energy_per_prompt_{engine}.png")
 
 # ---------------- Aggregated plots (Engine‑based) ---------------- #
 
@@ -319,10 +336,32 @@ def plot_energy_cdf_aggregated(cfg, results_dir, plots_dir, color_map):
             ax.step(sorted_e, cdf, where='post', label=model_name, linewidth=2, color=color_map.get(model_name))
         if not has_any: continue
         ax.set_title(f"{engine} - Energy per Query CDF", weight="bold")
+        ax.set_xscale('log')
         ax.set_xlabel("Energy (Joules)")
         ax.set_ylabel("Cumulative Probability")
         ax.legend(loc='lower right')
         save(fig, plots_dir, f"energy_cdf_{engine}.png")
+
+def plot_energy_aggregated(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, filename in models.items():
+            dfs = load_all_runs(results_dir, filename)
+            if not dfs or "avg_gpu_w" not in dfs[0].columns or "latency_sec" not in dfs[0].columns: 
+                continue
+            processed = [(df["avg_gpu_w"] * df["latency_sec"]).iloc[1:].values for df in dfs]
+            min_len = min(len(p) for p in processed)
+            arr = np.array([p[:min_len] for p in processed])
+            mean_e = pd.Series(np.mean(arr, axis=0)).rolling(10, min_periods=1).mean()
+            std_e = pd.Series(np.std(arr, axis=0)).rolling(10, min_periods=1).mean()
+            iters = np.arange(1, min_len + 1)
+            color = color_map.get(model)
+            ax.plot(iters, mean_e, label=model, linewidth=2, color=color)
+            ax.fill_between(iters, mean_e - std_e, mean_e + std_e, alpha=0.2, color=color)
+        ax.set_ylabel("Energy (Joules)")
+        ax.set_title(f"{engine} - Energy per Prompt (Mean ± Std)", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        save(fig, plots_dir, f"energy_per_prompt_{engine}.png")
 
 # ---------------- Family‑based aggregated plots ---------------- #
 
@@ -469,9 +508,30 @@ def plot_energy_cdf_family(family_data, plots_dir, color_map):
             ax.step(sorted_e, cdf, where='post', label=model_name, linewidth=2, color=color_map.get(model_name))
         if not has_any: continue
         ax.set_title(f"{family} - Energy per Query CDF", weight="bold")
+        ax.set_xscale('log')
         ax.legend(loc='lower right')
         save(fig, plots_dir, f"energy_cdf_{family}.png")
 
+def plot_energy_family(family_data, plots_dir, color_map):
+    for family, models in family_data.items():
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model_name, dfs in models.items():
+            if "avg_gpu_w" not in dfs[0].columns or "latency_sec" not in dfs[0].columns: 
+                continue
+            energy_series = [(df["avg_gpu_w"] * df["latency_sec"]).iloc[1:].values for df in dfs]
+            min_len = min(len(es) for es in energy_series)
+            arr = np.array([es[:min_len] for es in energy_series])
+            mean_e = pd.Series(np.mean(arr, axis=0)).rolling(10, min_periods=1).mean()
+            std_e = pd.Series(np.std(arr, axis=0)).rolling(10, min_periods=1).mean()
+            iters = np.arange(1, min_len + 1)
+            color = color_map.get(model_name)
+            ax.plot(iters, mean_e, label=model_name, linewidth=2, color=color)
+            ax.fill_between(iters, mean_e - std_e, mean_e + std_e, alpha=0.2, color=color)
+        ax.set_ylabel("Energy (Joules)")
+        ax.set_title(f"{family} - Energy per Prompt (Mean ± Std)", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        save(fig, plots_dir, f"energy_per_prompt_{family}.png")
+        
 # ---------------- Main ---------------- #
 
 def main():
@@ -486,6 +546,7 @@ def main():
     p.add_argument("--power", action="store_true")
     p.add_argument("--temp", action="store_true")
     p.add_argument("--acc-vs-temp", action="store_true")
+    p.add_argument("--energy", action="store_true", help="Plot Energy per prompt time-series")
     p.add_argument("--energy-cdf", action="store_true")
     p.add_argument("--all", action="store_true")
     args = p.parse_args()
@@ -495,6 +556,7 @@ def main():
     base_results = cfg["results_dir"]
     base_plots = cfg["plots_dir"]
 
+    # Single Run Logic
     if not args.aggregate and not args.family:
         results_dir = os.path.join(base_results, args.run) if args.run else base_results
         plots_dir = os.path.join(base_plots, args.run) if args.run else base_plots
@@ -504,8 +566,10 @@ def main():
         if args.power or args.all: plot_power(cfg, results_dir, plots_dir, cmap)
         if args.temp or args.all: plot_temperature(cfg, results_dir, plots_dir, cmap)
         if args.acc_vs_temp or args.all: plot_accuracy_vs_temp(cfg, results_dir, plots_dir, cmap)
+        if args.energy or args.all: plot_energy(cfg, results_dir, plots_dir, cmap)
         return
 
+    # Aggregated Logic
     if args.aggregate:
         plots_dir = os.path.join(base_plots, "aggregated")
         if args.accuracy or args.all: plot_accuracy_aggregated(cfg, base_results, plots_dir)
@@ -514,8 +578,10 @@ def main():
         if args.power or args.all: plot_power_aggregated(cfg, base_results, plots_dir, cmap)
         if args.temp or args.all: plot_temperature_aggregated(cfg, base_results, plots_dir, cmap)
         if args.acc_vs_temp or args.all: plot_accuracy_vs_temp_aggregated(cfg, base_results, plots_dir, cmap)
+        if args.energy or args.all: plot_energy_aggregated(cfg, base_results, plots_dir, cmap)
         if args.energy_cdf or args.all: plot_energy_cdf_aggregated(cfg, base_results, plots_dir, cmap)
 
+    # Family Logic
     if args.family:
         plots_dir = os.path.join(base_plots, "family")
         family_data = load_all_data_by_family(base_results, cfg)
@@ -525,6 +591,7 @@ def main():
         if args.power or args.all: plot_power_family(family_data, plots_dir, cmap)
         if args.temp or args.all: plot_temperature_family(family_data, plots_dir, cmap)
         if args.acc_vs_temp or args.all: plot_accuracy_vs_temp_family(family_data, plots_dir, cmap)
+        if args.energy or args.all: plot_energy_family(family_data, plots_dir, cmap)
         if args.energy_cdf or args.all: plot_energy_cdf_family(family_data, plots_dir, cmap)
 
 if __name__ == "__main__":
