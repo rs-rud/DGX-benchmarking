@@ -103,7 +103,7 @@ def plot_accuracy(cfg, results_dir, plots_dir):
         table.auto_set_font_size(False)
         table.set_fontsize(12)
         table.scale(1.2, 1.2)
-        ax.set_title(f"{engine} - Overall Accuracy", fontsize=14, weight="bold")
+        ax.set_title(f"{engine} - Overall Accuracy", fontsize=14, weight="bold", pad=24)
         save(fig, plots_dir, f"accuracy_table_{engine}.png")
 
 def plot_accuracy_by_type(cfg, results_dir, plots_dir, color_map):
@@ -221,7 +221,7 @@ def plot_accuracy_aggregated(cfg, results_dir, plots_dir):
         table.auto_set_font_size(False)
         table.set_fontsize(11)
         table.scale(1.2, 1.8)
-        ax.set_title(f"{engine} - Overall Aggregated Accuracy", fontsize=14, weight="bold")
+        ax.set_title(f"{engine} - Overall Aggregated Accuracy", fontsize=14, weight="bold", pad=24)
         save(fig, plots_dir, f"accuracy_overall_{engine}.png")
 
 def plot_accuracy_by_type_aggregated(cfg, results_dir, plots_dir, color_map):
@@ -397,7 +397,7 @@ def plot_accuracy_family(family_data, plots_dir):
         table.auto_set_font_size(False)
         table.set_fontsize(11)
         table.scale(1.2, 1.8)
-        ax.set_title(f"{family} - Overall Aggregated Accuracy", fontsize=14, weight="bold")
+        ax.set_title(f"{family} - Overall Aggregated Accuracy", fontsize=14, weight="bold", pad=24)
         save(fig, plots_dir, f"accuracy_overall_{family}.png")
 
 def plot_accuracy_by_type_family(family_data, plots_dir, color_map):
