@@ -103,7 +103,7 @@ def plot_accuracy(cfg, results_dir, plots_dir):
         table.auto_set_font_size(False)
         table.set_fontsize(12)
         table.scale(1.2, 1.2)
-        ax.set_title(f"{engine} - Overall Accuracy", fontsize=14, weight="bold")
+        ax.set_title(f"{engine} - Overall Accuracy", fontsize=14, weight="bold", pad=24)
         save(fig, plots_dir, f"accuracy_table_{engine}.png")
 
 def plot_accuracy_by_type(cfg, results_dir, plots_dir, color_map):
@@ -221,7 +221,7 @@ def plot_accuracy_aggregated(cfg, results_dir, plots_dir):
         table.auto_set_font_size(False)
         table.set_fontsize(11)
         table.scale(1.2, 1.8)
-        ax.set_title(f"{engine} - Overall Aggregated Accuracy", fontsize=14, weight="bold")
+        ax.set_title(f"{engine} - Overall Aggregated Accuracy", fontsize=14, weight="bold", pad=24)
         save(fig, plots_dir, f"accuracy_overall_{engine}.png")
 
 def plot_accuracy_by_type_aggregated(cfg, results_dir, plots_dir, color_map):
@@ -373,13 +373,13 @@ def load_all_data_by_family(base_results, config):
             for model_name, filename in models.items():
                 df = load_csv(run_dir, filename)
                 if df is None: continue
-                family, _ = extract_family_and_model(filename)
+                family, _ = extract_family_and_model(filename)  # uses filename
                 if family not in family_data: family_data[family] = {}
                 if model_name not in family_data[family]: family_data[family][model_name] = []
                 family_data[family][model_name].append(df)
     return family_data
 
-def plot_accuracy_family(family_data, plots_dir):
+def plot_accuracy_family(family_data, base_plots_dir):
     for family, models in family_data.items():
         rows = []
         for model_name, dfs in models.items():
@@ -397,10 +397,11 @@ def plot_accuracy_family(family_data, plots_dir):
         table.auto_set_font_size(False)
         table.set_fontsize(11)
         table.scale(1.2, 1.8)
-        ax.set_title(f"{family} - Overall Aggregated Accuracy", fontsize=14, weight="bold")
-        save(fig, plots_dir, f"accuracy_overall_{family}.png")
+        ax.set_title(f"{family} - Overall Aggregated Accuracy", fontsize=14, weight="bold", pad=24)
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"accuracy_overall_{family}.png")
 
-def plot_accuracy_by_type_family(family_data, plots_dir, color_map):
+def plot_accuracy_by_type_family(family_data, base_plots_dir, color_map):
     all_types = ["Equality", "Comparison", "Counting", "Attribute", "Location", "Yes/No"]
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(12, 7))
@@ -424,9 +425,10 @@ def plot_accuracy_by_type_family(family_data, plots_dir, color_map):
         ax.set_xticklabels(all_types, rotation=15)
         ax.set_title(f"{family} - Accuracy by Question Type (Mean ± Std)", weight="bold")
         ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, frameon=False)
-        save(fig, plots_dir, f"accuracy_by_type_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"accuracy_by_type_{family}.png")
 
-def plot_latency_family(family_data, plots_dir, color_map):
+def plot_latency_family(family_data, base_plots_dir, color_map):
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(10, 6))
         for model_name, dfs in models.items():
@@ -442,9 +444,10 @@ def plot_latency_family(family_data, plots_dir, color_map):
             ax.fill_between(iters, mean_lat - std_lat, mean_lat + std_lat, alpha=0.2, color=color)
         ax.set_title(f"{family} - Latency (Mean ± Std)", weight="bold")
         ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
-        save(fig, plots_dir, f"latency_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"latency_{family}.png")
 
-def plot_power_family(family_data, plots_dir, color_map):
+def plot_power_family(family_data, base_plots_dir, color_map):
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(10, 6))
         for model_name, dfs in models.items():
@@ -459,9 +462,10 @@ def plot_power_family(family_data, plots_dir, color_map):
             ax.fill_between(range(min_len), mean_p - std_p, mean_p + std_p, alpha=0.2, color=color)
         ax.set_title(f"{family} - GPU Power (Mean ± Std)", weight="bold")
         ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
-        save(fig, plots_dir, f"power_gpu_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"power_gpu_{family}.png")
 
-def plot_temperature_family(family_data, plots_dir, color_map):
+def plot_temperature_family(family_data, base_plots_dir, color_map):
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(10, 6))
         for model_name, dfs in models.items():
@@ -476,9 +480,10 @@ def plot_temperature_family(family_data, plots_dir, color_map):
             ax.fill_between(range(min_len), mean_t - std_t, mean_t + std_t, alpha=0.2, color=color)
         ax.set_title(f"{family} - Max Temperature (Mean ± Std)", weight="bold")
         ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
-        save(fig, plots_dir, f"temperature_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"temperature_{family}.png")
 
-def plot_accuracy_vs_temp_family(family_data, plots_dir, color_map):
+def plot_accuracy_vs_temp_family(family_data, base_plots_dir, color_map):
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(10, 6))
         for model_name, dfs in models.items():
@@ -489,9 +494,10 @@ def plot_accuracy_vs_temp_family(family_data, plots_dir, color_map):
             ax.errorbar(grouped.index, grouped['mean'], yerr=grouped['std'], marker='o', capsize=3, label=model_name, color=color_map.get(model_name))
         ax.set_title(f"{family} - Accuracy vs Temperature (Mean ± Std)", weight="bold")
         ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
-        save(fig, plots_dir, f"acc_vs_temp_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"acc_vs_temp_{family}.png")
 
-def plot_energy_cdf_family(family_data, plots_dir, color_map):
+def plot_energy_cdf_family(family_data, base_plots_dir, color_map):
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(10, 6))
         has_any = False
@@ -510,9 +516,10 @@ def plot_energy_cdf_family(family_data, plots_dir, color_map):
         ax.set_title(f"{family} - Energy per Query CDF", weight="bold")
         ax.set_xscale('log')
         ax.legend(loc='lower right')
-        save(fig, plots_dir, f"energy_cdf_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"energy_cdf_{family}.png")
 
-def plot_energy_family(family_data, plots_dir, color_map):
+def plot_energy_family(family_data, base_plots_dir, color_map):
     for family, models in family_data.items():
         fig, ax = plt.subplots(figsize=(10, 6))
         for model_name, dfs in models.items():
@@ -530,7 +537,8 @@ def plot_energy_family(family_data, plots_dir, color_map):
         ax.set_ylabel("Energy (Joules)")
         ax.set_title(f"{family} - Energy per Prompt (Mean ± Std)", weight="bold")
         ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
-        save(fig, plots_dir, f"energy_per_prompt_{family}.png")
+        family_dir = os.path.join(base_plots_dir, family.lower())
+        save(fig, family_dir, f"energy_per_prompt_{family}.png")
         
 # ---------------- Main ---------------- #
 
@@ -583,16 +591,16 @@ def main():
 
     # Family Logic
     if args.family:
-        plots_dir = os.path.join(base_plots, "family")
+        family_root = os.path.join(base_plots, "family")
         family_data = load_all_data_by_family(base_results, cfg)
-        if args.accuracy or args.all: plot_accuracy_family(family_data, plots_dir)
-        if args.accuracy_by_type or args.all: plot_accuracy_by_type_family(family_data, plots_dir, cmap)
-        if args.latency or args.all: plot_latency_family(family_data, plots_dir, cmap)
-        if args.power or args.all: plot_power_family(family_data, plots_dir, cmap)
-        if args.temp or args.all: plot_temperature_family(family_data, plots_dir, cmap)
-        if args.acc_vs_temp or args.all: plot_accuracy_vs_temp_family(family_data, plots_dir, cmap)
-        if args.energy or args.all: plot_energy_family(family_data, plots_dir, cmap)
-        if args.energy_cdf or args.all: plot_energy_cdf_family(family_data, plots_dir, cmap)
+        if args.accuracy or args.all: plot_accuracy_family(family_data, family_root)
+        if args.accuracy_by_type or args.all: plot_accuracy_by_type_family(family_data, family_root, cmap)
+        if args.latency or args.all: plot_latency_family(family_data, family_root, cmap)
+        if args.power or args.all: plot_power_family(family_data, family_root, cmap)
+        if args.temp or args.all: plot_temperature_family(family_data, family_root, cmap)
+        if args.acc_vs_temp or args.all: plot_accuracy_vs_temp_family(family_data, family_root, cmap)
+        if args.energy or args.all: plot_energy_family(family_data, family_root, cmap)
+        if args.energy_cdf or args.all: plot_energy_cdf_family(family_data, family_root, cmap)
 
 if __name__ == "__main__":
     main()
