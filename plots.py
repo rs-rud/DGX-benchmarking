@@ -56,9 +56,9 @@ def categorize_question(text):
 def extract_family_and_model(filename):
     name = os.path.splitext(filename)[0]
     lower = name.lower()
-    if "gemma3" in lower: family = "Gemma3"
-    elif "ministral" in lower: family = "Ministral3"
-    elif "qwen2" in lower: family = "Qwen2"
+    if "gemma" in lower: family = "Gemma"
+    elif "ministral" in lower: family = "Ministral"
+    elif "qwen" in lower: family = "Qwen"
     elif "llava" in lower: family = "Llava"
     else: family = "Other"
     return family, name
@@ -563,6 +563,12 @@ def main():
     cmap = get_color_map(cfg)
     base_results = cfg["results_dir"]
     base_plots = cfg["plots_dir"]
+
+    # Extract config base name for subdirectory
+    config_basename = os.path.splitext(os.path.basename(args.config))[0]
+    
+    # Override base_plots to include the config subdirectory
+    base_plots = os.path.join(base_plots, config_basename)
 
     # Single Run Logic
     if not args.aggregate and not args.family:
