@@ -1,12 +1,12 @@
 {
-  "results_dir": "results/1000",
-  "plots_dir": "plots",
+	"results_dir": "results/1000",
+	"plots_dir": "plots",
 
 
-  "models": {
-    "Ollama": {
-      "Qwen3.6": "benchmark_results_ollama_qwen3.6_latest.csv",
-      "Gemma4:e4b": "benchmark_results_ollama_gemma4_e4b.csv"
-    }
-  }
+	"models": {
+		"Ollama": {
+			"Qwen3.6": "benchmark_results_ollama_qwen3.6_latest.csv",
+			"Gemma4:e4b": "benchmark_results_ollama_gemma4_e4b.csv"
+		}
+	}
 }
