@@ -74,7 +74,7 @@ done
 # VLLM models
 VLLM_MODELS=("llava-hf/llava-1.5-7b-hf")
 
-for RUN in {1..5}; do
+for RUN in {1..6}; do
     RUN_DIR="results/1000/Run${RUN}"
     mkdir -p "$RUN_DIR"
 
@@ -83,7 +83,6 @@ for RUN in {1..5}; do
         OUTPUT="${RUN_DIR}/benchmark_results_vllm_${SAFE_MODEL}.csv"
 
         echo "=== Preparing Run $RUN for $MODEL (VLLM) ==="
-        wait_for_temp 40
 
         rm -f "$OUTPUT"
 
