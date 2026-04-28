@@ -17,7 +17,7 @@
 			"Qwen2.5vl:7b": "benchmark_results_ollama_qwen2.5vl_7b.csv"
 		},
 		"vLLM": {
-			"LLaVA-1.5-7B": "benchmark_results_vllm_llava-hf_llava-1.5-7b.csv"
+			"LLaVA-1.5-7B": "benchmark_results_vllm_llava-hf_llava-1.5-7b-hf.csv"
 		}
 	}
 }
