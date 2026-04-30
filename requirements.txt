@@ -11,5 +11,5 @@ pillow==12.1.0
 pyparsing==3.3.2
 python-dateutil==2.9.0.post0
 six==1.17.0
-torch==2.9.1+cu130
-vllm==0.15.1+cu130
+torch==2.11.0
+vllm==0.20.0
