@@ -11,7 +11,6 @@
 | qwen2.5vl:3b | Qwen/Qwen2.5-VL-3B-Instruct |
 | qwen2.5vl:7b | Qwen/Qwen2.5-VL-7B-Instruct |
 
-
 > [!NOTE]
 > Ollama uses 4-bit quantization, while vLLM uses 16-bit by default. 
 > There should be vLLM models that run using the same memory usage as Ollama.
