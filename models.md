@@ -15,5 +15,5 @@
 > Ollama uses 4-bit quantization, while vLLM uses 16-bit by default. 
 > There should be vLLM models that run using the same memory usage as Ollama.
 > Additionally, all Ollama models are ran at 40 degrees C which is roughly base temp for DGX
-> vLLM base temperature is roughly 45 degrees C. Therefore, vLLM models are ran after another.
+> vLLM models are run after a 10 minutes wait to give it time to cool down back to "base temperature"
 > Ollama: Latency graphs have question 0 scrapped due to starting up the model which adds 2-3 sec of latency
