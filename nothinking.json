@@ -6,18 +6,23 @@
 	"models": {
 		"Ollama": {
 			"LLaVA-7B": "benchmark_results_ollama_llava_7b.csv",
-			"LlaVa-Llama3:Latest": "benchmark_results_ollama_llava-llama3_latest.csv",
+			"LlaVa-Llama3:8b": "benchmark_results_ollama_llava-llama3_latest.csv",
 			"Gemma3:4b": "benchmark_results_ollama_gemma3_4b.csv",
 			"Gemma3:12b": "benchmark_results_ollama_gemma3_12b.csv",
 			"Gemma3:27b": "benchmark_results_ollama_gemma3_27b.csv",
 			"Ministral3:3b": "benchmark_results_ollama_ministral-3_3b.csv",
-			"Ministral3:latest": "benchmark_results_ollama_ministral-3_latest.csv",
+			"Ministral3:8b": "benchmark_results_ollama_ministral-3_latest.csv",
 			"Ministral3:14b": "benchmark_results_ollama_ministral-3_14b.csv",
 			"Qwen2.5vl:3b": "benchmark_results_ollama_qwen2.5vl_3b.csv",
 			"Qwen2.5vl:7b": "benchmark_results_ollama_qwen2.5vl_7b.csv"
 		},
 		"vLLM": {
-			"LLaVA-1.5-7B": "benchmark_results_vllm_llava-hf_llava-1.5-7b-hf.csv"
+			"LLaVA-1.5-7B": "benchmark_results_vllm_llava-hf_llava-1.5-7b-hf.csv",
+			"Ministral3:3B": "benchmark_results_vllm_mistralai_Ministral-3-3B-Instruct-2512.csv",
+			"Ministral3:7B": "benchmark_results_vllm_mistralai_Ministral-3-7B-Instruct-2512.csv",
+			"Ministral3:14B": "benchmark_results_vllm_mistralai_Ministral-3-14B-Instruct-2512.csv",
+			"Qwen2.5vl:3b": "benchmark_results_vllm_Qwen_Qwen2.5-VL-3B-Instruct.csv",
+			"Qwen2.5vl:7b": "benchmark_results_vllm_Qwen_Qwen2.5-VL-7B-Instruct.csv"
 		}
 	}
 }
