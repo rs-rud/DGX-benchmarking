@@ -28,3 +28,8 @@ python benchmark.py \
 
 > [!NOTE]
 > Models: https://docs.vllm.ai/en/latest/models/supported_models/?h=models#text-generation
+
+# Clean the HF Dir
+rm -rf ~/.cache/huggingface/hub/
+# Clean vLLM Dir
+rm -rf ~/.cache/vllm/

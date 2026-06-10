@@ -4,7 +4,7 @@
 | gemma3: 12b | google/gemma-3-12b-it |
 | gemma3:27b | google/gemma-3-27b-it |
 | llava:7b | llava-hf/llava-1.5-7b-hf |
-| llava-llama3:latest | xtuner/llava-llama-3-8b-v1_1-hf |
+| llava-llama3:latest (8b) | xtuner/llava-llama-3-8b-v1_1-transformers |
 | ministral-3:latest (8b) | mistralai/Ministral-3-8B-Instruct-2512 |
 | ministral-3:3b | mistralai/Ministral-3-3B-Instruct-2512 |
 | ministral-3:14b | mistralai/Ministral-3-14B-Instruct-2512 |
