@@ -10,6 +10,7 @@
 | ministral-3:14b | mistralai/Ministral-3-14B-Instruct-2512 |
 | qwen2.5vl:3b | Qwen/Qwen2.5-VL-3B-Instruct |
 | qwen2.5vl:7b | Qwen/Qwen2.5-VL-7B-Instruct |
+| qwen2.5vl:32b | Qwen/Qwen2.5-VL-32B-Instruct |
 
 > [!NOTE]
 > Ollama uses 4-bit quantization, while vLLM uses 16-bit by default. 
