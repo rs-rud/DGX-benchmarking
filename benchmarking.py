@@ -8,6 +8,8 @@ import subprocess
 import threading
 import pynvml
 import base64
+import requests
+import re
 from openai import OpenAI
 
 # ---------------- Utilities ---------------- #
@@ -34,15 +36,55 @@ def run_ollama_cli(model, prompt, image_path):
         print(f"Error running ollama: {e.stderr}", flush=True)
         return "", 0.0
 
+# ---------------- VLLM KV Cache Helpers ---------------- #
+def get_vllm_kv_cache_metrics(base_url="http://localhost:8000"):
+    """
+    Fetches KV cache block usage from vLLM's /metrics endpoint.
+    Returns dict with keys:
+        kv_blocks_used, kv_blocks_total, kv_cache_usage_perc,
+        gpu_prefix_cache_blocks (if available)
+    """
+    metrics = {}
+    try:
+        resp = requests.get(f"{base_url}/metrics", timeout=5)
+        text = resp.text
+
+        m = re.search(r'vllm:num_blocks_used\s+([\d\.]+)', text)
+        if m: metrics['kv_blocks_used'] = float(m.group(1))
+
+        m = re.search(r'vllm:num_blocks_total\s+([\d\.]+)', text)
+        if m: metrics['kv_blocks_total'] = float(m.group(1))
+
+        m = re.search(r'vllm:gpu_cache_usage_perc\s+([\d\.]+)', text)
+        if m: metrics['kv_cache_usage_perc'] = float(m.group(1))
+
+        m = re.search(r'vllm:gpu_prefix_cache_blocks\s+([\d\.]+)', text)
+        if m: metrics['gpu_prefix_cache_blocks'] = float(m.group(1))
+
+    except Exception as e:
+        print(f"Could not fetch vLLM metrics: {e}", flush=True)
+
+    return metrics
+
+def reset_vllm_prefix_cache(base_url="http://localhost:8000"):
+    """Clears any retained prefix cache (harmless if already disabled)."""
+    try:
+        requests.post(f"{base_url}/reset_prefix_cache")
+    except Exception:
+        pass
+
 # ---------------- VLLM ------------------ #
 def run_vllm_serve(model, prompt, image_path):
     start = time.time()
     client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
-    
+
+    # Ensure fresh KV cache per request (best effort)
+    reset_vllm_prefix_cache()
+
     try:
         with open(image_path, "rb") as f:
             image_b64 = base64.b64encode(f.read()).decode("utf-8")
-        
+
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -60,16 +102,22 @@ def run_vllm_serve(model, prompt, image_path):
             max_completion_tokens=128,
             temperature=0.0
         )
-        
+
         latency = time.time() - start
-        
+
         if response.choices and response.choices[0].message.content:
-            return response.choices[0].message.content.strip(), latency
-        return "No response from model", latency
+            text = response.choices[0].message.content.strip()
+        else:
+            text = "No response from model"
+
+        # Grab KV cache metrics right after the request
+        kv_metrics = get_vllm_kv_cache_metrics()
+
+        return text, latency, kv_metrics
 
     except Exception as e:
         print(f"Error running vLLM: {e}", flush=True)
-        return "", 0.0
+        return "", 0.0, {}
 
 # ---------------- NVML Power Sampling ---------------- #
 
@@ -202,9 +250,10 @@ def main():
     start_time = time.time()
     question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
     if args.engine == "vllm":
-        response, latency = run_vllm_serve(args.model, question_text, image_path)
+        response, latency, kv_metrics = run_vllm_serve(args.model, question_text, image_path)
     else:
         response, latency = run_ollama_cli(args.model, question_text, image_path)
+        kv_metrics = {}
     
     end_time = time.time()
     stop_event.set()
@@ -238,6 +287,7 @@ def main():
                 "model_response", "ground_truth", "question_text",
                 "avg_gpu_w", "max_gpu_w",
                 "avg_power_integrated_w", "max_gpu_temp_c",
+                "kv_blocks_used", "kv_blocks_total", "kv_cache_usage_perc"
             ])
         writer.writerow([
             qid, f"{latency:.3f}", int(is_correct),
@@ -245,6 +295,9 @@ def main():
             f"{avg_tot:.2f}", f"{max_tot:.2f}",
             f"{avg_power_integrated_w:.2f}",
             f"{max_temp:.1f}",
+            f"{kv_metrics.get('kv_blocks_used', '')}",
+            f"{kv_metrics.get('kv_blocks_total', '')}",
+            f"{kv_metrics.get('kv_cache_usage_perc', '')}"
         ])
 
     # -------- Console -------- #
@@ -257,6 +310,10 @@ def main():
     print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
     print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
     print(f"Temperature (max): {max_temp:.1f} C", flush=True)
+    if kv_metrics:
+        print(f"KV Cache: used {kv_metrics.get('kv_blocks_used','?')} / "
+              f"{kv_metrics.get('kv_blocks_total','?')} blocks "
+              f"({kv_metrics.get('kv_cache_usage_perc','?')}%)", flush=True)
 
 
 if __name__ == "__main__":
