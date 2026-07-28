@@ -33,7 +33,7 @@ wait_for_minutes() {
 }
 
 # Ollama models
-OLLAMA_MODELS=("llava-llama3:latest")
+OLLAMA_MODELS=()
 
 for RUN in {1..5}; do
 	RUN_DIR="results/1000/Run${RUN}"
@@ -80,13 +80,60 @@ for RUN in {1..5}; do
 			done
 
 # VLLM models
-VLLM_MODELS=("llava-hf/llava-1.5-7b-hf")
+VLLM_MODELS=("Qwen/Qwen2.5-VL-32B-Instruct")
+# Extra vLLM server args per model (empty string = none)
+VLLM_ARGS=("--max-model-len 8192")
+
+# ---------------- VLLM Server Management ---------------- #
+
+VLLM_PID=""
+
+start_vllm_server() {
+	local model=$1
+	local extra_args=$2
+	echo "=== Starting vLLM server for $model ==="
+
+	# Kill any existing vLLM server first
+	stop_vllm_server
+
+	# Start fresh vLLM server in background
+	# shellcheck disable=SC2086
+	vllm serve "$model" --port 8000 $extra_args &
+	VLLM_PID=$!
+
+	# Wait for server to be ready (health endpoint)
+	echo "Waiting for vLLM server to be ready..."
+	local retries=0
+	while ! curl -s http://localhost:8000/health > /dev/null 2>&1; do
+		sleep 5
+		retries=$((retries + 1))
+	done
+	echo "vLLM server is ready (PID $VLLM_PID)"
+}
+
+stop_vllm_server() {
+	if [ -n "$VLLM_PID" ] && kill -0 "$VLLM_PID" 2>/dev/null; then
+		echo "Stopping vLLM server (PID $VLLM_PID)..."
+		kill "$VLLM_PID" 2>/dev/null
+		wait "$VLLM_PID" 2>/dev/null
+		VLLM_PID=""
+	fi
+	# Also catch any leftover vllm processes
+	pkill -f "vllm serve" 2>/dev/null || true
+	sleep 2
+}
+
+# ---------------- Benchmark Loop ---------------- #
 
 for RUN in {1..6}; do
 	RUN_DIR="results/1000/Run${RUN}"
 	mkdir -p "$RUN_DIR"
 
-	for MODEL in "${VLLM_MODELS[@]}"; do
+	for i in "${!VLLM_MODELS[@]}"; do
+		MODEL="${VLLM_MODELS[$i]}"
+		EXTRA="${VLLM_ARGS[$i]:-}"
+
+		# Replace ":" and "/" with "_" for safe filenames
 		SAFE_MODEL=$(echo "$MODEL" | tr ':/' '_')
 		OUTPUT="${RUN_DIR}/benchmark_results_vllm_${SAFE_MODEL}.csv"
 
@@ -96,9 +143,12 @@ for RUN in {1..6}; do
 
 		rm -f "$OUTPUT"
 
+		# Start fresh vLLM server for this run (clears KV cache)
+		start_vllm_server "$MODEL" "$EXTRA"
+
 		echo "=== Benchmarking $MODEL via VLLM (Run $RUN) ==="
-		for ((i=0; i<1000; i++)); do
-			echo ">>> Run $RUN, question $i / 999"
+		for ((q=0; q<1000; q++)); do
+			echo ">>> Run $RUN, question $q / 999"
 			python3 benchmarking.py \
 				--engine vllm \
 				--questions "$QUESTIONS" \
@@ -106,7 +156,10 @@ for RUN in {1..6}; do
 				--image-dir "$IMAGES" \
 				--model "$MODEL" \
 				--output "$OUTPUT" \
-				--index "$i"
-			done
+				--index "$q"
 		done
+
+		# Stop server to clear KV cache after the run
+		stop_vllm_server
 	done
+done

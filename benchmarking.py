@@ -8,6 +8,10 @@ import subprocess
 import threading
 import pynvml
 import base64
+import re
+import urllib.request
+import mimetypes
+import traceback
 from openai import OpenAI
 
 # ---------------- Utilities ---------------- #
@@ -35,6 +39,30 @@ def run_ollama_cli(model, prompt, image_path):
         return "", 0.0
 
 # ---------------- VLLM ------------------ #
+
+def fetch_vllm_metrics():
+    """Prometheus endpoint."""
+    try:
+        with urllib.request.urlopen("http://localhost:8000/metrics", timeout=5) as resp:
+            text = resp.read().decode("utf-8")
+    except Exception:
+        return {}
+
+    metrics = {}
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        name = line.split("{")[0].strip() if "{" in line else line.split()[0].strip()
+        parts = line.split()
+        if len(parts) >= 2:
+            try:
+                metrics[name] = float(parts[-1].strip())
+            except ValueError:
+                pass
+    return metrics
+
+
 def run_vllm_serve(model, prompt, image_path):
     start = time.time()
     client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
@@ -42,6 +70,10 @@ def run_vllm_serve(model, prompt, image_path):
     try:
         with open(image_path, "rb") as f:
             image_b64 = base64.b64encode(f.read()).decode("utf-8")
+        
+        mime_type, _ = mimetypes.guess_type(image_path)
+        if mime_type is None:
+            mime_type = "image/jpeg"
         
         response = client.chat.completions.create(
             model=model,
@@ -52,12 +84,12 @@ def run_vllm_serve(model, prompt, image_path):
                         {"type": "text", "text": prompt},
                         {
                             "type": "image_url", 
-                            "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}
+                            "image_url": {"url": f"data:{mime_type};base64,{image_b64}"}
                         },
                     ],
                 }
             ],
-            max_completion_tokens=128,
+            max_tokens=128,
             temperature=0.0
         )
         
@@ -69,7 +101,17 @@ def run_vllm_serve(model, prompt, image_path):
 
     except Exception as e:
         print(f"Error running vLLM: {e}", flush=True)
+        traceback.print_exc()
         return "", 0.0
+
+
+def sample_vllm_metrics(samples, stop_event, interval=0.05):
+    """Background sampler for vLLM Prometheus metrics during inference."""
+    while not stop_event.is_set():
+        metrics = fetch_vllm_metrics()
+        if metrics:
+            samples.append(metrics)
+        time.sleep(interval)
 
 # ---------------- NVML Power Sampling ---------------- #
 
@@ -199,6 +241,17 @@ def main():
     )
 
     sampler_thread.start()
+
+    vllm_metric_samples = []
+    vllm_stop_event = threading.Event()
+    if args.engine == "vllm":
+        vllm_thread = threading.Thread(
+            target=sample_vllm_metrics,
+            args=(vllm_metric_samples, vllm_stop_event),
+            daemon=True
+        )
+        vllm_thread.start()
+
     start_time = time.time()
     question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
     if args.engine == "vllm":
@@ -210,6 +263,10 @@ def main():
     stop_event.set()
     sampler_thread.join(timeout=2)
     sampler.shutdown()
+
+    if args.engine == "vllm":
+        vllm_stop_event.set()
+        vllm_thread.join(timeout=2)
 
     # -------- Stats -------- #
 
@@ -227,6 +284,32 @@ def main():
 
     is_correct = normalize(response) in gt_answers
 
+    # -------- VLLM Metrics (peak during inference) -------- #
+
+    if args.engine == "vllm" and vllm_metric_samples:
+        peak_kv = 0.0
+        peak_running = 0
+        peak_waiting = 0
+        for m in vllm_metric_samples:
+            kv = m.get("vllm:kv_cache_usage_perc") or m.get("vllm:gpu_cache_usage_perc") or 0.0
+            if kv > peak_kv:
+                peak_kv = kv
+            r = int(m.get("vllm:num_requests_running", 0))
+            if r > peak_running:
+                peak_running = r
+            w = int(m.get("vllm:num_requests_waiting", 0))
+            if w > peak_waiting:
+                peak_waiting = w
+        gpu_kv_cache_pct = f"{peak_kv * 100:.1f}%"
+        running_reqs = str(peak_running)
+        waiting_reqs = str(peak_waiting)
+    else:
+        gpu_kv_cache_pct = ""
+        running_reqs = ""
+        waiting_reqs = ""
+        if args.engine == "vllm" and not vllm_metric_samples:
+            print("[DEBUG] No vLLM metric samples collected during inference", flush=True)
+
     # -------- CSV Output -------- #
 
     file_exists = os.path.exists(args.output)
@@ -238,6 +321,7 @@ def main():
                 "model_response", "ground_truth", "question_text",
                 "avg_gpu_w", "max_gpu_w",
                 "avg_power_integrated_w", "max_gpu_temp_c",
+                "kv_cache_usage_pct", "running_reqs", "waiting_reqs",
             ])
         writer.writerow([
             qid, f"{latency:.3f}", int(is_correct),
@@ -245,18 +329,24 @@ def main():
             f"{avg_tot:.2f}", f"{max_tot:.2f}",
             f"{avg_power_integrated_w:.2f}",
             f"{max_temp:.1f}",
+            gpu_kv_cache_pct, running_reqs, waiting_reqs,
         ])
 
     # -------- Console -------- #
 
-    print(f"[Q{qid}]]", flush=True)
+    print(f"[Q{qid}]", flush=True)
     print(f"Engine: {args.engine}", flush=True)
-    print(f"Model: {response}", flush=True)
+    print(f"Model: {args.model}", flush=True)
+    print(f"Response: {response}", flush=True)
     print(f"GT: {gt_answers}", flush=True)
     print(f"Correct: {is_correct}, Time: {latency:.2f}s", flush=True)
     print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
     print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
     print(f"Temperature (max): {max_temp:.1f} C", flush=True)
+    if gpu_kv_cache_pct:
+        print(f"KV cache usage (peak): {gpu_kv_cache_pct}", flush=True)
+    if running_reqs:
+        print(f"Running: {running_reqs} reqs, Waiting: {waiting_reqs} reqs", flush=True)
 
 
 if __name__ == "__main__":
