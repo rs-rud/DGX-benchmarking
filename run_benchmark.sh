@@ -3,6 +3,12 @@ QUESTIONS="data/all_questions.json"
 ANSWERS="data/all_answers.json"
 IMAGES="Images_LR"
 
+# Configurable batch size (number of questions per Python invocation)
+BATCH_SIZE=1
+
+# Configurable total number of questions to process
+NUM_QUESTIONS=1000
+
 # Get Current Max GPU Temp
 get_gpu_temp() {
 	nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits | sort -nr | head -1
@@ -36,7 +42,7 @@ wait_for_minutes() {
 OLLAMA_MODELS=()
 
 for RUN in {1..5}; do
-	RUN_DIR="results/1000/Run${RUN}"
+	RUN_DIR="results/${NUM_QUESTIONS}/Run${RUN}"
 	mkdir -p "$RUN_DIR"
 
 	for MODEL in "${OLLAMA_MODELS[@]}"; do
@@ -44,40 +50,44 @@ for RUN in {1..5}; do
 		SAFE_MODEL=$(echo "$MODEL" | tr ':/' '_')
 		OUTPUT="${RUN_DIR}/benchmark_results_ollama_${SAFE_MODEL}.csv"
 
-				# Check is test is ran
-				if [[ -f $OUTPUT ]]; then
-					LINES=$(wc -l < $OUTPUT)
-					# Check if test is completed 1001 lines including header. Restart if not
-					if [ $LINES -eq 1001 ]; then
-						echo "=== Run $RUN already completed for $MODEL (OLLAMA) ==="
-						continue
-					else
-						echo "=== Run $RUN not completed. Restarting Run $RUN for $MODEL from Index 0 (OLLAMA) ==="
-					fi
-				else
-					echo "=== Preparing Run $RUN for $MODEL (OLLAMA) ==="
-				fi
+		# Check is test is ran
+		if [[ -f $OUTPUT ]]; then
+			LINES=$(wc -l < $OUTPUT)
+			EXPECTED_LINES=$((NUM_QUESTIONS + 1))
+			# Check if test is completed (NUM_QUESTIONS+1 lines including header). Restart if not
+			if [ $LINES -eq $EXPECTED_LINES ]; then
+				echo "=== Run $RUN already completed for $MODEL (OLLAMA) ==="
+				continue
+			else
+				echo "=== Run $RUN not completed. Restarting Run $RUN for $MODEL from Index 0 (OLLAMA) ==="
+			fi
+		else
+			echo "=== Preparing Run $RUN for $MODEL (OLLAMA) ==="
+		fi
 
-				# Wait for cool-down before starting this run
-				wait_for_temp 40
+		# Wait for cool-down before starting this run
+		wait_for_temp 40
 
-				# Clear old results for this run (if any)
-				rm -f "$OUTPUT"
+		# Clear old results for this run (if any)
+		rm -f "$OUTPUT"
 
-				echo "=== Benchmarking $MODEL via OLLAMA (Run $RUN) ==="
-				for ((i=0; i<1000; i++)); do
-					echo ">>> Run $RUN, question $i / 999"
-					python3 benchmarking.py \
-						--engine ollama \
-						--questions "$QUESTIONS" \
-						--answers "$ANSWERS" \
-						--image-dir "$IMAGES" \
-						--model "$MODEL" \
-						--output "$OUTPUT" \
-						--index "$i"
-					done
-				done
-			done
+		echo "=== Benchmarking $MODEL via OLLAMA (Run $RUN) ==="
+		for ((i=0; i<NUM_QUESTIONS; i+=BATCH_SIZE)); do
+			end=$((i + BATCH_SIZE - 1))
+			[ $end -ge $((NUM_QUESTIONS - 1)) ] && end=$((NUM_QUESTIONS - 1))
+			echo ">>> Run $RUN, questions $i to $end / $((NUM_QUESTIONS - 1))"
+			python3 benchmarking.py \
+				--engine ollama \
+				--questions "$QUESTIONS" \
+				--answers "$ANSWERS" \
+				--image-dir "$IMAGES" \
+				--model "$MODEL" \
+				--output "$OUTPUT" \
+				--index "$i" \
+				--batch-size "$BATCH_SIZE"
+		done
+	done
+done
 
 # VLLM models
 VLLM_MODELS=("Qwen/Qwen2.5-VL-32B-Instruct")
@@ -126,7 +136,7 @@ stop_vllm_server() {
 # ---------------- Benchmark Loop ---------------- #
 
 for RUN in {1..6}; do
-	RUN_DIR="results/1000/Run${RUN}"
+	RUN_DIR="results/${NUM_QUESTIONS}/Run${RUN}"
 	mkdir -p "$RUN_DIR"
 
 	for i in "${!VLLM_MODELS[@]}"; do
@@ -147,8 +157,10 @@ for RUN in {1..6}; do
 		start_vllm_server "$MODEL" "$EXTRA"
 
 		echo "=== Benchmarking $MODEL via VLLM (Run $RUN) ==="
-		for ((q=0; q<1000; q++)); do
-			echo ">>> Run $RUN, question $q / 999"
+		for ((q=0; q<NUM_QUESTIONS; q+=BATCH_SIZE)); do
+			end=$((q + BATCH_SIZE - 1))
+			[ $end -ge $((NUM_QUESTIONS - 1)) ] && end=$((NUM_QUESTIONS - 1))
+			echo ">>> Run $RUN, questions $q to $end / $((NUM_QUESTIONS - 1))"
 			python3 benchmarking.py \
 				--engine vllm \
 				--questions "$QUESTIONS" \
@@ -156,7 +168,8 @@ for RUN in {1..6}; do
 				--image-dir "$IMAGES" \
 				--model "$MODEL" \
 				--output "$OUTPUT" \
-				--index "$q"
+				--index "$q" \
+				--batch-size "$BATCH_SIZE"
 		done
 
 		# Stop server to clear KV cache after the run
