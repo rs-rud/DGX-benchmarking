@@ -6,6 +6,7 @@ import csv
 import argparse
 import subprocess
 import threading
+import concurrent.futures
 import pynvml
 import base64
 import re
@@ -208,6 +209,7 @@ def main():
     end_index = min(args.index + args.batch_size, len(all_questions))
     questions_batch = list(range(args.index, end_index))
 
+    batch_items = []
     for batch_idx in questions_batch:
         q = all_questions[batch_idx]
         qid = q["id"]
@@ -229,113 +231,147 @@ def main():
             print(f"No ground truth for qid {qid}, skipping.", flush=True)
             continue
 
-        power_samples = []
-        sampler = NVMLPowerSampler()
+        batch_items.append({
+            "qid": qid,
+            "question_text": question_text,
+            "gt_answers": gt_answers,
+            "image_path": image_path,
+            "orig_question": q["question"],
+        })
 
-        stop_event = threading.Event()
-        sampler_thread = threading.Thread(
-            target=sample_power_nvml,
-            args=(sampler, power_samples, stop_event),
+    if not batch_items:
+        return
+
+    power_samples = []
+    sampler = NVMLPowerSampler()
+
+    stop_event = threading.Event()
+    sampler_thread = threading.Thread(
+        target=sample_power_nvml,
+        args=(sampler, power_samples, stop_event),
+        daemon=True
+    )
+    sampler_thread.start()
+
+    vllm_metric_samples = []
+    vllm_stop_event = threading.Event()
+    if args.engine == "vllm":
+        vllm_thread = threading.Thread(
+            target=sample_vllm_metrics,
+            args=(vllm_metric_samples, vllm_stop_event),
             daemon=True
         )
+        vllm_thread.start()
 
-        sampler_thread.start()
+    batch_start = time.time()
+    all_results = []
 
-        vllm_metric_samples = []
-        vllm_stop_event = threading.Event()
-        if args.engine == "vllm":
-            vllm_thread = threading.Thread(
-                target=sample_vllm_metrics,
-                args=(vllm_metric_samples, vllm_stop_event),
-                daemon=True
-            )
-            vllm_thread.start()
+    if args.engine == "vllm" and len(batch_items) > 1:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(batch_items)) as executor:
+            future_to_item = {
+                executor.submit(run_vllm_serve, args.model, item["question_text"], item["image_path"]): item
+                for item in batch_items
+            }
+            for future in concurrent.futures.as_completed(future_to_item):
+                item = future_to_item[future]
+                try:
+                    response, latency = future.result()
+                except Exception as e:
+                    print(f"Error processing qid {item['qid']}: {e}", flush=True)
+                    response, latency = "", 0.0
+                is_correct = normalize(response) in item["gt_answers"]
+                all_results.append({
+                    **item,
+                    "response": response,
+                    "latency": latency,
+                    "is_correct": is_correct,
+                })
+    else:
+        for item in batch_items:
+            if args.engine == "vllm":
+                response, latency = run_vllm_serve(args.model, item["question_text"], item["image_path"])
+            else:
+                response, latency = run_ollama_cli(args.model, item["question_text"], item["image_path"])
+            is_correct = normalize(response) in item["gt_answers"]
+            all_results.append({
+                **item,
+                "response": response,
+                "latency": latency,
+                "is_correct": is_correct,
+            })
 
-        start_time = time.time()
-        if args.engine == "vllm":
-            response, latency = run_vllm_serve(args.model, question_text, image_path)
-        else:
-            response, latency = run_ollama_cli(args.model, question_text, image_path)
+    batch_end = time.time()
 
-        end_time = time.time()
-        stop_event.set()
-        sampler_thread.join(timeout=2)
-        sampler.shutdown()
+    stop_event.set()
+    sampler_thread.join(timeout=2)
+    sampler.shutdown()
 
-        if args.engine == "vllm":
-            vllm_stop_event.set()
-            vllm_thread.join(timeout=2)
+    if args.engine == "vllm":
+        vllm_stop_event.set()
+        vllm_thread.join(timeout=2)
 
-        samples_in_window = [s for s in power_samples if start_time <= s["t"] <= end_time]
+    samples_in_window = [s for s in power_samples if batch_start <= s["t"] <= batch_end]
 
-        if samples_in_window:
-            avg_tot = sum(s["tot"] for s in samples_in_window) / len(samples_in_window)
-            max_tot = max(s["tot"] for s in samples_in_window)
-            max_temp = max(s["temp"] for s in samples_in_window)
-            avg_power_integrated_w = integrate_energy(samples_in_window)
-        else:
-            avg_tot = max_tot = avg_power_integrated_w = 0.0
-            max_temp = 0.0
+    if samples_in_window:
+        avg_tot = sum(s["tot"] for s in samples_in_window) / len(samples_in_window)
+        max_tot = max(s["tot"] for s in samples_in_window)
+        max_temp = max(s["temp"] for s in samples_in_window)
+        avg_power_integrated_w = integrate_energy(samples_in_window)
+    else:
+        avg_tot = max_tot = avg_power_integrated_w = 0.0
+        max_temp = 0.0
 
-        is_correct = normalize(response) in gt_answers
+    if args.engine == "vllm" and vllm_metric_samples:
+        peak_kv = max(
+            m.get("vllm:kv_cache_usage_perc") or m.get("vllm:gpu_cache_usage_perc") or 0.0
+            for m in vllm_metric_samples
+        )
+        peak_running = max(int(m.get("vllm:num_requests_running", 0)) for m in vllm_metric_samples)
+        peak_waiting = max(int(m.get("vllm:num_requests_waiting", 0)) for m in vllm_metric_samples)
+        gpu_kv_cache_pct = f"{peak_kv * 100:.1f}%"
+        running_reqs = str(peak_running)
+        waiting_reqs = str(peak_waiting)
+    else:
+        gpu_kv_cache_pct = ""
+        running_reqs = ""
+        waiting_reqs = ""
 
-        if args.engine == "vllm" and vllm_metric_samples:
-            peak_kv = 0.0
-            peak_running = 0
-            peak_waiting = 0
-            for m in vllm_metric_samples:
-                kv = m.get("vllm:kv_cache_usage_perc") or m.get("vllm:gpu_cache_usage_perc") or 0.0
-                if kv > peak_kv:
-                    peak_kv = kv
-                r = int(m.get("vllm:num_requests_running", 0))
-                if r > peak_running:
-                    peak_running = r
-                w = int(m.get("vllm:num_requests_waiting", 0))
-                if w > peak_waiting:
-                    peak_waiting = w
-            gpu_kv_cache_pct = f"{peak_kv * 100:.1f}%"
-            running_reqs = str(peak_running)
-            waiting_reqs = str(peak_waiting)
-        else:
-            gpu_kv_cache_pct = ""
-            running_reqs = ""
-            waiting_reqs = ""
-
-        file_exists = os.path.exists(args.output)
-        with open(args.output, "a", newline="") as f:
-            writer = csv.writer(f)
-            if not file_exists:
-                writer.writerow([
-                    "question_id", "latency_sec", "correct",
-                    "model_response", "ground_truth", "question_text",
-                    "avg_gpu_w", "max_gpu_w",
-                    "avg_power_integrated_w", "max_gpu_temp_c",
-                    "kv_cache_usage_pct", "running_reqs", "waiting_reqs",
-                ])
-                file_exists = True
+    file_exists = os.path.exists(args.output)
+    with open(args.output, "a", newline="") as f:
+        writer = csv.writer(f)
+        if not file_exists:
             writer.writerow([
-                qid, f"{latency:.3f}", int(is_correct),
-                response, "|".join(gt_answers), q["question"],
+                "question_id", "latency_sec", "correct",
+                "model_response", "ground_truth", "question_text",
+                "avg_gpu_w", "max_gpu_w",
+                "avg_power_integrated_w", "max_gpu_temp_c",
+                "kv_cache_usage_pct", "running_reqs", "waiting_reqs",
+            ])
+            file_exists = True
+        for result in all_results:
+            writer.writerow([
+                result["qid"], f"{result['latency']:.3f}", int(result["is_correct"]),
+                result["response"], "|".join(result["gt_answers"]), result["orig_question"],
                 f"{avg_tot:.2f}", f"{max_tot:.2f}",
                 f"{avg_power_integrated_w:.2f}",
                 f"{max_temp:.1f}",
                 gpu_kv_cache_pct, running_reqs, waiting_reqs,
             ])
-
-        print(f"[Q{qid}]", flush=True)
-        print(f"Engine: {args.engine}", flush=True)
-        print(f"Model: {args.model}", flush=True)
-        print(f"Response: {response}", flush=True)
-        print(f"GT: {gt_answers}", flush=True)
-        print(f"Correct: {is_correct}, Time: {latency:.2f}s", flush=True)
-        print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
-        print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
-        print(f"Temperature (max): {max_temp:.1f} C", flush=True)
-        if gpu_kv_cache_pct:
-            print(f"KV cache usage (peak): {gpu_kv_cache_pct}", flush=True)
-        if running_reqs:
-            print(f"Running: {running_reqs} reqs, Waiting: {waiting_reqs} reqs", flush=True)
+            print(f"[Q{result['qid']}]", flush=True)
+            print(f"Engine: {args.engine}", flush=True)
+            print(f"Model: {args.model}", flush=True)
+            print(f"Response: {result['response']}", flush=True)
+            print(f"GT: {result['gt_answers']}", flush=True)
+            print(f"Correct: {result['is_correct']}, Time: {result['latency']:.2f}s", flush=True)
+            print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
+            print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
+            print(f"Temperature (max): {max_temp:.1f} C", flush=True)
+            if gpu_kv_cache_pct:
+                print(f"KV cache usage (peak): {gpu_kv_cache_pct}", flush=True)
+            if running_reqs:
+                print(f"Running: {running_reqs} reqs, Waiting: {waiting_reqs} reqs", flush=True)
 
 
 if __name__ == "__main__":
     main()
+

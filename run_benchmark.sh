@@ -4,7 +4,10 @@ ANSWERS="data/all_answers.json"
 IMAGES="Images_LR"
 
 # Configurable batch size (number of questions per Python invocation)
-BATCH_SIZE=1
+# benchmarking.py sends all questions in a batch concurrently to vLLM,
+# so BATCH_SIZE=N means N simultaneous requests to the vLLM server.
+# Tune this with vLLM's --max-num-seqs for best throughput.
+BATCH_SIZE=4
 
 # Configurable total number of questions to process
 NUM_QUESTIONS=1000
@@ -48,12 +51,12 @@ for RUN in {1..5}; do
 	for MODEL in "${OLLAMA_MODELS[@]}"; do
 		# Replace ":" and "/" with "_" for safe filenames
 		SAFE_MODEL=$(echo "$MODEL" | tr ':/' '_')
-		OUTPUT="${RUN_DIR}/benchmark_results_ollama_${SAFE_MODEL}.csv"
+		OUTPUT="${RUN_DIR}/benchmark_results_ollama_${SAFE_MODEL}_batch${BATCH_SIZE}.csv"
 
 		# Check is test is ran
 		if [[ -f $OUTPUT ]]; then
 			LINES=$(wc -l < $OUTPUT)
-			EXPECTED_LINES=$((NUM_QUESTIONS + 1))
+			EXPECTED_LINES=$((NUM_QUESTIONS / BATCH_SIZE + 1))
 			# Check if test is completed (NUM_QUESTIONS+1 lines including header). Restart if not
 			if [ $LINES -eq $EXPECTED_LINES ]; then
 				echo "=== Run $RUN already completed for $MODEL (OLLAMA) ==="
@@ -145,16 +148,16 @@ for RUN in {1..6}; do
 
 		# Replace ":" and "/" with "_" for safe filenames
 		SAFE_MODEL=$(echo "$MODEL" | tr ':/' '_')
-		OUTPUT="${RUN_DIR}/benchmark_results_vllm_${SAFE_MODEL}.csv"
+		OUTPUT="${RUN_DIR}/benchmark_results_vllm_${SAFE_MODEL}_batch${BATCH_SIZE}.csv"
 
 		echo "=== Preparing Run $RUN for $MODEL (VLLM) ==="
-
-		wait_for_minutes 10
 
 		rm -f "$OUTPUT"
 
 		# Start fresh vLLM server for this run (clears KV cache)
 		start_vllm_server "$MODEL" "$EXTRA"
+
+		wait_for_minutes 10
 
 		echo "=== Benchmarking $MODEL via VLLM (Run $RUN) ==="
 		for ((q=0; q<NUM_QUESTIONS; q+=BATCH_SIZE)); do
@@ -176,3 +179,4 @@ for RUN in {1..6}; do
 		stop_vllm_server
 	done
 done
+
