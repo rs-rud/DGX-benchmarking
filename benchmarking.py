@@ -6,10 +6,13 @@ import csv
 import argparse
 import subprocess
 import threading
+import concurrent.futures
 import pynvml
 import base64
-import requests
 import re
+import urllib.request
+import mimetypes
+import traceback
 from openai import OpenAI
 
 # ---------------- Utilities ---------------- #
@@ -74,6 +77,30 @@ def reset_vllm_prefix_cache(base_url="http://localhost:8000"):
         pass
 
 # ---------------- VLLM ------------------ #
+
+def fetch_vllm_metrics():
+    """Prometheus endpoint."""
+    try:
+        with urllib.request.urlopen("http://localhost:8000/metrics", timeout=5) as resp:
+            text = resp.read().decode("utf-8")
+    except Exception:
+        return {}
+
+    metrics = {}
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        name = line.split("{")[0].strip() if "{" in line else line.split()[0].strip()
+        parts = line.split()
+        if len(parts) >= 2:
+            try:
+                metrics[name] = float(parts[-1].strip())
+            except ValueError:
+                pass
+    return metrics
+
+
 def run_vllm_serve(model, prompt, image_path):
     start = time.time()
     client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
@@ -84,7 +111,11 @@ def run_vllm_serve(model, prompt, image_path):
     try:
         with open(image_path, "rb") as f:
             image_b64 = base64.b64encode(f.read()).decode("utf-8")
-
+        
+        mime_type, _ = mimetypes.guess_type(image_path)
+        if mime_type is None:
+            mime_type = "image/jpeg"
+        
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -94,12 +125,12 @@ def run_vllm_serve(model, prompt, image_path):
                         {"type": "text", "text": prompt},
                         {
                             "type": "image_url", 
-                            "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}
+                            "image_url": {"url": f"data:{mime_type};base64,{image_b64}"}
                         },
                     ],
                 }
             ],
-            max_completion_tokens=128,
+            max_tokens=128,
             temperature=0.0
         )
 
@@ -117,7 +148,17 @@ def run_vllm_serve(model, prompt, image_path):
 
     except Exception as e:
         print(f"Error running vLLM: {e}", flush=True)
-        return "", 0.0, {}
+        traceback.print_exc()
+        return "", 0.0
+
+
+def sample_vllm_metrics(samples, stop_event, interval=0.05):
+    """Background sampler for vLLM Prometheus metrics during inference."""
+    while not stop_event.is_set():
+        metrics = fetch_vllm_metrics()
+        if metrics:
+            samples.append(metrics)
+        time.sleep(interval)
 
 # ---------------- NVML Power Sampling ---------------- #
 
@@ -197,6 +238,7 @@ def main():
     parser.add_argument("--output", default=None)
     parser.add_argument("--model", required=True)
     parser.add_argument("--index", type=int, required=True)
+    parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--engine", required=True)
     args = parser.parse_args()
 
@@ -210,31 +252,41 @@ def main():
     with open(args.answers) as f:
         all_answers = {a["id"]: a for a in json.load(f)["answers"]}
 
-    if args.index >= len(all_questions):
-        print(f"❌ Index {args.index} out of range", flush=True)
+    end_index = min(args.index + args.batch_size, len(all_questions))
+    questions_batch = list(range(args.index, end_index))
+
+    batch_items = []
+    for batch_idx in questions_batch:
+        q = all_questions[batch_idx]
+        qid = q["id"]
+        img_id = q["img_id"]
+        image_path = os.path.join(args.image_dir, f"{img_id}.tif")
+
+        if not os.path.exists(image_path):
+            print(f"Missing image {image_path}, skipping.", flush=True)
+            continue
+
+        question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
+        gt_answers = [
+            normalize(all_answers[aid]["answer"])
+            for aid in q.get("answers_ids", [])
+            if aid in all_answers
+        ]
+
+        if not gt_answers:
+            print(f"No ground truth for qid {qid}, skipping.", flush=True)
+            continue
+
+        batch_items.append({
+            "qid": qid,
+            "question_text": question_text,
+            "gt_answers": gt_answers,
+            "image_path": image_path,
+            "orig_question": q["question"],
+        })
+
+    if not batch_items:
         return
-
-    q = all_questions[args.index]
-    qid = q["id"]
-    img_id = q["img_id"]
-    image_path = os.path.join(args.image_dir, f"{img_id}.tif")
-
-    if not os.path.exists(image_path):
-        print(f"Missing image {image_path}, skipping.", flush=True)
-        return
-
-    question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
-    gt_answers = [
-        normalize(all_answers[aid]["answer"])
-        for aid in q.get("answers_ids", [])
-        if aid in all_answers
-    ]
-
-    if not gt_answers:
-        print(f"No ground truth for qid {qid}, skipping.", flush=True)
-        return
-
-    # -------- NVML Power Measurement -------- #
 
     power_samples = []
     sampler = NVMLPowerSampler()
@@ -245,38 +297,90 @@ def main():
         args=(sampler, power_samples, stop_event),
         daemon=True
     )
-
     sampler_thread.start()
-    start_time = time.time()
-    question_text = q["question"] + "\nAnswer with exactly one word or number only. Do not explain."
+
+    vllm_metric_samples = []
+    vllm_stop_event = threading.Event()
     if args.engine == "vllm":
-        response, latency, kv_metrics = run_vllm_serve(args.model, question_text, image_path)
+        vllm_thread = threading.Thread(
+            target=sample_vllm_metrics,
+            args=(vllm_metric_samples, vllm_stop_event),
+            daemon=True
+        )
+        vllm_thread.start()
+
+    batch_start = time.time()
+    all_results = []
+
+    if args.engine == "vllm" and len(batch_items) > 1:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(batch_items)) as executor:
+            future_to_item = {
+                executor.submit(run_vllm_serve, args.model, item["question_text"], item["image_path"]): item
+                for item in batch_items
+            }
+            for future in concurrent.futures.as_completed(future_to_item):
+                item = future_to_item[future]
+                try:
+                    response, latency = future.result()
+                except Exception as e:
+                    print(f"Error processing qid {item['qid']}: {e}", flush=True)
+                    response, latency = "", 0.0
+                is_correct = normalize(response) in item["gt_answers"]
+                all_results.append({
+                    **item,
+                    "response": response,
+                    "latency": latency,
+                    "is_correct": is_correct,
+                })
     else:
-        response, latency = run_ollama_cli(args.model, question_text, image_path)
-        kv_metrics = {}
-    
-    end_time = time.time()
+        for item in batch_items:
+            if args.engine == "vllm":
+                response, latency = run_vllm_serve(args.model, item["question_text"], item["image_path"])
+            else:
+                response, latency = run_ollama_cli(args.model, item["question_text"], item["image_path"])
+            is_correct = normalize(response) in item["gt_answers"]
+            all_results.append({
+                **item,
+                "response": response,
+                "latency": latency,
+                "is_correct": is_correct,
+            })
+
+    batch_end = time.time()
+
     stop_event.set()
     sampler_thread.join(timeout=2)
     sampler.shutdown()
 
-    # -------- Stats -------- #
+    if args.engine == "vllm":
+        vllm_stop_event.set()
+        vllm_thread.join(timeout=2)
 
-    samples_in_window = [s for s in power_samples if start_time <= s["t"] <= end_time]
+    samples_in_window = [s for s in power_samples if batch_start <= s["t"] <= batch_end]
 
     if samples_in_window:
         avg_tot = sum(s["tot"] for s in samples_in_window) / len(samples_in_window)
         max_tot = max(s["tot"] for s in samples_in_window)
-        avg_cpu_gpu = avg_tot
-        max_cpu_gpu = max_tot
         max_temp = max(s["temp"] for s in samples_in_window)
         avg_power_integrated_w = integrate_energy(samples_in_window)
     else:
-        avg_tot = max_tot = avg_cpu_gpu = max_cpu_gpu = avg_power_integrated_w = 0.0
+        avg_tot = max_tot = avg_power_integrated_w = 0.0
+        max_temp = 0.0
 
-    is_correct = normalize(response) in gt_answers
-
-    # -------- CSV Output -------- #
+    if args.engine == "vllm" and vllm_metric_samples:
+        peak_kv = max(
+            m.get("vllm:kv_cache_usage_perc") or m.get("vllm:gpu_cache_usage_perc") or 0.0
+            for m in vllm_metric_samples
+        )
+        peak_running = max(int(m.get("vllm:num_requests_running", 0)) for m in vllm_metric_samples)
+        peak_waiting = max(int(m.get("vllm:num_requests_waiting", 0)) for m in vllm_metric_samples)
+        gpu_kv_cache_pct = f"{peak_kv * 100:.1f}%"
+        running_reqs = str(peak_running)
+        waiting_reqs = str(peak_waiting)
+    else:
+        gpu_kv_cache_pct = ""
+        running_reqs = ""
+        waiting_reqs = ""
 
     file_exists = os.path.exists(args.output)
     with open(args.output, "a", newline="") as f:
@@ -287,34 +391,33 @@ def main():
                 "model_response", "ground_truth", "question_text",
                 "avg_gpu_w", "max_gpu_w",
                 "avg_power_integrated_w", "max_gpu_temp_c",
-                "kv_blocks_used", "kv_blocks_total", "kv_cache_usage_perc"
+                "kv_cache_usage_pct", "running_reqs", "waiting_reqs",
             ])
-        writer.writerow([
-            qid, f"{latency:.3f}", int(is_correct),
-            response, "|".join(gt_answers), q["question"],
-            f"{avg_tot:.2f}", f"{max_tot:.2f}",
-            f"{avg_power_integrated_w:.2f}",
-            f"{max_temp:.1f}",
-            f"{kv_metrics.get('kv_blocks_used', '')}",
-            f"{kv_metrics.get('kv_blocks_total', '')}",
-            f"{kv_metrics.get('kv_cache_usage_perc', '')}"
-        ])
-
-    # -------- Console -------- #
-
-    print(f"[Q{qid}]]", flush=True)
-    print(f"Engine: {args.engine}", flush=True)
-    print(f"Model: {response}", flush=True)
-    print(f"GT: {gt_answers}", flush=True)
-    print(f"Correct: {is_correct}, Time: {latency:.2f}s", flush=True)
-    print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
-    print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
-    print(f"Temperature (max): {max_temp:.1f} C", flush=True)
-    if kv_metrics:
-        print(f"KV Cache: used {kv_metrics.get('kv_blocks_used','?')} / "
-              f"{kv_metrics.get('kv_blocks_total','?')} blocks "
-              f"({kv_metrics.get('kv_cache_usage_perc','?')}%)", flush=True)
+            file_exists = True
+        for result in all_results:
+            writer.writerow([
+                result["qid"], f"{result['latency']:.3f}", int(result["is_correct"]),
+                result["response"], "|".join(result["gt_answers"]), result["orig_question"],
+                f"{avg_tot:.2f}", f"{max_tot:.2f}",
+                f"{avg_power_integrated_w:.2f}",
+                f"{max_temp:.1f}",
+                gpu_kv_cache_pct, running_reqs, waiting_reqs,
+            ])
+            print(f"[Q{result['qid']}]", flush=True)
+            print(f"Engine: {args.engine}", flush=True)
+            print(f"Model: {args.model}", flush=True)
+            print(f"Response: {result['response']}", flush=True)
+            print(f"GT: {result['gt_answers']}", flush=True)
+            print(f"Correct: {result['is_correct']}, Time: {result['latency']:.2f}s", flush=True)
+            print(f"GPU Power: avg {avg_tot:.2f} W, max {max_tot:.2f} W", flush=True)
+            print(f"Energy (avg): {avg_power_integrated_w:.2f} W", flush=True)
+            print(f"Temperature (max): {max_temp:.1f} C", flush=True)
+            if gpu_kv_cache_pct:
+                print(f"KV cache usage (peak): {gpu_kv_cache_pct}", flush=True)
+            if running_reqs:
+                print(f"Running: {running_reqs} reqs, Waiting: {waiting_reqs} reqs", flush=True)
 
 
 if __name__ == "__main__":
     main()
+

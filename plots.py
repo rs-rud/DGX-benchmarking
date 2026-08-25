@@ -84,6 +84,173 @@ def get_color_map(cfg):
         
     return color_dict
 
+# ---------------- VLLM Stats plots ---------------- #
+
+def _has_vllm_cols(df):
+    return "kv_cache_usage_pct" in df.columns
+
+def plot_kv_cache(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        if engine.lower() != "vllm":
+            continue
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, file in models.items():
+            df = load_csv(results_dir, file)
+            if df is not None and _has_vllm_cols(df):
+                vals = pd.to_numeric(df["kv_cache_usage_pct"].str.rstrip("%"), errors="coerce")
+                smoothed = vals.rolling(10, min_periods=1).mean()
+                ax.plot(smoothed, label=model, linewidth=2, color=color_map.get(model))
+        ax.set_ylabel("KV Cache Usage (%)")
+        ax.set_title(f"{engine} - GPU KV Cache Usage per Prompt", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        if ax.lines:
+            save(fig, plots_dir, f"kv_cache_{engine}.png")
+
+def plot_prefix_cache(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        if engine.lower() != "vllm":
+            continue
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, file in models.items():
+            df = load_csv(results_dir, file)
+            if df is not None and _has_vllm_cols(df):
+                if "prefix_cache_hit_pct" in df.columns:
+                    if "prefix_cache_hit_pct" in df.columns:
+                    vals = pd.to_numeric(df["prefix_cache_hit_pct"].str.rstrip("%"), errors="coerce")
+                else:
+                    continue
+                else:
+                    continue
+                smoothed = vals.rolling(10, min_periods=1).mean()
+                ax.plot(smoothed, label=model, linewidth=2, color=color_map.get(model))
+        ax.set_ylabel("Prefix Cache Hit Rate (%)")
+        ax.set_title(f"{engine} - Prefix Cache Hit Rate per Prompt", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        if ax.lines:
+            save(fig, plots_dir, f"prefix_cache_{engine}.png")
+
+def plot_vllm_running(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        if engine.lower() != "vllm":
+            continue
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, file in models.items():
+            df = load_csv(results_dir, file)
+            if df is not None and _has_vllm_cols(df):
+                vals = pd.to_numeric(df["running_reqs"], errors="coerce")
+                ax.plot(vals, label=model, linewidth=2, color=color_map.get(model))
+        ax.set_ylabel("Running Requests")
+        ax.set_title(f"{engine} - Running Requests per Prompt", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        if ax.lines:
+            save(fig, plots_dir, f"running_reqs_{engine}.png")
+
+def plot_kv_cache_aggregated(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        if engine.lower() != "vllm":
+            continue
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, filename in models.items():
+            dfs = load_all_runs(results_dir, filename)
+            if not dfs or not _has_vllm_cols(dfs[0]):
+                continue
+            processed = []
+            for df in dfs:
+                vals = pd.to_numeric(df["kv_cache_usage_pct"].str.rstrip("%"), errors="coerce")
+                processed.append(vals.values)
+            min_len = min(len(p) for p in processed)
+            arr = np.array([p[:min_len] for p in processed])
+            mean_v = pd.Series(np.mean(arr, axis=0)).rolling(10, min_periods=1).mean()
+            std_v = pd.Series(np.std(arr, axis=0)).rolling(10, min_periods=1).mean()
+            color = color_map.get(model)
+            ax.plot(mean_v, label=model, linewidth=2, color=color)
+            ax.fill_between(range(min_len), mean_v - std_v, mean_v + std_v, alpha=0.2, color=color)
+        ax.set_title(f"{engine} - GPU KV Cache Usage (Mean ± Std)", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        engine_dir = os.path.join(plots_dir, engine)
+        save(fig, engine_dir, f"kv_cache_{engine}.png")
+
+def plot_prefix_cache_aggregated(cfg, results_dir, plots_dir, color_map):
+    for engine, models in cfg["models"].items():
+        if engine.lower() != "vllm":
+            continue
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for model, filename in models.items():
+            dfs = load_all_runs(results_dir, filename)
+            if not dfs or not _has_vllm_cols(dfs[0]):
+                continue
+            processed = []
+            for df in dfs:
+                if "prefix_cache_hit_pct" in df.columns:
+                    vals = pd.to_numeric(df["prefix_cache_hit_pct"].str.rstrip("%"), errors="coerce")
+                else:
+                    continue
+                processed.append(vals.values)
+            min_len = min(len(p) for p in processed)
+            arr = np.array([p[:min_len] for p in processed])
+            mean_v = pd.Series(np.mean(arr, axis=0)).rolling(10, min_periods=1).mean()
+            std_v = pd.Series(np.std(arr, axis=0)).rolling(10, min_periods=1).mean()
+            color = color_map.get(model)
+            ax.plot(mean_v, label=model, linewidth=2, color=color)
+            ax.fill_between(range(min_len), mean_v - std_v, mean_v + std_v, alpha=0.2, color=color)
+        ax.set_title(f"{engine} - Prefix Cache Hit Rate (Mean ± Std)", weight="bold")
+        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+        engine_dir = os.path.join(plots_dir, engine)
+        save(fig, engine_dir, f"prefix_cache_{engine}.png")
+
+def plot_kv_cache_family(family_data, base_plots_dir, color_map):
+    for family, engines in family_data.items():
+        for engine, models in engines.items():
+            if engine.lower() != "vllm":
+                continue
+            fig, ax = plt.subplots(figsize=(10, 6))
+            for model_name, dfs in models.items():
+                if not dfs or not _has_vllm_cols(dfs[0]):
+                    continue
+                processed = []
+                for df in dfs:
+                    vals = pd.to_numeric(df["kv_cache_usage_pct"].str.rstrip("%"), errors="coerce")
+                    processed.append(vals.values)
+                min_len = min(len(p) for p in processed)
+                arr = np.array([p[:min_len] for p in processed])
+                mean_v = pd.Series(np.mean(arr, axis=0)).rolling(10, min_periods=1).mean()
+                std_v = pd.Series(np.std(arr, axis=0)).rolling(10, min_periods=1).mean()
+                color = color_map.get(model_name)
+                ax.plot(mean_v, label=model_name, linewidth=2, color=color)
+                ax.fill_between(range(min_len), mean_v - std_v, mean_v + std_v, alpha=0.2, color=color)
+            ax.set_title(f"{family} - {engine} - GPU KV Cache Usage (Mean ± Std)", weight="bold")
+            ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+            family_engine_dir = os.path.join(base_plots_dir, family.lower(), engine)
+            save(fig, family_engine_dir, f"kv_cache_{engine}.png")
+
+def plot_prefix_cache_family(family_data, base_plots_dir, color_map):
+    for family, engines in family_data.items():
+        for engine, models in engines.items():
+            if engine.lower() != "vllm":
+                continue
+            fig, ax = plt.subplots(figsize=(10, 6))
+            for model_name, dfs in models.items():
+                if not dfs or not _has_vllm_cols(dfs[0]):
+                    continue
+                processed = []
+                for df in dfs:
+                    if "prefix_cache_hit_pct" in df.columns:
+                    vals = pd.to_numeric(df["prefix_cache_hit_pct"].str.rstrip("%"), errors="coerce")
+                else:
+                    continue
+                    processed.append(vals.values)
+                min_len = min(len(p) for p in processed)
+                arr = np.array([p[:min_len] for p in processed])
+                mean_v = pd.Series(np.mean(arr, axis=0)).rolling(10, min_periods=1).mean()
+                std_v = pd.Series(np.std(arr, axis=0)).rolling(10, min_periods=1).mean()
+                color = color_map.get(model_name)
+                ax.plot(mean_v, label=model_name, linewidth=2, color=color)
+                ax.fill_between(range(min_len), mean_v - std_v, mean_v + std_v, alpha=0.2, color=color)
+            ax.set_title(f"{family} - {engine} - Prefix Cache Hit Rate (Mean ± Std)", weight="bold")
+            ax.legend(loc='upper left', bbox_to_anchor=(1, 1), frameon=False)
+            family_engine_dir = os.path.join(base_plots_dir, family.lower(), engine)
+            save(fig, family_engine_dir, f"prefix_cache_{engine}.png")
+
 # ---------------- Single‑run plots ---------------- #
 
 def plot_accuracy(cfg, results_dir, plots_dir):
@@ -593,6 +760,9 @@ def main():
     p.add_argument("--acc-vs-temp", action="store_true")
     p.add_argument("--energy", action="store_true", help="Plot Energy per prompt time-series")
     p.add_argument("--energy-cdf", action="store_true")
+    p.add_argument("--kv-cache", action="store_true", help="Plot GPU KV cache usage (vLLM only)")
+    p.add_argument("--prefix-cache", action="store_true", help="Plot prefix cache hit rate (vLLM only)")
+    p.add_argument("--vllm-running", action="store_true", help="Plot running requests (vLLM only)")
     p.add_argument("--all", action="store_true")
     args = p.parse_args()
 
@@ -618,6 +788,9 @@ def main():
         if args.temp or args.all: plot_temperature(cfg, results_dir, plots_dir, cmap)
         if args.acc_vs_temp or args.all: plot_accuracy_vs_temp(cfg, results_dir, plots_dir, cmap)
         if args.energy or args.all: plot_energy(cfg, results_dir, plots_dir, cmap)
+        if args.kv_cache or args.all: plot_kv_cache(cfg, results_dir, plots_dir, cmap)
+        if args.prefix_cache or args.all: plot_prefix_cache(cfg, results_dir, plots_dir, cmap)
+        if args.vllm_running or args.all: plot_vllm_running(cfg, results_dir, plots_dir, cmap)
         return
 
     # Aggregated Logic
@@ -631,6 +804,8 @@ def main():
         if args.acc_vs_temp or args.all: plot_accuracy_vs_temp_aggregated(cfg, base_results, aggregated_dir, cmap)
         if args.energy or args.all: plot_energy_aggregated(cfg, base_results, aggregated_dir, cmap)
         if args.energy_cdf or args.all: plot_energy_cdf_aggregated(cfg, base_results, aggregated_dir, cmap)
+        if args.kv_cache or args.all: plot_kv_cache_aggregated(cfg, base_results, aggregated_dir, cmap)
+        if args.prefix_cache or args.all: plot_prefix_cache_aggregated(cfg, base_results, aggregated_dir, cmap)
 
     # Family Logic
     if args.family:
@@ -644,6 +819,8 @@ def main():
         if args.acc_vs_temp or args.all: plot_accuracy_vs_temp_family(family_data, family_root, cmap)
         if args.energy or args.all: plot_energy_family(family_data, family_root, cmap)
         if args.energy_cdf or args.all: plot_energy_cdf_family(family_data, family_root, cmap)
+        if args.kv_cache or args.all: plot_kv_cache_family(family_data, family_root, cmap)
+        if args.prefix_cache or args.all: plot_prefix_cache_family(family_data, family_root, cmap)
 
 if __name__ == "__main__":
     main()
