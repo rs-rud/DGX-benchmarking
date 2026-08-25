@@ -39,6 +39,43 @@ def run_ollama_cli(model, prompt, image_path):
         print(f"Error running ollama: {e.stderr}", flush=True)
         return "", 0.0
 
+# ---------------- VLLM KV Cache Helpers ---------------- #
+def get_vllm_kv_cache_metrics(base_url="http://localhost:8000"):
+    """
+    Fetches KV cache block usage from vLLM's /metrics endpoint.
+    Returns dict with keys:
+        kv_blocks_used, kv_blocks_total, kv_cache_usage_perc,
+        gpu_prefix_cache_blocks (if available)
+    """
+    metrics = {}
+    try:
+        resp = requests.get(f"{base_url}/metrics", timeout=5)
+        text = resp.text
+
+        m = re.search(r'vllm:num_blocks_used\s+([\d\.]+)', text)
+        if m: metrics['kv_blocks_used'] = float(m.group(1))
+
+        m = re.search(r'vllm:num_blocks_total\s+([\d\.]+)', text)
+        if m: metrics['kv_blocks_total'] = float(m.group(1))
+
+        m = re.search(r'vllm:gpu_cache_usage_perc\s+([\d\.]+)', text)
+        if m: metrics['kv_cache_usage_perc'] = float(m.group(1))
+
+        m = re.search(r'vllm:gpu_prefix_cache_blocks\s+([\d\.]+)', text)
+        if m: metrics['gpu_prefix_cache_blocks'] = float(m.group(1))
+
+    except Exception as e:
+        print(f"Could not fetch vLLM metrics: {e}", flush=True)
+
+    return metrics
+
+def reset_vllm_prefix_cache(base_url="http://localhost:8000"):
+    """Clears any retained prefix cache (harmless if already disabled)."""
+    try:
+        requests.post(f"{base_url}/reset_prefix_cache")
+    except Exception:
+        pass
+
 # ---------------- VLLM ------------------ #
 
 def fetch_vllm_metrics():
@@ -67,7 +104,10 @@ def fetch_vllm_metrics():
 def run_vllm_serve(model, prompt, image_path):
     start = time.time()
     client = OpenAI(api_key="EMPTY", base_url="http://localhost:8000/v1")
-    
+
+    # Ensure fresh KV cache per request (best effort)
+    reset_vllm_prefix_cache()
+
     try:
         with open(image_path, "rb") as f:
             image_b64 = base64.b64encode(f.read()).decode("utf-8")
@@ -93,12 +133,18 @@ def run_vllm_serve(model, prompt, image_path):
             max_tokens=128,
             temperature=0.0
         )
-        
+
         latency = time.time() - start
-        
+
         if response.choices and response.choices[0].message.content:
-            return response.choices[0].message.content.strip(), latency
-        return "No response from model", latency
+            text = response.choices[0].message.content.strip()
+        else:
+            text = "No response from model"
+
+        # Grab KV cache metrics right after the request
+        kv_metrics = get_vllm_kv_cache_metrics()
+
+        return text, latency, kv_metrics
 
     except Exception as e:
         print(f"Error running vLLM: {e}", flush=True)

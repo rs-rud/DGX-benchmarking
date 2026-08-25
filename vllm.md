@@ -16,6 +16,7 @@ python benchmark.py \
 
 > [!IMPORTANT]
 > They will need to be ran in two different terminal tabs/windows/sessions
+> You need to add "--enable‑metrics --disable‑prefix‑caching" flags for the KV cache
 
 ## Ollama is now run with an extra parameter
 ollama pull llava:7b
